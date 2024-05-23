@@ -1,12 +1,12 @@
-import React from 'react';
-import { redirect } from 'react-router-dom';
-import { getToken } from '../../utils/auth';
+import Logout from '../../auth/Logout';
 
 function HomePage() {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <h1>HomePage</h1>
+      <Logout />
+    </div>
+  );
 }
-export function loader() {
-  if (getToken()) return redirect('/auth');
-  return null;
-}
+
 export default HomePage;

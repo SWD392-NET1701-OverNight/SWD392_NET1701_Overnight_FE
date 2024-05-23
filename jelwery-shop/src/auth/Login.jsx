@@ -1,12 +1,26 @@
 import React from 'react';
 import Input from './components/Input';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate, useNavigation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import axiosClient from '../api/axiosClient';
 function Login() {
-  function handleSubmit(e) {
+  const navigate = useNavigate();
+  const navState = useNavigation();
+  const isLoading = navState.state === 'submitting';
+  async function handleSubmit(e) {
     e.preventDefault();
     const data = { username: e.target.txtUsername.value, password: e.target.txtPassword.value };
-    console.log(data);
+
+    try {
+      const resData = await axiosClient.post('/api/Users/login', data);
+      if (resData) {
+        localStorage.setItem('auth-token', resData);
+        toast.success('Login success');
+        navigate('/');
+      }
+    } catch (error) {
+      toast.error('Login failed');
+    }
   }
   return (
     <div className="px-10 pt-14">
@@ -16,7 +30,10 @@ function Login() {
         <Input label="Password" id="txtPassword" type="password" className="mt-4" />
         <Link className="p-link underline text-right mt-2">Forget Password</Link>
         <div>
-          <button className="btn bg-primary text-white hover:opacity-70 active:opacity-100">
+          <button
+            className="btn bg-primary text-white hover:opacity-70 active:opacity-100"
+            disabled={isLoading}
+          >
             Sign In
           </button>
         </div>
@@ -24,6 +41,7 @@ function Login() {
           Don't have an account ? <Link className="underline">Sign Up</Link>
         </p>
       </form>
+      <ToastContainer />
     </div>
   );
 }

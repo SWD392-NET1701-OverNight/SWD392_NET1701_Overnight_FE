@@ -11,11 +11,12 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-        loader: () => import('../page/home-page/HomePage').then((module) => module.loader()),
+        loader: () => import('../utils/auth').then((mod) => mod.checkAuth()),
       },
       {
         path: 'auth',
         element: <AuthLayout />,
+        loader: () => import('../utils/auth').then((mod) => mod.checkIsLoging()),
         children: [
           {
             index: true,
