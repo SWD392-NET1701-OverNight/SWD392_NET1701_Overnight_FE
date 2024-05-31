@@ -1,15 +1,15 @@
-import { redirect } from 'react-router-dom';
+import { redirect } from 'react-router-dom'
 
 export function getToken() {
-  return localStorage.getItem('auth-token');
+  return localStorage.getItem('auth-token')
 }
 
 export function checkAuth() {
   if (!getToken()) {
-    return redirect('/auth');
+    return redirect('/auth')
   }
-  return null;
+  return null
 }
 export function checkIsLoging() {
-  return getToken() ? redirect('/') : null;
+  return getToken() ? redirect('/') : null
 }

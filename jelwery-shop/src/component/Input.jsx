@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function Input({ label, id, type, className, ...rest }) {
   return (
@@ -9,12 +9,13 @@ function Input({ label, id, type, className, ...rest }) {
       <input
         type={type}
         id={id}
+        name={id}
         required
-        className="border-secondary border-2 rounded-lg px-4 py-2 outline-none mt-2"
+        className="mt-2 rounded-lg border-2 border-secondary px-4 py-2 outline-none"
         {...rest}
       />
     </>
-  );
+  )
 }
 
-export default Input;
+export default Input

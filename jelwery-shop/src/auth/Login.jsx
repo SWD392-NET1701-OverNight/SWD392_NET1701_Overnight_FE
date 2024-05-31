@@ -1,49 +1,56 @@
-import React from 'react';
-import Input from './components/Input';
-import { Link, useNavigate, useNavigation } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import axiosClient from '../api/axiosClient';
+import React from 'react'
+import Input from '../component/Input'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import axiosClient from '../api/axiosClient'
+import ContainerAuth from './components/ContainerAuth'
 function Login() {
-  const navigate = useNavigate();
-  const navState = useNavigation();
-  const isLoading = navState.state === 'submitting';
+  const navigate = useNavigate()
   async function handleSubmit(e) {
-    e.preventDefault();
-    const data = { username: e.target.txtUsername.value, password: e.target.txtPassword.value };
+    e.preventDefault()
+    const fomrData = new FormData(e.target)
+    const data = Object.fromEntries(fomrData)
 
     try {
-      const resData = await axiosClient.post('/api/Users/login', data);
-      if (resData) {
-        localStorage.setItem('auth-token', resData);
-        toast.success('Login success');
-        navigate('/');
+      const resData = await axiosClient.post('/api/Users/login', data)
+      if (resData.data) {
+        localStorage.setItem('auth-token', resData.data)
+        toast.success('Login success')
+        setTimeout(() => {
+          navigate('/')
+        }, 1000)
+        return
       }
+      toast.error('Login failed')
     } catch (error) {
-      toast.error('Login failed');
+      toast.error('Login failed')
     }
   }
   return (
-    <div className="px-10 pt-14">
-      <h1 className="text-heading text-2xl font-bold">Sign Up Page</h1>
-      <form className="flex flex-col mt-10" onSubmit={handleSubmit}>
-        <Input label="Username" id="txtUsername" type="text" />
-        <Input label="Password" id="txtPassword" type="password" className="mt-4" />
-        <Link className="p-link underline text-right mt-2">Forget Password</Link>
-        <div>
-          <button
-            className="btn bg-primary text-white hover:opacity-70 active:opacity-100"
-            disabled={isLoading}
-          >
-            Sign In
-          </button>
-        </div>
+    <>
+      <ContainerAuth title="Sign In Page">
+        <form className="mt-10 flex flex-col" onSubmit={handleSubmit}>
+          <Input label="Username" id="username" type="text" />
+          <Input label="Password" id="password" type="password" className="mt-4" />
+          <Link to="forget-password" className="p-link mt-2 text-right underline">
+            Forget Password
+          </Link>
+          <div>
+            <button className="btn bg-primary text-white hover:opacity-70 active:opacity-100">
+              Sign In
+            </button>
+          </div>
+        </form>
         <p className="p-link mt-2">
-          Don't have an account ? <Link className="underline">Sign Up</Link>
+          Don't have an account ?
+          <Link to="register" className="ml-2 underline">
+            Sign Up
+          </Link>
         </p>
-      </form>
-      <ToastContainer />
-    </div>
-  );
+        <ToastContainer />
+      </ContainerAuth>
+    </>
+  )
 }
 
-export default Login;
+export default Login
