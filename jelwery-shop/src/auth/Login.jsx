@@ -13,23 +13,21 @@ function Login() {
     e.preventDefault()
     const fomrData = new FormData(e.target)
     const data = Object.fromEntries(fomrData)
-    localStorage.setItem('auth-token', 'ac')
-    dispatch(authAction.login())
-    navigate('/')
-    // try {
-    //   const resData = await axiosClient.post('/api/Users/login', data)
-    //   if (resData.data) {
-    //     localStorage.setItem('auth-token', resData.data)
-    //     toast.success('Login success')
-    //     setTimeout(() => {
-    //       navigate('/')
-    //     }, 1000)
-    //     return
-    //   }
-    //   toast.error('Login failed')
-    // } catch (error) {
-    //   toast.error('Login failed')
-    // }
+    try {
+      const resData = await axiosClient.post('/api/Users/login', data)
+      if (resData.data) {
+        localStorage.setItem('auth-token', resData.data)
+        toast.success('Login success')
+        dispatch(authAction.login())
+        setTimeout(() => {
+          navigate('/')
+        }, 1000)
+        return
+      }
+      toast.error('Login failed')
+    } catch (error) {
+      toast.error('Login failed')
+    }
   }
   return (
     <>
