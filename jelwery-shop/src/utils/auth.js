@@ -10,6 +10,3 @@ export function checkAuth() {
   }
   return null
 }
-export function checkIsLoging() {
-  return getToken() ? redirect('/') : null
-}

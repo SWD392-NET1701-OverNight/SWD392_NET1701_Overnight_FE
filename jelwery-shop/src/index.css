@@ -2,6 +2,7 @@
 @layer base {
   body {
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
   }
 }
 @tailwind components;
@@ -10,10 +11,16 @@
     @apply text-lg font-normal text-secondary;
   }
   .btn {
-    @apply flex items-center justify-center rounded-md px-4 py-2 text-lg;
+    @apply flex items-center justify-center rounded-md px-4 py-2 text-lg transition-opacity hover:opacity-80 active:opacity-0;
+  }
+  .center {
+    @apply flex items-center justify-center;
   }
   .title {
     @apply text-2xl font-bold text-heading;
+  }
+  .image {
+    @apply bg-no-repeat object-cover object-center;
   }
 }
 @tailwind utilities;

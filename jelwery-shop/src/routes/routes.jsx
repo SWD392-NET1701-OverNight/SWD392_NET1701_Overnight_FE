@@ -7,8 +7,10 @@ const Login = lazy(() => import('../auth/Login'))
 const Register = lazy(() => import('../auth/Register'))
 const ForgetPassword = lazy(() => import('../auth/ForgetPassword'))
 const RootLayout = lazy(() => import('../layout/common/index'))
-const HomePage = lazy(() => import('../page/home-page/HomePage'))
-const AboutPage = lazy(() => import('../page/about-page/AboutPage'))
+const HomePage = lazy(() => import('../page/home-page/index'))
+const AboutPage = lazy(() => import('../page/about-page/index'))
+const ProductList = lazy(() => import('../page/product-list/index'))
+const ProfilePage = lazy(() => import('../page/profile/index'))
 const router = createBrowserRouter([
   {
     path: '/',
@@ -34,6 +36,22 @@ const router = createBrowserRouter([
             element: (
               <Suspense>
                 <AboutPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'product-list',
+            element: (
+              <Suspense>
+                <ProductList />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'profile',
+            element: (
+              <Suspense>
+                <ProfilePage />
               </Suspense>
             ),
           },

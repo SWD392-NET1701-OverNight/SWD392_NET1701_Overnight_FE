@@ -2,7 +2,7 @@ import React from 'react'
 
 function Input({ label, id, type, className, ...rest }) {
   return (
-    <>
+    <div className="flex flex-col gap-1">
       <label htmlFor={id} className={`p-link ${className}`}>
         {label}
       </label>
@@ -11,10 +11,10 @@ function Input({ label, id, type, className, ...rest }) {
         id={id}
         name={id}
         required
-        className="mt-2 rounded-lg border-2 border-secondary px-4 py-2 outline-none"
+        className="rounded-lg border-2 border-secondary px-4 py-2 outline-none"
         {...rest}
       />
-    </>
+    </div>
   )
 }
 

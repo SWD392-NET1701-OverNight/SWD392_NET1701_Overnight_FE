@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import Input from '../component/Input'
+import Input from '../component/ui/Input'
 import ContainerAuth from './components/ContainerAuth'
 import { toast } from 'react-toastify'
 
@@ -22,12 +22,12 @@ function Register() {
   return (
     <>
       <ContainerAuth title="Sign Up">
-        <form className="mt-10 flex flex-col" onSubmit={handleSubmit}>
+        <form className="mt-10 flex flex-col gap-3" onSubmit={handleSubmit}>
           <Input label="Username" id="username" type="text" />
-          <Input label="Password" id="password" type="password" className="mt-2" />
-          <Input label="Full Name" id="fullName" type="text" className="mt-2" />
-          <Input label="Phone" id="phoneNum" type="text" className="mt-2" />
-          <Input label="Address" id="address" type="text" className="mt-2" />
+          <Input label="Password" id="password" type="password" />
+          <Input label="Full Name" id="fullName" type="text" />
+          <Input label="Phone" id="phoneNum" type="text" />
+          <Input label="Address" id="address" type="text" />
           <div>
             <button className="btn mt-4 bg-primary text-white hover:opacity-70 active:opacity-100">
               Sign Up
