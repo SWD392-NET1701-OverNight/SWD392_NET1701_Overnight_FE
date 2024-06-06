@@ -1,11 +1,14 @@
+import HeadingSection from '../../component/ui/HeadingSection'
+
 function ContainerSection({ title, className, children }) {
   return (
     <section className="mt-[50px] ">
-      <div className="flex items-center gap-2">
-        <div className="h-8 w-[8px] rounded-md bg-primary"></div>
-        <h2 className="title">{title}</h2>
+      <HeadingSection title={title} />
+      <div
+        className={`mt-[20px] grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:flex xl:justify-between ${className}`}
+      >
+        {children}
       </div>
-      <div className={`mt-[20px] flex justify-between gap-4 ${className}`}>{children}</div>
     </section>
   )
 }

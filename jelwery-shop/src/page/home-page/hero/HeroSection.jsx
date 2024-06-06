@@ -8,12 +8,14 @@ function HeroSection() {
         className="image "
       />
       <div className="absolute top-[20%] text-center text-fourth">
-        <h1 className="text-9xl font-semibold">Custom Jewelry Crafting Services</h1>
-        <p className="mt-[60px]  text-4xl font-bold">
+        <h1 className="text-3xl font-semibold  md:text-7xl lg:text-8xl xl:text-9xl">
+          Custom Jewelry Crafting Services
+        </h1>
+        <p className="mt-[5%] text-sm font-bold md:text-2xl  lg:text-3xl xl:text-4xl">
           Transform Your Ideas into Exquisite Jewelry Pieces
         </p>
         <div className="center">
-          <Link to="product-list" className="btn mt-[100px] bg-third text-fourth">
+          <Link to="product-list" className="btn mt-[8%] bg-third text-fourth">
             Buy Now
           </Link>
         </div>

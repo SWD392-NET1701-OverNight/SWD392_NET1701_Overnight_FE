@@ -10,7 +10,8 @@ const RootLayout = lazy(() => import('../layout/common/index'))
 const HomePage = lazy(() => import('../page/home-page/index'))
 const AboutPage = lazy(() => import('../page/about-page/index'))
 const ProductList = lazy(() => import('../page/product-list/index'))
-const ProfilePage = lazy(() => import('../page/profile/index'))
+const MyAccount = lazy(() => import('../page/my-acocunt/index'))
+const ProductDetail = lazy(() => import('../page/product-detail/index'))
 const router = createBrowserRouter([
   {
     path: '/',
@@ -48,10 +49,18 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: 'profile',
+            path: 'product-list/:id',
             element: (
               <Suspense>
-                <ProfilePage />
+                <ProductDetail />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'my-account',
+            element: (
+              <Suspense>
+                <MyAccount />
               </Suspense>
             ),
           },

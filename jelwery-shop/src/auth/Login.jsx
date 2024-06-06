@@ -1,11 +1,11 @@
 import React from 'react'
 import Input from '../component/ui/Input'
 import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
 import axiosClient from '../api/axiosClient'
 import ContainerAuth from './components/ContainerAuth'
 import { useDispatch } from 'react-redux'
 import { authAction } from '../feature/auth/authSlice'
+import { toast } from 'sonner'
 function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -13,21 +13,23 @@ function Login() {
     e.preventDefault()
     const fomrData = new FormData(e.target)
     const data = Object.fromEntries(fomrData)
-    try {
-      const resData = await axiosClient.post('/api/Users/login', data)
-      if (resData.data) {
-        localStorage.setItem('auth-token', resData.data)
-        toast.success('Login success')
-        dispatch(authAction.login())
-        setTimeout(() => {
-          navigate('/')
-        }, 1000)
-        return
-      }
-      toast.error('Login failed')
-    } catch (error) {
-      toast.error('Login failed')
-    }
+    dispatch(authAction.login())
+    navigate('/')
+    // try {
+    //   const resData = await axiosClient.post('/api/Users/login', data)
+    //   if (resData.data) {
+    //     localStorage.setItem('auth-token', resData.data)
+    //     toast.success('Login success')
+    //     dispatch(authAction.login())
+    //     setTimeout(() => {
+    //       navigate('/')
+    //     }, 1100)
+    //     return
+    //   }
+    //   toast.error('Login failed')
+    // } catch (error) {
+    //   toast.error('Login failed')
+    // }
   }
   return (
     <>
@@ -56,8 +58,6 @@ function Login() {
         <Link to="../" className=" p-link mt-2 underline">
           Go to Home Page
         </Link>
-
-        <ToastContainer />
       </ContainerAuth>
     </>
   )

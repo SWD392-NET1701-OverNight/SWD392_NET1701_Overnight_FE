@@ -1,2 +1,2 @@
-export { featureItemsData, categoryItemsData } from './home-page-data'
-export { footerData } from './footer-data'
+export * from './home-page-data'
+export * from './footer-data'

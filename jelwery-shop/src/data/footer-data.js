@@ -1,3 +1,5 @@
+import { faFacebook, faTiktok, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
+
 export const footerData = [
   {
     header: 'Support',
@@ -13,5 +15,6 @@ export const footerData = [
   },
   {
     header: 'Social',
+    content: [faFacebook, faTwitter, faYoutube, faTiktok],
   },
 ]
