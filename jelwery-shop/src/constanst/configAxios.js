@@ -1,2 +1,2 @@
-const BASE_URL = ''
+const BASE_URL = 'https://localhost:7147'
 export default BASE_URL

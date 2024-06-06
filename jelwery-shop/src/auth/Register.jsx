@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom'
 import Input from '../component/ui/Input'
 import ContainerAuth from './components/ContainerAuth'
 import { toast } from 'sonner'
+import axiosClient from '../api/axiosClient'
 function Register() {
   async function handleSubmit(e) {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.target))
     try {
       const resData = await axiosClient.post('/api/Users/register', data)
+      console.log(resData)
       if (resData.status === 400) {
         toast.error('Register failed')
         return

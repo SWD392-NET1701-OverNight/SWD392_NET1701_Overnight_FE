@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { User } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import LogoImg from '/assets/image/logo.jpg'
