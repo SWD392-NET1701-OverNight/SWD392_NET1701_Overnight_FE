@@ -13,7 +13,7 @@ function JewelrySection() {
   }
   useEffect(() => {
     dispatch({ type: 'PRODUCT_LIST_SAGA' })
-  }, [listProduct])
+  }, [])
   return (
     <ContainerSection title="Jewelry">
       {listProduct.map((item, index) => (
