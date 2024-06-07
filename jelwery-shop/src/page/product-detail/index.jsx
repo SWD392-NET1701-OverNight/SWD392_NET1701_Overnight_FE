@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom'
 import Button from '../../component/ui/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { getToken } from '../../utils/auth'
+import { toast } from 'sonner'
 
 function ProductDetail() {
   const { productId } = useParams()
@@ -9,6 +11,10 @@ function ProductDetail() {
   const dispatch = useDispatch()
   const { productDetail } = useSelector((state) => state.product)
   function handleBuyNow() {
+    if (!getToken()) {
+      toast.error('Please login to buy this product')
+      return
+    }
     dispatch({
       type: 'CREATE_REQUEST_SAGA',
       payload: {
