@@ -3,20 +3,28 @@ import HeadingSection from '../../component/ui/HeadingSection'
 import SideBar from './sidebar/SideBar'
 import HeadingOrderCard from './HeadingOrderCard'
 import ParagraphOrderCard from './ParagraphOrderCard'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { authAction } from '../../feature/auth/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 function MyAccount() {
   const { listRequestById } = useSelector((state) => state.request)
-  const { currentUser } = useSelector((state) => state.auth)
+  const navigator = useNavigate();
+  const {isAuth} = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState('')
   function handleClickCurrentTab(tab) {
     setCurrentTab(tab)
   }
-
+  if(currentTab === 'Sign Out') {
+dispatch(authAction.logout())  }
+if(!isAuth ) {
+  navigator('/')
+}
   return (
     <div className="flex gap-8 px-[14%] pt-[50px]">
       <div className="w-1/3">
-        <HeadingSection title={`Hello ${currentUser.userName}`} />
+        <HeadingSection title={`Hello `} />
         <p className="mt-2 text-third">Welcome to your Account</p>
         <aside className="mt-[30px]">
           <SideBar onClick={handleClickCurrentTab} />
