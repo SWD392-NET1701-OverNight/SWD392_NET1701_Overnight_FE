@@ -53,6 +53,7 @@ export const categoryItemsData = [
 
 export const jewelryData = [
   {
+    productId: 1,
     image:
       'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRpYW1vbmQlMjByaW5nfGVufDB8fDB8fHww',
     alt: 'diamond-ring',
@@ -60,6 +61,7 @@ export const jewelryData = [
     title: 'Diamond Ring',
   },
   {
+    productId: 2,
     image:
       'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRpYW1vbmQlMjByaW5nfGVufDB8fDB8fHww',
     alt: 'diamond-ring',
@@ -67,6 +69,7 @@ export const jewelryData = [
     title: 'Diamond Ring',
   },
   {
+    productId: 3,
     image:
       'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRpYW1vbmQlMjByaW5nfGVufDB8fDB8fHww',
     alt: 'diamond-ring',

@@ -1,19 +1,22 @@
-import { call, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery } from 'redux-saga/effects'
 import { authAction } from './authSlice'
 import authAPI from './authApi'
 import { jwtDecode } from 'jwt-decode'
+import { toast } from 'sonner'
 
 function* authRequest(action) {
- const resData = yield call(authAPI.login,action.payload)
- localStorage.setItem('auth-token')
- console.log(jwtDecode(resData.data))
+  try {
+    const resData = yield call(authAPI.login, action.payload)
+    localStorage.setItem('auth-token')
+    const data = jwtDecode(resData.data)
+    toast.success('Login success')
+    const userInfo = { userName: data['unique_name'], userId: data.nameid[0] }
+    yield put(authAction.login(userInfo))
+  } catch (e) {
+    toast.error('Login failed')
+  }
 }
 
-function* registerRequest(action) {
-  const resData = yield call(authAPI.signIn,action.payload)
-  console.log(resData)
- }
 export default function* authSaga() {
   yield takeEvery('LOGIN_SAGA', authRequest)
-  yield takeEvery('REGISTER_SAGE', registerRequest)
 }

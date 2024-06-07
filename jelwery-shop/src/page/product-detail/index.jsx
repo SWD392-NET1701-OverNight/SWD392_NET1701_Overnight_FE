@@ -1,6 +1,25 @@
+import { useParams } from 'react-router-dom'
 import Button from '../../component/ui/Button'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 function ProductDetail() {
+  const { id } = useParams()
+  const { currentUser } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  const { productDetail } = useSelector((state) => state.product)
+  function handleBuyNow() {
+    dispatch({
+      type: 'CREATE_REQUEST_SAGA',
+      payload: {
+        data: { description: 'Test', status: 'Pending', productID: id },
+        userId: currentUser.userId,
+      },
+    })
+  }
+  useEffect(() => {
+    dispatch({ type: 'PRODUCT_BY_ID_SAGA', payload: id })
+  }, [id])
   return (
     <div className="flex w-full px-[14%] pt-[50px]">
       <img
@@ -18,17 +37,19 @@ function ProductDetail() {
         <div className="mt-8">
           <p className="text-lg  font-normal uppercase text-secondary">Material Price</p>
           <p className="mt-2 w-[40%] rounded-lg border border-secondary px-2 py-2 text-center text-base text-secondary">
-            Necklace
+            {productDetail.priceMaterial}
           </p>
         </div>
         <div className="mt-8">
-          <p className="text-lg  font-normal uppercase text-secondary">Material Price</p>
+          <p className="text-lg  font-normal uppercase text-secondary">Price Design</p>
           <p className="mt-2 w-[40%] rounded-lg border border-secondary px-2 py-2 text-center text-base text-secondary">
-            Necklace
+            {productDetail.priceDesign}
           </p>
         </div>
         <div className="mt-8 flex items-center">
-          <Button type="primary">Buy Now</Button>
+          <Button type="primary" onClick={handleBuyNow}>
+            Buy Now
+          </Button>
           <p className="ml-8 text-xl font-medium text-secondary">$32.00</p>
         </div>
       </div>

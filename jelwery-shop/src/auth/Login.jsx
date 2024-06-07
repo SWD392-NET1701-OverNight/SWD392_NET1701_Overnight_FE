@@ -1,18 +1,19 @@
-import React from 'react'
 import Input from '../component/ui/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import ContainerAuth from './components/ContainerAuth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 function Login() {
+  const { isAuth } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   async function handleSubmit(e) {
     e.preventDefault()
     const fomrData = new FormData(e.target)
     const data = Object.fromEntries(fomrData)
-    dispatch({type:'LOGIN_SAGA',payload: data})
+    dispatch({ type: 'LOGIN_SAGA', payload: data })
   }
+  if (isAuth) navigate('/')
   return (
     <>
       <ContainerAuth title="Sign In Page">
