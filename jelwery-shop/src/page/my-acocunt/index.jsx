@@ -3,17 +3,20 @@ import HeadingSection from '../../component/ui/HeadingSection'
 import SideBar from './sidebar/SideBar'
 import HeadingOrderCard from './HeadingOrderCard'
 import ParagraphOrderCard from './ParagraphOrderCard'
+import { useSelector } from 'react-redux'
 
 function MyAccount() {
+  const { listRequestById } = useSelector((state) => state.request)
+  const { currentUser } = useSelector((state) => state.auth)
   const [currentTab, setCurrentTab] = useState('')
   function handleClickCurrentTab(tab) {
     setCurrentTab(tab)
   }
-  const tab = [1, 2, 3, 4]
+
   return (
     <div className="flex gap-8 px-[14%] pt-[50px]">
       <div className="w-1/3">
-        <HeadingSection title="Hello ABC" />
+        <HeadingSection title={`Hello ${currentUser.userName}`} />
         <p className="mt-2 text-third">Welcome to your Account</p>
         <aside className="mt-[30px]">
           <SideBar onClick={handleClickCurrentTab} />
@@ -22,7 +25,7 @@ function MyAccount() {
       <div className="h-[100vh] w-2/3 overflow-y-scroll">
         <h2 className="title">{currentTab}</h2>
         <div className="mt-[64px] space-y-10 ">
-          {tab.map((item, index) => (
+          {listRequestById.map((item, index) => (
             <>
               <div className="space-y-2 bg-fourth px-[8%] py-4">
                 <HeadingOrderCard title="Order no:" />

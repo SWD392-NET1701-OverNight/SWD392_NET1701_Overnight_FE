@@ -1,5 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { toast } from 'sonner'
+import requestApi from './requestApi'
+import { requestAction } from './requestSlice'
 
 function* createRequest(action) {
   try {
@@ -11,6 +13,18 @@ function* createRequest(action) {
     toast.error('Create request failed')
   }
 }
-export default function* productSaga() {
+function* getRequestById(action) {
+  try {
+    const res = yield call(requestApi.getListRequestByUserId, action.payload)
+    console.log(res)
+    // if (res.status === 200) {
+    //   yield put(requestAction.setListRequest(res.data))
+    // }
+  } catch (error) {
+    toast.error('Get request failed')
+  }
+}
+export default function* requestSaga() {
   yield takeEvery('CREATE_REQUEST_SAGA', createRequest)
+  yield takeEvery('GET_REQUEST_BY_ID_SAGA', getRequestById)
 }

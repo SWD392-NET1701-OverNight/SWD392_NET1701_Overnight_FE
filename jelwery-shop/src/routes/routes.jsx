@@ -49,7 +49,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: 'product-list/:id',
+            path: 'product-list/:productId',
             element: (
               <Suspense>
                 <ProductDetail />

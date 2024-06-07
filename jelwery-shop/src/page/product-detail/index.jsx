@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
 function ProductDetail() {
-  const { id } = useParams()
+  const { productId } = useParams()
   const { currentUser } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const { productDetail } = useSelector((state) => state.product)
@@ -12,7 +12,7 @@ function ProductDetail() {
     dispatch({
       type: 'CREATE_REQUEST_SAGA',
       payload: {
-        data: { description: 'Test', status: 'Pending', productID: id },
+        data: { description: 'Test', status: 'Pending', productID: productId },
         userId: currentUser.userId,
       },
     })
