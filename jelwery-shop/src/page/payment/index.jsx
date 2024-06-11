@@ -1,10 +1,20 @@
 import { Check, CircleAlert } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
+import requestApi from '../../feature/request/requestApi'
+import { sendHttp } from '../../utils/send-http'
 
 function Payment() {
   const [searchParam] = useSearchParams()
   const search = searchParam.get('mode')
-
+  const productId = searchParam.get('productID')
+  const requestData = {
+    description: 'ac',
+    status: "pending",
+    productID: productId
+  }
+ async function createRequest() {
+  const {status,resData} = await sendHttp(requestApi.createRequest, requestData, currentUser.userId)}
+ createRequest();
   return (
     <div className=" center h-[100vh] px-[14%]">
       <div className="space-y-4">

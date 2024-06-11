@@ -1,7 +1,7 @@
 import React from 'react'
 import { jewelryData } from '../../data'
 
-function CardSection({ children, ...props }) {
+function CardSection({ children, name, ...props }) {
   return (
     <div className="flex-1 cursor-pointer" {...props}>
       <img
@@ -11,7 +11,7 @@ function CardSection({ children, ...props }) {
       />
       <div className="mt-2 flex items-center justify-between">
         <div className="max-w-[120px]">
-          <h3 className="truncate text-xl font-semibold text-secondary">Product Name</h3>
+          <h3 className="truncate text-xl font-semibold text-secondary">{name}</h3>
           <p className="text-third">Description</p>
         </div>
         {children}
