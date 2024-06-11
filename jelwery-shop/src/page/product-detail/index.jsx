@@ -21,12 +21,16 @@ function ProductDetail() {
       return
     }
     const data = {
-      description: 'Test',
-      status: 'Pending',
-      productID: productId,
+      fullName: currentUser.userName,
+      description: "string",
+      createdDate: "2024-06-11T02:35:29.373Z",
+      requestID: 1,
+      amount: totalPrice,
     }
-    const status = await sendHttp(requestApi.createRequest, data, currentUser.userId)
+    const {status,resData} = await sendHttp(requestApi.createRequest, data, currentUser.userId)
+    console.log(status)
     if (status === 'success') {
+      window.location.href = resData
     }
   }
 
