@@ -8,7 +8,7 @@ function* getListProduct() {
     const resData = yield call(productApi.getListProduct)
     yield put(productAction.setListProduct(resData))
   } catch (e) {
-    toast.error('Get list product failed!')
+    toast.error(e.response.data.message)
   }
 }
 

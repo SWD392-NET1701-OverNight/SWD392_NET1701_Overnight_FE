@@ -24,3 +24,22 @@
   }
 }
 @tailwind utilities;
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  /* Track */
+  .scrollbar::-webkit-scrollbar-track {
+    background: #f6f6f6;
+    border-radius: 20px;
+  }
+
+  /* Handle */
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #807d7e;
+    border-radius: 20px;
+  }
+
+  /* Handle on hover */
+}

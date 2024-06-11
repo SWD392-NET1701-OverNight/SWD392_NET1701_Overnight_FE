@@ -3,7 +3,7 @@ import { jewelryData } from '../../data'
 
 function CardSection({ children, ...props }) {
   return (
-    <div className="flex-1" {...props}>
+    <div className="flex-1 cursor-pointer" {...props}>
       <img
         src={jewelryData[0].image}
         alt="image-jelwery"

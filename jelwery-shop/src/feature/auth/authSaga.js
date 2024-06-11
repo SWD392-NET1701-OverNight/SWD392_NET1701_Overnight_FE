@@ -7,13 +7,17 @@ import { toast } from 'sonner'
 function* authRequest(action) {
   try {
     const resData = yield call(authAPI.login, action.payload)
-    localStorage.setItem('auth-token',resData)
-    const data = jwtDecode(resData.data)
-    toast.success('Login success')
-    const userInfo = { userName: data['unique_name'], userId: data.nameid[0] }
-    yield put(authAction.login(userInfo))
+    if (resData.data) {
+      localStorage.setItem('auth-token', resData.data)
+      const data = jwtDecode(resData.data)
+      toast.success(resData.message)
+      const userInfo = { userName: data['unique_name'], userId: data.nameid[0] }
+      yield put(authAction.login(userInfo))
+      return
+    }
+    toast.error(resData.message)
   } catch (e) {
-    toast.error('Login failed')
+    toast.error(e.response.data.message)
   }
 }
 

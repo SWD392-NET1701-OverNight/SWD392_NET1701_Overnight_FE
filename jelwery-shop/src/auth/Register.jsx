@@ -2,22 +2,16 @@ import { Link } from 'react-router-dom'
 import Input from '../component/ui/Input'
 import ContainerAuth from './components/ContainerAuth'
 import { toast } from 'sonner'
-import axiosClient from '../api/axiosClient'
 import authAPI from '../feature/auth/authApi'
+import { sendHttp } from '../utils/send-http'
 function Register() {
   async function handleSubmit(e) {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.target))
-    try {
-      const resData = await authAPI.signIn(data)
-      if (resData.status === 400) {
-        toast.error('Register failed')
-        return
-      }
-      toast.success('Register success')
+
+    const status = await sendHttp(authAPI.signIn, data)
+    if (status === 'success') {
       e.target.reset()
-    } catch (error) {
-      toast.error('Register failed')
     }
   }
   return (
@@ -29,6 +23,7 @@ function Register() {
           <Input label="Full Name" id="fullName" type="text" />
           <Input label="Phone" id="phoneNum" type="text" />
           <Input label="Address" id="address" type="text" />
+          <Input label="Email" id="email" type="email" />
           <div>
             <button className="btn mt-4 bg-primary text-white hover:opacity-70 active:opacity-100">
               Sign Up

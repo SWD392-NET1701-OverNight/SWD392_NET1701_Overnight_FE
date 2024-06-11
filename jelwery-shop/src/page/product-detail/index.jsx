@@ -4,28 +4,35 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getToken } from '../../utils/auth'
 import { toast } from 'sonner'
+import PriceItem from './PriceItem'
+import { sendHttp } from '../../utils/send-http'
+import requestApi from '../../feature/request/requestApi'
 
 function ProductDetail() {
   const { productId } = useParams()
   const { currentUser } = useSelector((state) => state.auth)
-  const dispatch = useDispatch()
   const { productDetail } = useSelector((state) => state.product)
-  function handleBuyNow() {
+  const dispatch = useDispatch()
+  const totalPrice =
+    productDetail.priceMaterial + productDetail.processPrice + productDetail.priceDesign
+  async function handleBuyNow() {
     if (!getToken()) {
       toast.error('Please login to buy this product')
       return
     }
-    dispatch({
-      type: 'CREATE_REQUEST_SAGA',
-      payload: {
-        data: { description: 'Test', status: 'Pending', productID: productId },
-        userId: currentUser.userId,
-      },
-    })
+    const data = {
+      description: 'Test',
+      status: 'Pending',
+      productID: productId,
+    }
+    const status = await sendHttp(requestApi.createRequest, data, currentUser.userId)
+    if (status === 'success') {
+    }
   }
+
   useEffect(() => {
-    dispatch({ type: 'PRODUCT_BY_ID_SAGA', payload: id })
-  }, [id])
+    dispatch({ type: 'PRODUCT_BY_ID_SAGA', payload: productId })
+  }, [productId])
   return (
     <div className="flex w-full px-[14%] pt-[50px]">
       <img
@@ -40,23 +47,23 @@ function ProductDetail() {
           <p className="ml-8 text-base text-third">Ring</p>
         </div>
 
-        <div className="mt-8">
-          <p className="text-lg  font-normal uppercase text-secondary">Material Price</p>
-          <p className="mt-2 w-[40%] rounded-lg border border-secondary px-2 py-2 text-center text-base text-secondary">
-            {productDetail.priceMaterial}
-          </p>
+        <div className="mt-8 flex justify-between">
+          <PriceItem title="Material Price" price={productDetail.priceMaterial} />
+          <PriceItem title="Proccessing Price" price={productDetail.processPrice} />
         </div>
         <div className="mt-8">
-          <p className="text-lg  font-normal uppercase text-secondary">Price Design</p>
-          <p className="mt-2 w-[40%] rounded-lg border border-secondary px-2 py-2 text-center text-base text-secondary">
-            {productDetail.priceDesign}
-          </p>
+          <PriceItem title="Design Price" price={productDetail.priceDesign} />
         </div>
         <div className="mt-8 flex items-center">
-          <Button type="primary" onClick={handleBuyNow}>
+          <Button
+            type="primary"
+            onClick={() => {
+              handleBuyNow()
+            }}
+          >
             Buy Now
           </Button>
-          <p className="ml-8 text-xl font-medium text-secondary">$32.00</p>
+          <p className="ml-8 text-xl font-medium text-secondary">${totalPrice}</p>
         </div>
       </div>
     </div>

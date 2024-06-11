@@ -13,7 +13,11 @@ function Login() {
     const data = Object.fromEntries(fomrData)
     dispatch({ type: 'LOGIN_SAGA', payload: data })
   }
-  if (isAuth) navigate('/')
+  if (isAuth) {
+    setTimeout(() => {
+      navigate('/')
+    }, 1000)
+  }
   return (
     <>
       <ContainerAuth title="Sign In Page">

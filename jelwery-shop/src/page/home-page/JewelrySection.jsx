@@ -5,22 +5,26 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 function JewelrySection() {
+  const { listProduct } = useSelector((state) => state.product)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { listProduct } = useSelector((state) => state.product)
-  function handleClickProductDetail(id) {
-    navigate(`product-list/${id}`)
-  }
   useEffect(() => {
     dispatch({ type: 'PRODUCT_LIST_SAGA' })
   }, [])
+  function handleClickProductDetail(productID) {
+    navigate(`/product-list/${productID}`)
+  }
   return (
     <ContainerSection title="Jewelry">
-      {listProduct.map((item, index) => (
-        <CardSection key={index} {...item} onClick={() => handleClickProductDetail(item.productId)}>
-          <p className="bg-fourth px-2 py-2 text-third">$2,500</p>
-        </CardSection>
-      ))}
+      {listProduct
+        .slice(0, 4)
+        .map(({ productID, priceMaterial, priceDesign, processPrice }, index) => (
+          <CardSection key={index} onClick={() => handleClickProductDetail(productID)}>
+            <p className="bg-fourth px-2 py-2 text-third">
+              ${priceDesign + priceMaterial + processPrice}
+            </p>
+          </CardSection>
+        ))}
     </ContainerSection>
   )
 }
