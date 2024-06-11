@@ -18,8 +18,8 @@ function JewelrySection() {
     <ContainerSection title="Jewelry">
       {listProduct
         .slice(0, 4)
-        .map(({ productID, priceMaterial, priceDesign, processPrice }, index) => (
-          <CardSection key={index} onClick={() => handleClickProductDetail(productID)}>
+        .map(({ productID, priceMaterial, priceDesign, processPrice,productName }, index) => (
+          <CardSection key={index} name={productName} onClick={() => handleClickProductDetail(productID)}>
             <p className="bg-fourth px-2 py-2 text-third">
               ${priceDesign + priceMaterial + processPrice}
             </p>

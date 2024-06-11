@@ -15,7 +15,7 @@ function MyOrder() {
     <div className="scrollbar h-[80vh] space-y-10 overflow-y-scroll pr-6">
       {listRequestById.map(({ id, createDate, status, productID }, index) => {
         const date = new Date(createDate)
-        const { priceMaterial, priceDesign, processPrice } = listProduct.find(
+        const { priceMaterial, priceDesign, processPrice,productName } = listProduct.find(
           (item) => item.productID === productID,
         )
         const total = priceDesign + priceMaterial + processPrice
@@ -35,7 +35,7 @@ function MyOrder() {
                 className="image w-[140px] rounded-lg"
               />
               <div className="flex h-full flex-col justify-between">
-                <HeadingOrderCard title="Product Name" />
+                <HeadingOrderCard title={productName} />
                 <ParagraphOrderCard title="Catogory" value="Necklace" />
                 <ParagraphOrderCard title="Total" value={`$${total}`} />
               </div>

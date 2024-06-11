@@ -11,7 +11,7 @@ function* authRequest(action) {
       localStorage.setItem('auth-token', resData.data)
       const data = jwtDecode(resData.data)
       toast.success(resData.message)
-      const userInfo = { userName: data['unique_name'], userId: data.nameid[0] }
+      const userInfo = { userName: data['userName'], userId: data.userId }
       yield put(authAction.login(userInfo))
       return
     }

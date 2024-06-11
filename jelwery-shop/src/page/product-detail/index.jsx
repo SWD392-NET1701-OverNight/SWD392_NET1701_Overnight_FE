@@ -20,13 +20,18 @@ function ProductDetail() {
       toast.error('Please login to buy this product')
       return
     }
-    const data = {
-      description: 'Test',
-      status: 'Pending',
+    const checkoutData = {
+      fullName: currentUser.userName,
+      description: "string",
+      createdDate: "2024-06-11T02:35:29.373Z",
+      requestID: 1,
+      amount: totalPrice,
       productID: productId,
     }
-    const status = await sendHttp(requestApi.createRequest, data, currentUser.userId)
+   
+      const {status,resData} = await sendHttp(requestApi.checkout, checkoutData, currentUser.userId)
     if (status === 'success') {
+      window.location.href = resData
     }
   }
 
@@ -41,7 +46,7 @@ function ProductDetail() {
         className="image h-[70vh] w-1/2"
       />
       <div className="w-1/2 px-[7%] py-[2%]">
-        <h1 className="title">Product Name</h1>
+        <h1 className="title">{productDetail.productName}</h1>
         <div className="mt-2 flex items-center">
           <h3 className="text-lg text-secondary">Category</h3>
           <p className="ml-8 text-base text-third">Ring</p>

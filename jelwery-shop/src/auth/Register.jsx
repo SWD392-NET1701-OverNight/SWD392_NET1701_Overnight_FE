@@ -9,7 +9,7 @@ function Register() {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.target))
 
-    const status = await sendHttp(authAPI.signIn, data)
+    const {status} = await sendHttp(authAPI.signIn, data)
     if (status === 'success') {
       e.target.reset()
     }
