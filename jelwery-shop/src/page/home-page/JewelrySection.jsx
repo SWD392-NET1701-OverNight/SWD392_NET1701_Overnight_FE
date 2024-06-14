@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import ContainerSection from './ContainerSection'
-import CardSection from './CardSection'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import CardSection from '../../component/ui/CardSection'
 
 function JewelrySection() {
   const { listProduct } = useSelector((state) => state.product)
@@ -18,8 +18,13 @@ function JewelrySection() {
     <ContainerSection title="Jewelry">
       {listProduct
         .slice(0, 4)
-        .map(({ productID, priceMaterial, priceDesign, processPrice,productName }, index) => (
-          <CardSection key={index} name={productName} onClick={() => handleClickProductDetail(productID)}>
+        .map(({ productID, priceMaterial, priceDesign, processPrice, productName }, index) => (
+          <CardSection
+            key={index}
+            className="flex-1"
+            name={productName}
+            onClick={() => handleClickProductDetail(productID)}
+          >
             <p className="bg-fourth px-2 py-2 text-third">
               ${priceDesign + priceMaterial + processPrice}
             </p>

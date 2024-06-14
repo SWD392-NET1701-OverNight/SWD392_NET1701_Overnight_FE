@@ -1,9 +1,9 @@
 import React from 'react'
 import { jewelryData } from '../../data'
 
-function CardSection({ children, name, ...props }) {
+function CardSection({ className, children, name, ...props }) {
   return (
-    <div className="flex-1 cursor-pointer" {...props}>
+    <div className={`cursor-pointer ${className}`} {...props}>
       <img
         src={jewelryData[0].image}
         alt="image-jelwery"

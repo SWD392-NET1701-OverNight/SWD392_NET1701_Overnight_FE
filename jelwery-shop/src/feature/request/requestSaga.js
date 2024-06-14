@@ -6,10 +6,9 @@ import { requestAction } from './requestSlice'
 function* getAllRequest() {
   try {
     const resData = yield call(requestApi.getAllRequest)
-    console.log(resData)
     yield put(requestAction.setListRequest(resData))
   } catch (error) {
-    toast.error('Create request failed')
+    console.error('Failed to get all orders')
   }
 }
 

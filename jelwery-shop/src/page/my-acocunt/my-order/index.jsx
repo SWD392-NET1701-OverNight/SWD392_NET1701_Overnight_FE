@@ -2,20 +2,27 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import HeadingOrderCard from '../HeadingOrderCard'
 import ParagraphOrderCard from '../ParagraphOrderCard'
+import { Link } from 'react-router-dom'
 function MyOrder() {
   const { currentUser } = useSelector((state) => state.auth)
   const { listRequest } = useSelector((state) => state.request)
   const { listProduct } = useSelector((state) => state.product)
   const dispatch = useDispatch()
-  const listRequestById = listRequest.filter((item) => item.userID === currentUser.userId)
+  const listRequestById = listRequest?.filter((item) => item.userID === currentUser?.userId)
+  const isEmptyOrder = listRequestById?.length === 0
   useEffect(() => {
-    dispatch({ type: 'GET_ALL_REQUEST_SAGA' })
+    dispatch({ type: 'PRODUCT_LIST_SAGA' })
+    setTimeout(() => {
+      dispatch({ type: 'GET_ALL_REQUEST_SAGA' })
+    }, 500)
   }, [])
   return (
-    <div className="scrollbar h-[80vh] space-y-10 overflow-y-scroll pr-6">
-      {listRequestById.map(({ id, createDate, status, productID }, index) => {
+    <div
+      className={`scrollbar h-[80vh] space-y-10 ${isEmptyOrder ? '' : 'overflow-y-scroll'} pr-6`}
+    >
+      {listRequestById?.map(({ id, createDate, status, productID }) => {
         const date = new Date(createDate)
-        const { priceMaterial, priceDesign, processPrice,productName } = listProduct.find(
+        const { priceDesign, priceMaterial, processPrice } = listProduct?.find(
           (item) => item.productID === productID,
         )
         const total = priceDesign + priceMaterial + processPrice
@@ -35,7 +42,7 @@ function MyOrder() {
                 className="image w-[140px] rounded-lg"
               />
               <div className="flex h-full flex-col justify-between">
-                <HeadingOrderCard title={productName} />
+                <HeadingOrderCard title="" />
                 <ParagraphOrderCard title="Catogory" value="Necklace" />
                 <ParagraphOrderCard title="Total" value={`$${total}`} />
               </div>
@@ -44,6 +51,21 @@ function MyOrder() {
           </>
         )
       })}
+      {isEmptyOrder && (
+        <div className="mt-[20px] flex justify-center">
+          <div className="text-center">
+            <img
+              src="https://img.icons8.com/?size=100&id=16501&format=png&color=000000"
+              alt="Empty Order"
+              className="image w-full"
+            />
+            <p className=" text-2xl text-third">No order yet</p>
+            <Link to="/product-list" className="text-base text-secondary underline">
+              Buy now
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

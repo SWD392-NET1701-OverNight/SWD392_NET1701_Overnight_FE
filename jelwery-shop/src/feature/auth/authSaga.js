@@ -9,15 +9,15 @@ function* authRequest(action) {
     const resData = yield call(authAPI.login, action.payload)
     if (resData.data) {
       localStorage.setItem('auth-token', resData.data)
-      const data = jwtDecode(resData.data)
-      toast.success(resData.message)
-      const userInfo = { userName: data['userName'], userId: data.userId }
+      const { userName, userId, role } = jwtDecode(resData.data)
+      toast.success(resData.message || 'Login success')
+      const userInfo = { userName, userId, role }
       yield put(authAction.login(userInfo))
       return
     }
-    toast.error(resData.message)
+    toast.error(resData.message || 'Login failed')
   } catch (e) {
-    toast.error(e.response.data.message)
+    toast.error(e.response.data.message || 'Login failed')
   }
 }
 

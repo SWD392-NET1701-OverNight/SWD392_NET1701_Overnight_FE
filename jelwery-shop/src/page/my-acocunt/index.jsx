@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import HeadingSection from '../../component/ui/HeadingSection'
-import SideBar from './sidebar/SideBar'
+import SideBar from './sidebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { authAction } from '../../feature/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
-import MyOrder from './my-order/MyOrder'
+import MyOrder from './my-order'
 
 function MyAccount() {
   const navigator = useNavigate()

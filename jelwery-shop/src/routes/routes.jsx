@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import RootLayout from '../layout/common'
-import AuthLayout from '../auth/layout'
+import AuthLayout from '../layout/auth'
 
 const Login = lazy(() => import('../auth/Login'))
 const Register = lazy(() => import('../auth/Register'))

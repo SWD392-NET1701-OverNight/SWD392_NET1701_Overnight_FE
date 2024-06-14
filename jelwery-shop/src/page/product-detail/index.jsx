@@ -22,14 +22,19 @@ function ProductDetail() {
     }
     const checkoutData = {
       fullName: currentUser.userName,
-      description: "string",
-      createdDate: "2024-06-11T02:35:29.373Z",
+      description: 'string',
+      createdDate: '2024-06-11T02:35:29.373Z',
       requestID: 1,
       amount: totalPrice,
       productID: productId,
     }
-   
-      const {status,resData} = await sendHttp(requestApi.checkout, checkoutData, currentUser.userId)
+
+    const { status, resData } = await sendHttp(
+      requestApi.checkout,
+      checkoutData,
+      currentUser.userId,
+      { success: 'Go to checkout page', error: '' },
+    )
     if (status === 'success') {
       window.location.href = resData
     }
