@@ -21,6 +21,7 @@ function Pagination({ perPage, length, curentPage, setCurrentPage }) {
     <>
       <div className="flex items-center gap-4 text-secondary">
         <button
+          className="disabled:opacity-50"
           disabled={curentPage === 1}
           onClick={() => {
             handleClickPrev(curentPage)
@@ -40,6 +41,7 @@ function Pagination({ perPage, length, curentPage, setCurrentPage }) {
           </button>
         ))}
         <button
+          className="disabled:opacity-50"
           disabled={curentPage === pageNumbers.length}
           onClick={() => {
             handleClickNext()

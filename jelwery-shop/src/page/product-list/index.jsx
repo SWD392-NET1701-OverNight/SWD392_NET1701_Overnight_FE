@@ -8,6 +8,9 @@ function ProductList() {
   const navigate = useNavigate()
   const [curentPage, setCurrentPage] = useState(1)
   const { listProduct } = useSelector((state) => state.product)
+  const perPage = 9
+  const startPoint = (curentPage - 1) * perPage
+  const endPoint = curentPage * perPage
   function handleClickProductDetail(productID) {
     navigate(`/product-list/${productID}`)
   }
@@ -18,7 +21,7 @@ function ProductList() {
         <h2 className="title mb-[30px]">Jewelry Products</h2>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {listProduct
-            .slice(0, 9)
+            .slice(startPoint, endPoint)
             .map(({ productID, priceMaterial, priceDesign, processPrice, productName }, index) => (
               <CardSection
                 key={index}
@@ -34,8 +37,8 @@ function ProductList() {
         </div>
         <div className="mt-[40px] flex justify-center">
           <Pagination
-            length={18}
-            perPage={9}
+            length={listProduct.length}
+            perPage={perPage}
             curentPage={curentPage}
             setCurrentPage={setCurrentPage}
           />
