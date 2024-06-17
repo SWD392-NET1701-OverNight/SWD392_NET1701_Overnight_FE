@@ -15,12 +15,26 @@ function* authRequest(action) {
       yield put(authAction.login(userInfo))
       return
     }
-    toast.error(resData.message || 'Login failed')
+    toast.error(resData?.message || 'Login failed')
   } catch (e) {
-    toast.error(e.response.data.message || 'Login failed')
+    toast.error(e?.response?.data?.message || 'Login failed')
+  }
+}
+function* getUserById(action) {
+  try {
+    const resData = yield call(authAPI.getUerById, action.payload)
+
+    if (resData) {
+      yield put(authAction.login(resData))
+      return
+    }
+    toast.error(resData.message || 'Get user failed')
+  } catch (e) {
+    toast.error(e.response.data.message || 'Get user failed')
   }
 }
 
 export default function* authSaga() {
   yield takeEvery('LOGIN_SAGA', authRequest)
+  yield takeEvery('GET_USER_BY_ID_SAGA', getUserById)
 }
