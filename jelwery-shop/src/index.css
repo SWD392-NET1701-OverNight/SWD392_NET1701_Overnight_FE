@@ -40,6 +40,14 @@
     background: #807d7e;
     border-radius: 20px;
   }
-
+  .pagination {
+    @apply center list-none gap-4 text-secondary;
+  }
+  .page-item {
+    @apply rounded-lg px-3 py-1 text-secondary;
+  }
+  .active-page-item {
+    @apply bg-fourth;
+  }
   /* Handle on hover */
 }

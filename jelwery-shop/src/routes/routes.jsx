@@ -3,6 +3,7 @@ import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import RootLayout from '../layout/common'
 import AuthLayout from '../layout/auth'
+import Dashboard from '../page/dashboard'
 
 const Login = lazy(() => import('../auth/Login'))
 const Register = lazy(() => import('../auth/Register'))
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard />,
   },
 ])
 export default router

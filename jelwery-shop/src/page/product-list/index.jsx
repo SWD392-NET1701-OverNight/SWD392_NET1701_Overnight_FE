@@ -1,16 +1,18 @@
 import { useSelector } from 'react-redux'
 import CardSection from '../../component/ui/CardSection'
 import { useNavigate } from 'react-router-dom'
-import Pagination from './Pagination'
+import ReactPaginate from 'react-paginate'
 import { useState } from 'react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 function ProductList() {
   const navigate = useNavigate()
-  const [curentPage, setCurrentPage] = useState(1)
+  const [curentPage, setCurrentPage] = useState(0)
   const { listProduct } = useSelector((state) => state.product)
-  const perPage = 9
-  const startPoint = (curentPage - 1) * perPage
-  const endPoint = curentPage * perPage
+
+  const perPage = 5
+  const startPoint = curentPage * perPage
+  const endPoint = startPoint + perPage
   function handleClickProductDetail(productID) {
     navigate(`/product-list/${productID}`)
   }
@@ -19,7 +21,7 @@ function ProductList() {
       <div className="w-1/4 bg-blue-gray-100">Filter</div>
       <div className="w-3/4  py-[4vh]">
         <h2 className="title mb-[30px]">Jewelry Products</h2>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid list-none gap-4 md:grid-cols-2 xl:grid-cols-3">
           {listProduct
             .slice(startPoint, endPoint)
             .map(({ productID, priceMaterial, priceDesign, processPrice, productName }, index) => (
@@ -35,12 +37,16 @@ function ProductList() {
               </CardSection>
             ))}
         </div>
-        <div className="mt-[40px] flex justify-center">
-          <Pagination
-            length={listProduct.length}
-            perPage={perPage}
-            curentPage={curentPage}
-            setCurrentPage={setCurrentPage}
+        <div className="center mt-[40px] box-border flex-col">
+          <ReactPaginate
+            containerClassName={'pagination'}
+            pageClassName={'page-item'}
+            activeClassName={'active-page-item'}
+            onPageChange={(event) => setCurrentPage(event.selected)}
+            pageCount={Math.ceil(listProduct.length / perPage)}
+            breakLabel="..."
+            previousLabel={<ArrowLeft size={24} strokeWidth={1.75} />}
+            nextLabel={<ArrowRight size={24} strokeWidth={1.75} />}
           />
         </div>
       </div>

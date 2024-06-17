@@ -11,7 +11,9 @@ function MyOrder() {
   const listRequestById = listRequest?.filter((item) => item.userID === currentUser?.userId)
   const isEmptyOrder = listRequestById?.length === 0
   useEffect(() => {
-    dispatch({ type: 'PRODUCT_LIST_SAGA' })
+    if (!listProduct) {
+      dispatch({ type: 'PRODUCT_LIST_SAGA' })
+    }
     setTimeout(() => {
       dispatch({ type: 'GET_ALL_REQUEST_SAGA' })
     }, 500)

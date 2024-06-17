@@ -17,6 +17,9 @@ export const authSlice = createSlice({
       state.isAuth = false
       localStorage.removeItem('auth-token')
     },
+    updateUser: (state, action) => {
+      state.currentUser = { ...state.currentUser, ...action.payload }
+    },
   },
 })
 

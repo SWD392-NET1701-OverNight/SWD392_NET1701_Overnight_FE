@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom'
 import requestApi from '../../feature/request/requestApi'
 import { sendHttp } from '../../utils/send-http'
 import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
 
 function Payment() {
   const { currentUser } = useSelector((state) => state.auth)

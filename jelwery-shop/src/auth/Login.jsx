@@ -2,28 +2,36 @@ import Input from '../component/ui/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import ContainerAuth from './components/ContainerAuth'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { useForm } from 'react-hook-form'
+import { loginSchema } from '../schema/index'
+import { zodResolver } from '@hookform/resolvers/zod'
 function Login() {
   const { isAuth } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  async function handleSubmit(e) {
-    e.preventDefault()
-    const fomrData = new FormData(e.target)
-    const data = Object.fromEntries(fomrData)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  })
+  const onSubmit = async (data) => {
     dispatch({ type: 'LOGIN_SAGA', payload: data })
   }
   if (isAuth) {
     setTimeout(() => {
       navigate('/')
-    }, 1000)
+    }, 1200)
   }
   return (
     <>
       <ContainerAuth title="Sign In Page">
-        <form className="mt-10 flex flex-col gap-3" onSubmit={handleSubmit}>
-          <Input label="Username" id="username" type="text" />
-          <Input label="Password" id="password" type="password" />
+        <form className="mt-10 flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+          <Input label="Username" id="username" {...register('username')} />
+          {errors.username?.message && <span>{errors.username?.message}</span>}
+          <Input label="Password" id="password" {...register('password')} type="password" />
+          {errors.password?.message && <span>{errors.password?.message}</span>}
           <div className="text-right">
             <Link to="forget-password" className="p-link underline">
               Forget Password

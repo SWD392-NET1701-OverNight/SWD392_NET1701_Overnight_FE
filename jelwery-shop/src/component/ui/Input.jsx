@@ -1,21 +1,22 @@
-import React from 'react'
+import { forwardRef } from 'react'
+import Label from './Label'
 
-function Input({ label, id, type, className, ...rest }) {
+const Input = forwardRef(({ label, id, type = 'text', ...rest }, ref) => {
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className={`p-link ${className}`}>
+      <Label id={id} className="text-third">
         {label}
-      </label>
+      </Label>
       <input
         type={type}
         id={id}
-        name={id}
+        ref={ref}
         required
         className="rounded-lg border-2 border-secondary px-4 py-2 outline-none"
         {...rest}
       />
     </div>
   )
-}
+})
 
 export default Input
