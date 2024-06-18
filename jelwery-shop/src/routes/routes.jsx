@@ -13,6 +13,7 @@ const AboutPage = lazy(() => import('../page/about-page'))
 const ProductList = lazy(() => import('../page/product-list'))
 const MyAccount = lazy(() => import('../page/my-acocunt'))
 const ProductDetail = lazy(() => import('../page/product-detail'))
+const Blog = lazy(() => import('../page/blog-page'))
 const Payment = lazy(() => import('../page/payment'))
 const router = createBrowserRouter([
   {
@@ -56,6 +57,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense>
             <MyAccount />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'blog',
+        element: (
+          <Suspense>
+            <Blog />
           </Suspense>
         ),
       },
