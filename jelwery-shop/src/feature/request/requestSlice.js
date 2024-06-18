@@ -11,6 +11,11 @@ export const requestSlice = createSlice({
     setListRequest: (state, action) => {
       state.listRequest = action.payload
     },
+    updateStatus: (state, action) => {
+      const { id, status } = action.payload
+      const requestItem = state.listRequest.find((item) => item.id === id)
+      requestItem.status = status
+    },
   },
 })
 

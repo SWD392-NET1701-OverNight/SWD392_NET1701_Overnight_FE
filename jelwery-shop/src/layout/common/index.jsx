@@ -12,7 +12,7 @@ function RootLayout() {
 
   if (getToken()) {
     const userInfor = jwtDecode(getToken())
-    dispatch(authAction.login(userInfor))
+    dispatch(authAction.login({ ...userInfor, userID: userInfor.userId }))
   }
   return (
     <>

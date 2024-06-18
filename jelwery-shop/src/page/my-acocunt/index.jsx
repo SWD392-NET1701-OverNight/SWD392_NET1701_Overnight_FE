@@ -2,31 +2,27 @@ import { useEffect, useState } from 'react'
 import HeadingSection from '../../component/ui/HeadingSection'
 import SideBar from '../../component/ui/SideBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { authAction } from '../../feature/auth/authSlice'
-import { useNavigate } from 'react-router-dom'
 import MyOrder from './my-order'
 import MyProfile from './my-profile'
 import { LogOut, ShoppingBag, UserRound } from 'lucide-react'
+import { useLogout } from '../../hooks/useLogout'
 const sidebarItems = [
   { title: 'My Orders', icon: <ShoppingBag /> },
   { title: 'My Profile', icon: <UserRound /> },
   { title: 'Sign Out', icon: <LogOut /> },
 ]
 function MyAccount() {
-  const navigator = useNavigate()
   const { currentUser } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  const { handleLogOut } = useLogout()
   const [currentTab, setCurrentTab] = useState('My Orders')
 
   if (currentTab === 'Sign Out') {
-    dispatch(authAction.logout())
-    setTimeout(() => {
-      navigator('/')
-    }, 1000)
+    handleLogOut()
   }
   useEffect(() => {
     if (!currentUser.email) {
-      dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser.userId })
+      dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser.userID })
     }
   }, [])
 

@@ -1,13 +1,15 @@
-import { LogOut, UserRound } from 'lucide-react'
+import { LogOut, Package, ShoppingBag, ShoppingCart, UserRound } from 'lucide-react'
 import SideBar from '../../component/ui/SideBar'
+import { useLogout } from '../../hooks/useLogout'
 const sidebarItems = [
-  { title: 'Products', icon: <UserRound /> },
-  { title: 'Categories', icon: <UserRound /> },
-  { title: 'Orders', icon: <UserRound /> },
+  { title: 'Orders', icon: <ShoppingCart /> },
+  { title: 'Categories', icon: <Package /> },
+  { title: 'Products', icon: <ShoppingBag /> },
   { title: 'Customers', icon: <UserRound /> },
 ]
 
 function DashBoardLayout({ currentTab, setCurrentTab, children }) {
+  const { handleLogOut } = useLogout()
   return (
     <div className="flex h-[100vh]">
       <div className="border-r-2 px-8  text-center">
@@ -16,11 +18,16 @@ function DashBoardLayout({ currentTab, setCurrentTab, children }) {
       </div>
       <div className="w-full bg-fourth px-8">
         <div className="flex justify-end py-[6vh] ">
-          <LogOut />
+          <button
+            onClick={() => {
+              handleLogOut()
+            }}
+            className="hover:opacity-45"
+          >
+            <LogOut />
+          </button>
         </div>
-        <div value={{ currentTab }} className="bg-white">
-          {children}
-        </div>
+        <div className="relative h-[80vh] rounded-md bg-white">{children}</div>
       </div>
     </div>
   )

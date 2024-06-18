@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { loginSchema } from '../schema/index'
 import { zodResolver } from '@hookform/resolvers/zod'
 function Login() {
-  const { isAuth } = useSelector((state) => state.auth)
+  const { isAuth, currentUser } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {
@@ -21,7 +21,11 @@ function Login() {
   }
   if (isAuth) {
     setTimeout(() => {
-      navigate('/')
+      if (currentUser.roleID === 1) {
+        navigate('/dashboard')
+      } else {
+        navigate('/')
+      }
     }, 1200)
   }
   return (
