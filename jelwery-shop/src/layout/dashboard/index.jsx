@@ -1,15 +1,17 @@
 import { LogOut, Package, ShoppingBag, ShoppingCart, UserRound } from 'lucide-react'
+import { useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import SideBar from '../../component/ui/SideBar'
 import { useLogout } from '../../hooks/useLogout'
 const sidebarItems = [
-  { title: 'Orders', icon: <ShoppingCart /> },
-  { title: 'Categories', icon: <Package /> },
-  { title: 'Products', icon: <ShoppingBag /> },
-  { title: 'Customers', icon: <UserRound /> },
+  { title: 'Orders', icon: <ShoppingCart />, link: '/dashboard' },
+  { title: 'Categories', icon: <Package />, link: '/dashboard/category' },
+  { title: 'Products', icon: <ShoppingBag />, link: '/dashboard/product' },
+  { title: 'Customers', icon: <UserRound />, link: '/dashboard/customer' },
 ]
-
-function DashBoardLayout({ currentTab, setCurrentTab, children }) {
+function DashBoardLayout() {
   const { handleLogOut } = useLogout()
+  const [currentTab, setCurrentTab] = useState('Orders')
   return (
     <div className="flex h-[100vh]">
       <div className="border-r-2 px-8  text-center">
@@ -27,7 +29,9 @@ function DashBoardLayout({ currentTab, setCurrentTab, children }) {
             <LogOut />
           </button>
         </div>
-        <div className="relative h-[80vh] rounded-md bg-white">{children}</div>
+        <div value={currentTab} className="relative h-[80vh] rounded-md bg-white">
+          <Outlet />
+        </div>
       </div>
     </div>
   )

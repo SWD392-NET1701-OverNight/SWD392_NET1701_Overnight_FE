@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { User } from 'lucide-react'
 import { useSelector } from 'react-redux'
@@ -12,7 +12,6 @@ const navItems = [
 
 function Header() {
   const { isAuth } = useSelector((state) => state.auth)
-
   return (
     <header className="border border-b-2 border-[#f6f6f6] px-[14%] py-4">
       <nav className="flex items-center">

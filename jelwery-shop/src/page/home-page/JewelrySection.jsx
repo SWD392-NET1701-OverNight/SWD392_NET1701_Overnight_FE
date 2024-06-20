@@ -8,12 +8,13 @@ function JewelrySection() {
   const { listProduct } = useSelector((state) => state.product)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  useEffect(() => {
-    dispatch({ type: 'PRODUCT_LIST_SAGA' })
-  }, [])
+
   function handleClickProductDetail(productID) {
     navigate(`/product-list/${productID}`)
   }
+  useEffect(() => {
+    dispatch({ type: 'PRODUCT_LIST_SAGA' })
+  }, [])
   return (
     <ContainerSection title="Jewelry">
       {listProduct

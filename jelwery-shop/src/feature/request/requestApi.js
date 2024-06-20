@@ -5,7 +5,7 @@ const requestApi = {
     axiosClient.post(`/api/Request/create-request?UserID=${userId}`, data),
   checkout: (data, userId) => axiosClient.post(`/api/Request/checkout?UserID=${userId}`, data),
   getAllRequest: () => axiosClient.get('/api/Request/get-all-request'),
-  acceptRequest: (id, status) =>
+  acceptRequest: (status, id) =>
     axiosClient.put(`/api/Request/approve-request/${id}?status=${status}`),
 }
 

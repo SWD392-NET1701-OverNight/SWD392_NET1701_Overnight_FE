@@ -12,19 +12,20 @@ const sidebarItems = [
   { title: 'Sign Out', icon: <LogOut /> },
 ]
 function MyAccount() {
-  const { currentUser } = useSelector((state) => state.auth)
+  const { currentUser, isAuth } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const { handleLogOut } = useLogout()
   const [currentTab, setCurrentTab] = useState('My Orders')
-
-  if (currentTab === 'Sign Out') {
-    handleLogOut()
-  }
   useEffect(() => {
-    if (!currentUser.email) {
+    if (!currentUser.email && isAuth) {
       dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser.userID })
     }
-  }, [])
+  }, [currentUser.email, isAuth])
+  useEffect(() => {
+    if (currentTab === 'Sign Out' && isAuth) {
+      handleLogOut()
+    }
+  }, [currentTab, handleLogOut])
 
   return (
     <div className="flex gap-8 px-[14%] pt-[50px]">

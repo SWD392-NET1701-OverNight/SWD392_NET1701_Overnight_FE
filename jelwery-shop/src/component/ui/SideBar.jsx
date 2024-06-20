@@ -1,4 +1,5 @@
 import { Card, List, ListItem, ListItemPrefix } from '@material-tailwind/react'
+import { Link } from 'react-router-dom'
 
 function SideBar({ onCurrentTab, currentTab, sidebarItems }) {
   return (
@@ -15,7 +16,9 @@ function SideBar({ onCurrentTab, currentTab, sidebarItems }) {
                 }}
               >
                 <ListItemPrefix>{item.icon}</ListItemPrefix>
-                <div className="text-base font-medium">{item.title}</div>
+                <div className="text-base font-medium">
+                  {item.link ? <Link to={`${item.link}`}>{item.title}</Link> : item.title}
+                </div>
               </ListItem>
             )
           })}

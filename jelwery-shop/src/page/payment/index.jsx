@@ -1,8 +1,8 @@
 import { Check, CircleAlert } from 'lucide-react'
+import { useSelector } from 'react-redux'
 import { Link, useSearchParams } from 'react-router-dom'
 import requestApi from '../../feature/request/requestApi'
 import { sendHttp } from '../../utils/send-http'
-import { useSelector } from 'react-redux'
 
 function Payment() {
   const { currentUser } = useSelector((state) => state.auth)
@@ -13,6 +13,7 @@ function Payment() {
     description: 'ac',
     status: 'Pending',
     productID: productId,
+    type: 1,
   }
 
   async function createRequest() {
@@ -22,9 +23,8 @@ function Payment() {
     })
   }
 
-  createRequest()
   return (
-    <div className=" center h-[100vh] px-[14%]">
+    <div className="center h-[100vh] px-[14%] ">
       <div className="space-y-4">
         <div className="center w-full ">
           {search === 'success' ? (

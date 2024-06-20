@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Button from '../../component/ui/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -7,12 +7,14 @@ import { toast } from 'sonner'
 import PriceItem from './PriceItem'
 import { sendHttp } from '../../utils/send-http'
 import requestApi from '../../feature/request/requestApi'
+import productApi from '../../feature/product/productApi'
 
 function ProductDetail() {
   const { productId } = useParams()
   const { currentUser } = useSelector((state) => state.auth)
   const { productDetail } = useSelector((state) => state.product)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const totalPrice =
     productDetail.priceMaterial + productDetail.processPrice + productDetail.priceDesign
   async function handleBuyNow() {
@@ -39,7 +41,12 @@ function ProductDetail() {
       window.location.href = resData
     }
   }
-
+  async function handleCustomProduct() {
+    const { status, resData } = await sendHttp(productApi.customProduct, productId)
+    if (status === 'success') {
+      navigate('/custom-product', { state: { customProductId: resData, oldProductId: productId } })
+    }
+  }
   useEffect(() => {
     dispatch({ type: 'PRODUCT_BY_ID_SAGA', payload: productId })
   }, [productId])
@@ -48,7 +55,7 @@ function ProductDetail() {
       <img
         src="https://images.unsplash.com/photo-1611085582956-da557acbc3a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fG5lY2tsYWNlfGVufDB8fDB8fHww"
         alt="necklace"
-        className="image h-[70vh] w-1/2"
+        className="image h-[100vh] w-1/2"
       />
       <div className="w-1/2 px-[7%] py-[2%]">
         <h1 className="title">{productDetail.productName}</h1>
@@ -56,15 +63,15 @@ function ProductDetail() {
           <h3 className="text-lg text-secondary">Category</h3>
           <p className="ml-8 text-base text-third">Ring</p>
         </div>
-
-        <div className="mt-8 flex justify-between">
+        <p className="mt-4 text-lg text-third">{productDetail.description}</p>
+        <div className="mt-4 flex justify-between">
           <PriceItem title="Material Price" price={productDetail.priceMaterial} />
           <PriceItem title="Proccessing Price" price={productDetail.processPrice} />
         </div>
         <div className="mt-8">
           <PriceItem title="Design Price" price={productDetail.priceDesign} />
         </div>
-        <div className="mt-8 flex items-center">
+        <div className="mt-8 flex items-center space-x-4">
           <Button
             type="primary"
             onClick={() => {
@@ -73,7 +80,15 @@ function ProductDetail() {
           >
             Buy Now
           </Button>
-          <p className="ml-8 text-xl font-medium text-secondary">${totalPrice}</p>
+          <Button
+            type="secondary"
+            onClick={() => {
+              handleCustomProduct()
+            }}
+          >
+            Custom
+          </Button>
+          <p className="text-xl font-medium text-secondary">${totalPrice}</p>
         </div>
       </div>
     </div>

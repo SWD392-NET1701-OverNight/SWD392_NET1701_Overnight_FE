@@ -3,13 +3,13 @@ import CardSection from '../../component/ui/CardSection'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Pagination from '../../component/ui/Pagination'
-
+import { caculatePagination } from '../../utils/calculatePagination'
 function ProductList() {
   const navigate = useNavigate()
   const [curentPage, setCurrentPage] = useState(0)
   const { listProduct } = useSelector((state) => state.product)
   const perPage = 6
-  const currentData = calculatePagination(perPage, curentPage, listProduct)
+  const currentData = caculatePagination(perPage, curentPage, listProduct)
   function handleClickProductDetail(productID) {
     navigate(`/product-list/${productID}`)
   }
