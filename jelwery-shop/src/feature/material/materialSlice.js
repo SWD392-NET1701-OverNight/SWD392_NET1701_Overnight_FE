@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { set } from 'react-hook-form'
 
 const initialState = {
   listMaterial: [],
@@ -7,7 +8,11 @@ const initialState = {
 export const materialSlice = createSlice({
   name: 'material',
   initialState,
-  reducers: {},
+  reducers: {
+    setMaterial: (state, action) => {
+      state.listMaterial = action.payload
+    },
+  },
 })
 
 // Action creators are generated for each case reducer function

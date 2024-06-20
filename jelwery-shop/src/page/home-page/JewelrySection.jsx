@@ -19,18 +19,24 @@ function JewelrySection() {
     <ContainerSection title="Jewelry">
       {listProduct
         .slice(0, 4)
-        .map(({ productID, priceMaterial, priceDesign, processPrice, productName }, index) => (
-          <CardSection
-            key={index}
-            className="flex-1"
-            name={productName}
-            onClick={() => handleClickProductDetail(productID)}
-          >
-            <p className="bg-fourth px-2 py-2 text-third">
-              ${priceDesign + priceMaterial + processPrice}
-            </p>
-          </CardSection>
-        ))}
+        .map(
+          (
+            { productID, priceMaterial, description, priceDesign, processPrice, productName },
+            index,
+          ) => (
+            <CardSection
+              key={index}
+              className="flex-1"
+              name={productName}
+              description={description}
+              onClick={() => handleClickProductDetail(productID)}
+            >
+              <p className="bg-fourth px-2 py-2 text-third">
+                ${priceDesign + priceMaterial + processPrice}
+              </p>
+            </CardSection>
+          ),
+        )}
     </ContainerSection>
   )
 }

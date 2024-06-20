@@ -49,5 +49,8 @@
   .active-page-item {
     @apply bg-fourth;
   }
+  .tooltip {
+    @apply z-10 w-80 rounded-md text-xs text-white ring-0;
+  }
   /* Handle on hover */
 }
