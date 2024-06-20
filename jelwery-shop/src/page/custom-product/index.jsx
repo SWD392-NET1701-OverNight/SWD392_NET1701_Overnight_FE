@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { set, useForm } from 'react-hook-form'
 import Button from '../../component/ui/Button'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,6 +49,7 @@ function CustomProduct() {
       productMaterailApi.updateProductMaterial,
       updateProductMaterialData,
       state.customProductId,
+      { success: 'Update product material success', error: 'Update product material failed' },
     )
 
     const requestData = {
@@ -62,7 +63,9 @@ function CustomProduct() {
     if (status === 'success') {
       const { status } = await sendHttp(requestApi.createRequest, requestData, currentUser.userID)
       if (status === 'success') {
-        navigate('/')
+        setTimeout(() => {
+          navigate('/')
+        }, 1000)
       }
     }
   }
