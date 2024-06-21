@@ -1,4 +1,4 @@
-import { set, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import Button from '../../component/ui/Button'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -54,7 +54,7 @@ function CustomProduct() {
 
     const requestData = {
       description: 'test',
-      status: 'Pending',
+      status: 'Processing ',
       productID: state.customProductId,
       image:
         'https://media.istockphoto.com/id/2150388806/fr/photo/femme-bijoutier-produit-%C3%A0-la-main-une-bague-utilise-une-r%C3%A2pe-en-m%C3%A9tal-atelier-dartisanat.webp?b=1&s=170667a&w=0&k=20&c=ow5Z_ntXervWb9NtZ568xca1NUbtPBjeeQeZ0Xyjdxo=',

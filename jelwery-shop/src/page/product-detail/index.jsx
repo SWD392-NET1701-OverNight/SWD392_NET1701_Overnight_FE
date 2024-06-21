@@ -12,7 +12,7 @@ import { Tooltip } from '@material-tailwind/react'
 
 function ProductDetail() {
   const { productId } = useParams()
-  const { currentUser } = useSelector((state) => state.auth)
+  const { currentUser, isAuth } = useSelector((state) => state.auth)
   const { productDetail } = useSelector((state) => state.product)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -24,11 +24,11 @@ function ProductDetail() {
       return
     }
     const checkoutData = {
-      fullName: currentUser.userName,
+      fullName: currentUser.fullName,
       description: 'string',
-      createdDate: '2024-06-11T02:35:29.373Z',
+      createdDate: new Date().toISOString(),
       requestID: 1,
-      amount: totalPrice,
+      amount: 1,
       productID: productId,
     }
 
@@ -51,6 +51,11 @@ function ProductDetail() {
   useEffect(() => {
     dispatch({ type: 'PRODUCT_BY_ID_SAGA', payload: productId })
   }, [productId])
+  useEffect(() => {
+    if (!currentUser.email && isAuth) {
+      dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser.userID })
+    }
+  }, [currentUser.email, isAuth])
   return (
     <div className="flex w-full px-[14%] pt-[50px]">
       <img

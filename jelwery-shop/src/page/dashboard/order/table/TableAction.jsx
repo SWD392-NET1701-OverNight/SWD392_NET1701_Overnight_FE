@@ -12,7 +12,7 @@ function TableAction({ actions, rowId }) {
           <MenuItem
             key={index}
             onClick={() => {
-              item.callback(rowId, item.name === 'Approve' ? 'Approved' : 'Cancel')
+              item.callback(rowId, item.name)
             }}
           >
             {item.name}

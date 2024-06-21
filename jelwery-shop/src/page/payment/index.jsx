@@ -11,7 +11,7 @@ function Payment() {
   const productId = searchParam.get('productID')
   const requestData = {
     description: 'ac',
-    status: 'Pending',
+    status: 'Processing',
     productID: productId,
     type: 1,
   }

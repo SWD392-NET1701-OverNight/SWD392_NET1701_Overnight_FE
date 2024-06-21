@@ -11,7 +11,16 @@ function* getAllRequest() {
     console.error('Failed to get all orders')
   }
 }
-
+function* getRequestByStatus(action) {
+  try {
+    const { status, role } = action.payload
+    const resData = yield call(requestApi.getRequestByStatus, status, role)
+    yield put(requestAction.setListRequest(resData))
+  } catch (error) {
+    console.error('Failed to get orders by status')
+  }
+}
 export default function* requestSaga() {
   yield takeEvery('GET_ALL_REQUEST_SAGA', getAllRequest)
+  yield takeEvery('GET_REQUEST_BY_STATUS', getRequestByStatus)
 }

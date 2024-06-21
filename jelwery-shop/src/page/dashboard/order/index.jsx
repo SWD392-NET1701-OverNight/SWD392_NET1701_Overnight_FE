@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react'
 import Pagination from '../../../component/ui/Pagination'
 import Table from './table'
 import { caculatePagination } from '../../../utils/calculatePagination'
-
+import { jwtDecode } from 'jwt-decode'
 import { useDispatch, useSelector } from 'react-redux'
 import requestApi from '../../../feature/request/requestApi'
 import { requestAction } from '../../../feature/request/requestSlice'
 import { sendHttp } from '../../../utils/send-http'
+import { getToken } from '../../../utils/auth'
+import { authAction } from '../../../feature/auth/authSlice'
+import { convertStatus } from '../../../utils/convertStatus'
 const TABLE_HEAD = ['Id', 'Order', 'Date', 'Total', 'Status', 'Action']
 const TABLE_BODY = [
   { id: 1, order: 'Order 1', date: '2021-09-01', total: 100, status: 'Pending' },
@@ -21,6 +24,7 @@ const TABLE_BODY = [
 
 function OrderManager() {
   const dispatch = useDispatch()
+  const { currentUser } = useSelector((state) => state.auth)
   const { listRequest } = useSelector((state) => state.request)
   const { listProduct } = useSelector((state) => state.product)
   const [currentPage, setCurrentPage] = useState(0)
@@ -32,7 +36,15 @@ function OrderManager() {
     const total = priceDesign + priceMaterial + processPrice
     return { id, order: description, date: date.toLocaleDateString(), total, status }
   })
-  async function handleUpdateStatus(id, statusUpdate) {
+  async function handleUpdateStatus(id, statusChange) {
+    let statusUpdate = statusChange
+    if (currentUser?.roleID === 2 && statusChange === 'Approve') {
+      statusUpdate = 'In-Production'
+    } else if (currentUser?.roleID === 3 && statusChange === 'Approve') {
+      statusUpdate = 'Pending'
+    } else if (currentUser?.roleID === 4 && statusChange === 'Approve') {
+      statusUpdate = 'Done'
+    }
     const { status } = await sendHttp(requestApi.acceptRequest, statusUpdate, id, {
       success: 'Update success',
       error: 'Update fail',
@@ -49,13 +61,22 @@ function OrderManager() {
       callback: handleUpdateStatus,
     },
   ]
-  const perPage = 6
+  const perPage = 3
   const currentData = caculatePagination(perPage, currentPage, tableData)
 
   useEffect(() => {
     if (listProduct.length === 0) dispatch({ type: 'PRODUCT_LIST_SAGA' })
-    dispatch({ type: 'GET_ALL_REQUEST_SAGA' })
-  }, [])
+    const status = convertStatus(currentUser?.roleID)
+    if (currentUser?.roleID === 2) {
+      dispatch({ type: 'GET_ALL_REQUEST_SAGA' })
+    } else {
+      dispatch({
+        type: 'GET_REQUEST_BY_STATUS',
+        payload: { status, role: currentUser?.roleID },
+      })
+    }
+  }, [listProduct.length === 0])
+
   return (
     <>
       <div className="flex items-center justify-between px-8 py-3">
