@@ -5,11 +5,10 @@ import { Outlet } from 'react-router-dom'
 import SideBar from '../../component/ui/SideBar'
 import { useLogout } from '../../hooks/useLogout'
 const sidebarItems = [
-  { title: 'Statistics', icon: <UserRound /> },
-  { title: 'Products', icon: <UserRound /> },
-  { title: 'Categories', icon: <BookMinus /> },
-  { title: 'Orders', icon: <ShoppingCart /> },
-  { title: 'Customers', icon: <UserRound /> },
+  { title: 'Orders', icon: <ShoppingCart />, link: '/dashboard' },
+  { title: 'Categories', icon: <Package />, link: '/dashboard/category' },
+  { title: 'Products', icon: <ShoppingBag />, link: '/dashboard/product' },
+  { title: 'Customers', icon: <UserRound />, link: '/dashboard/customer' },
 ]
 function DashBoardLayout() {
   const { handleLogOut } = useLogout()
