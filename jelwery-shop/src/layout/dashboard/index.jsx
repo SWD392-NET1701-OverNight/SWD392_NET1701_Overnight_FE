@@ -1,9 +1,10 @@
-import { LogOut, UserRound } from 'lucide-react'
+import { LogOut, UserRound,BookMinus,ShoppingCart } from 'lucide-react'
 import SideBar from '../../component/ui/SideBar'
 const sidebarItems = [
+  { title: 'Statistics', icon: <UserRound /> },
   { title: 'Products', icon: <UserRound /> },
-  { title: 'Categories', icon: <UserRound /> },
-  { title: 'Orders', icon: <UserRound /> },
+  { title: 'Categories', icon: <BookMinus /> },
+  { title: 'Orders', icon: <ShoppingCart /> },
   { title: 'Customers', icon: <UserRound /> },
 ]
 
