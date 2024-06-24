@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { Link, useSearchParams } from 'react-router-dom'
 import requestApi from '../../feature/request/requestApi'
 import { sendHttp } from '../../utils/send-http'
+import { useEffect } from 'react'
 
 function Payment() {
   const { currentUser } = useSelector((state) => state.auth)
@@ -22,7 +23,9 @@ function Payment() {
       error: 'Payment Failed',
     })
   }
-
+  useEffect(() => {
+    if (search === 'success') createRequest()
+  }, [])
   return (
     <div className="center h-[100vh] px-[14%] ">
       <div className="space-y-4">

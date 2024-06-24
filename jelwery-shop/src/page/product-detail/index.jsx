@@ -28,7 +28,7 @@ function ProductDetail() {
       description: 'string',
       createdDate: new Date().toISOString(),
       requestID: 1,
-      amount: 1,
+      amount: totalPrice * 100,
       productID: productId,
     }
 
