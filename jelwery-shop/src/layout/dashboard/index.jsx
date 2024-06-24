@@ -1,4 +1,3 @@
-import { LogOut, UserRound,BookMinus,ShoppingCart } from 'lucide-react'
 import { LogOut, Package, ShoppingBag, ShoppingCart, UserRound } from 'lucide-react'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
