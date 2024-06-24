@@ -32,9 +32,9 @@ function MyProfile() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <Input label="Your Name" id="name" {...register('fullName')} />
-      <Input label="Your Name" id="name" {...register('email')} />
-      <Input label="Your Name" id="name" {...register('phoneNum')} />
-      <Input label="Your Name" id="name" {...register('address')} />
+      <Input label="Email" id="email" {...register('email')} />
+      <Input label="Phone Number" id="phoneNum" {...register('phoneNum')} />
+      <Input label="Address" id="address" {...register('address')} />
       <div>
         <Button className="mt-8 bg-fourth text-third">Change</Button>
       </div>

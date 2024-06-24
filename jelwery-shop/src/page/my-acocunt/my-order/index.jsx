@@ -8,10 +8,10 @@ function MyOrder() {
   const { listRequest } = useSelector((state) => state.request)
   const { listProduct } = useSelector((state) => state.product)
   const dispatch = useDispatch()
-  const listRequestById = listRequest?.filter((item) => item.userID === currentUser?.userId)
+  const listRequestById = listRequest?.filter((item) => item.userID === currentUser?.userID)
   const isEmptyOrder = listRequestById?.length === 0
   useEffect(() => {
-    if (!listProduct) {
+    if (listProduct.length === 0) {
       dispatch({ type: 'PRODUCT_LIST_SAGA' })
     }
     setTimeout(() => {
@@ -22,14 +22,15 @@ function MyOrder() {
     <div
       className={`scrollbar h-[80vh] space-y-10 ${isEmptyOrder ? '' : 'overflow-y-scroll'} pr-6`}
     >
-      {listRequestById?.map(({ id, createDate, status, productID }) => {
+      {listRequestById?.map(({ id, createDate, status, productID }, index) => {
         const date = new Date(createDate)
+
         const { priceDesign, priceMaterial, processPrice } = listProduct?.find(
           (item) => item.productID === productID,
         )
         const total = priceDesign + priceMaterial + processPrice
         return (
-          <>
+          <div key={index}>
             <div className="space-y-2 bg-fourth px-[8%] py-4">
               <HeadingOrderCard title={`Order no:${id}`} />
               <div className="flex justify-between">
@@ -50,7 +51,7 @@ function MyOrder() {
               </div>
             </div>
             <div className="h-2 w-full rounded-lg bg-fourth"></div>
-          </>
+          </div>
         )
       })}
       {isEmptyOrder && (

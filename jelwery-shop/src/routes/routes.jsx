@@ -3,11 +3,12 @@ import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import RootLayout from '../layout/common'
 import AuthLayout from '../layout/auth'
-import Dashboard from '../page/dashboard'
+import DashBoardLayout from '../layout/dashboard'
 
 const Login = lazy(() => import('../auth/Login'))
 const Register = lazy(() => import('../auth/Register'))
 const ForgetPassword = lazy(() => import('../auth/ForgetPassword'))
+
 const HomePage = lazy(() => import('../page/home-page'))
 const AboutPage = lazy(() => import('../page/about-page'))
 const ProductList = lazy(() => import('../page/product-list'))
@@ -15,6 +16,12 @@ const MyAccount = lazy(() => import('../page/my-acocunt'))
 const ProductDetail = lazy(() => import('../page/product-detail'))
 const Blog = lazy(() => import('../page/blog-page'))
 const Payment = lazy(() => import('../page/payment'))
+const CustomProduct = lazy(() => import('../page/custom-product'))
+
+const OrderManager = lazy(() => import('../page/dashboard/order'))
+const CategoryManager = lazy(() => import('../page/dashboard/category'))
+const ProductManager = lazy(() => import('../page/dashboard/product'))
+const CustomerManager = lazy(() => import('../page/dashboard/customer'))
 const router = createBrowserRouter([
   {
     path: '/',
@@ -49,6 +56,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense>
             <ProductDetail />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'custom-product',
+        element: (
+          <Suspense>
+            <CustomProduct />
           </Suspense>
         ),
       },
@@ -109,8 +124,42 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/dashboard',
-    element: <Dashboard />,
+    path: 'dashboard',
+    element: <DashBoardLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense>
+            <OrderManager />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'category',
+        element: (
+          <Suspense>
+            <CategoryManager />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'product',
+        element: (
+          <Suspense>
+            <ProductManager />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'customer',
+        element: (
+          <Suspense>
+            <CustomerManager />
+          </Suspense>
+        ),
+      },
+    ],
   },
 ])
 export default router

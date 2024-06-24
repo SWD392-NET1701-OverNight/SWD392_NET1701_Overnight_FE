@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { loginSchema } from '../schema/index'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 function Login() {
-  const { isAuth } = useSelector((state) => state.auth)
+  const { isAuth, currentUser } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {
@@ -19,11 +20,17 @@ function Login() {
   const onSubmit = async (data) => {
     dispatch({ type: 'LOGIN_SAGA', payload: data })
   }
-  if (isAuth) {
-    setTimeout(() => {
-      navigate('/')
-    }, 1200)
-  }
+  useEffect(() => {
+    if (isAuth) {
+      setTimeout(() => {
+        if (currentUser.role === 6) {
+          navigate('/')
+        } else {
+          navigate('/dashboard')
+        }
+      }, 1200)
+    }
+  }, [isAuth])
   return (
     <>
       <ContainerAuth title="Sign In Page">
