@@ -61,11 +61,31 @@ function CustomProduct() {
       type: 2,
     }
     if (status === 'success') {
-      const { status } = await sendHttp(requestApi.createRequest, requestData, currentUser.userID)
+      const { status, resData } = await sendHttp(
+        requestApi.createRequest,
+        requestData,
+        currentUser.userID,
+      )
+      const checkoutData = {
+        fullName: currentUser.fullName,
+        description: 'ac',
+        createdDate: new Date().toISOString(),
+        requestID: resData.data.id,
+        amount: 10000,
+        productID: resData.data.productID.toString(),
+      }
+      console.log(checkoutData)
       if (status === 'success') {
-        setTimeout(() => {
-          navigate('/')
-        }, 1000)
+        console.log(checkoutData)
+        const { status, resData } = await sendHttp(
+          requestApi.checkout,
+          checkoutData,
+          currentUser.userID,
+          { success: 'Go to checkout page', error: '' },
+        )
+        if (status === 'success') {
+          window.location.href = resData
+        }
       }
     }
   }

@@ -23,7 +23,7 @@ function Login() {
   useEffect(() => {
     if (isAuth) {
       setTimeout(() => {
-        if (currentUser.role === 6) {
+        if (currentUser.roleID === 6) {
           navigate('/')
         } else {
           navigate('/dashboard')
