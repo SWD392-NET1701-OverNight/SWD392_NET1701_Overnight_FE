@@ -1,0 +1,46 @@
+.blog-post {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    margin-bottom: 30px;
+  }
+  
+  .blog-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  .blog-meta {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  .blog-picture {
+    width: 50%;
+    height: 50%;
+    display: block;
+    margin-bottom: 20px;
+    border-radius: 15px; /* Optional: if you want rounded corners for the picture */
+  }
+  
+  .blog-content {
+    border: 5px ; /* Gold border */
+    background-color: #F9F7DF;
+    border-radius: 15px; /* Border radius for square with rounded corners */
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    margin: auto; /* Center the content */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+  }
+  
+  .blog-content p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
