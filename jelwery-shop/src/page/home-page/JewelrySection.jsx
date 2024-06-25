@@ -18,7 +18,7 @@ function JewelrySection() {
   return (
     <ContainerSection title="Jewelry">
       {listProduct
-        .slice(0, 4)
+        ?.slice(0, 4)
         .map(
           (
             { productID, priceMaterial, description, priceDesign, processPrice, productName },

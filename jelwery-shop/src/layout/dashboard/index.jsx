@@ -1,6 +1,6 @@
 import { LogOut, Package, ShoppingBag, ShoppingCart, UserRound } from 'lucide-react'
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import SideBar from '../../component/ui/SideBar'
 import { useLogout } from '../../hooks/useLogout'
 const sidebarItems = [
@@ -11,12 +11,17 @@ const sidebarItems = [
 ]
 function DashBoardLayout() {
   const { handleLogOut } = useLogout()
+  const navigate = useNavigate()
   const [currentTab, setCurrentTab] = useState('Orders')
+  function handleSetTab(tab, link) {
+    navigate(link)
+    setCurrentTab(tab)
+  }
   return (
     <div className="flex h-[100vh]">
       <div className="border-r-2 px-8  text-center">
         <div className="title py-[6vh]">Dashboard</div>
-        <SideBar sidebarItems={sidebarItems} currentTab={currentTab} onCurrentTab={setCurrentTab} />
+        <SideBar sidebarItems={sidebarItems} currentTab={currentTab} onSetTab={handleSetTab} />
       </div>
       <div className="w-full bg-fourth px-8">
         <div className="flex justify-end py-[6vh] ">

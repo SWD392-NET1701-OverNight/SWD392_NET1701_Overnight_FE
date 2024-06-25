@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import HeadingOrderCard from '../HeadingOrderCard'
 import ParagraphOrderCard from '../ParagraphOrderCard'
 import { Link } from 'react-router-dom'
+import { Tooltip } from '@material-tailwind/react'
 function MyOrder() {
   const { currentUser } = useSelector((state) => state.auth)
   const { listRequest } = useSelector((state) => state.request)
@@ -25,12 +26,12 @@ function MyOrder() {
       {listRequestById?.map(({ id, createDate, status, productID }, index) => {
         const date = new Date(createDate)
 
-        const { priceDesign, priceMaterial, processPrice } = listProduct?.find(
+        const { priceDesign, priceMaterial, processPrice, productName } = listProduct?.find(
           (item) => item.productID === productID,
         )
         const total = priceDesign + priceMaterial + processPrice
         return (
-          <div key={index}>
+          <div key={index} className="w-full">
             <div className="space-y-2 bg-fourth px-[8%] py-4">
               <HeadingOrderCard title={`Order no:${id}`} />
               <div className="flex justify-between">
@@ -44,10 +45,14 @@ function MyOrder() {
                 alt="jewelry"
                 className="image w-[140px] rounded-lg"
               />
-              <div className="flex h-full flex-col justify-between">
-                <HeadingOrderCard title="" />
+              <div className="flex h-full w-full flex-col justify-between">
+                <Tooltip content={<p className="tooltip">{productName}</p>}>
+                  <h3 className="w-[300px] truncate text-2xl font-semibold text-secondary">
+                    {productName}
+                  </h3>
+                </Tooltip>
                 <ParagraphOrderCard title="Catogory" value="Necklace" />
-                <ParagraphOrderCard title="Total" value={`$${total}`} />
+                <ParagraphOrderCard title="Total" value={`${total * 100}`} />
               </div>
             </div>
             <div className="h-2 w-full rounded-lg bg-fourth"></div>

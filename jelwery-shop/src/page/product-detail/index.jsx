@@ -17,7 +17,7 @@ function ProductDetail() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const totalPrice =
-    productDetail.priceMaterial + productDetail.processPrice + productDetail.priceDesign
+    productDetail.materialPrice + productDetail.processPrice + productDetail.designPrice
   async function handleBuyNow() {
     if (!getToken()) {
       toast.error('Please login to buy this product')
@@ -25,9 +25,8 @@ function ProductDetail() {
     }
     const checkoutData = {
       fullName: currentUser.fullName,
-      description: 'string',
+      description: 'Buy product',
       createdDate: new Date().toISOString(),
-      requestID: 1,
       amount: totalPrice * 100,
       productID: productId,
     }
@@ -49,13 +48,13 @@ function ProductDetail() {
     }
   }
   useEffect(() => {
-    dispatch({ type: 'PRODUCT_BY_ID_SAGA', payload: productId })
+    dispatch({ type: 'PRODUCT_DETAIL_SAGA', payload: productId })
   }, [productId])
   useEffect(() => {
     if (!currentUser.email && isAuth) {
       dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser.userID })
     }
-  }, [currentUser.email, isAuth])
+  }, [currentUser?.email, isAuth])
   return (
     <div className="flex w-full px-[14%] pt-[50px]">
       <img
@@ -67,18 +66,28 @@ function ProductDetail() {
         <h1 className="title">{productDetail.productName}</h1>
         <div className="mt-2 flex items-center">
           <h3 className="text-lg text-secondary">Category</h3>
-          <p className="ml-8 text-base text-third">Ring</p>
+          <p className="ml-8 text-base text-third">{productDetail.categoryName}</p>
         </div>
         <Tooltip content={<p className="tooltip">{productDetail.description}</p>}>
           <p className="mt-4 w-full truncate text-lg text-third">{productDetail.description}</p>
         </Tooltip>
 
         <div className="mt-4 flex justify-between">
-          <PriceItem title="Material Price" price={productDetail.priceMaterial} />
+          <PriceItem title="Material Price" price={productDetail.materialPrice} />
           <PriceItem title="Proccessing Price" price={productDetail.processPrice} />
         </div>
         <div className="mt-8">
-          <PriceItem title="Design Price" price={productDetail.priceDesign} />
+          <PriceItem title="Design Price" price={productDetail.designPrice} />
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="mt-4 text-lg text-secondary">Material</p>
+          <ul className="flex list-none gap-2">
+            {productDetail?.materials?.$values.map(({ materialName }, index) => (
+              <li key={index} className="text-lg text-gray-700">
+                {materialName}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="mt-8 flex items-center space-x-4">
           <Button
