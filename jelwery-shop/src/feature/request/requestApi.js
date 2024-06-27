@@ -10,6 +10,7 @@ const requestApi = {
     axiosClient.get(`/api/Request/get-request-by-status?role=${role}&status=${status}`),
   acceptRequest: (status, id) =>
     axiosClient.put(`/api/Request/approve-request/${id}?status=${status}`),
+getRequestStatistic: () => axiosClient.get('/api/Request/get-request-by-Date'),  
 }
 
 export default requestApi

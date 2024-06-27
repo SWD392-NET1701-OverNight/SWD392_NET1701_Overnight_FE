@@ -1,7 +1,11 @@
 import React from 'react'
 
 function CategoryManager() {
-  return <div>Category</div>
+  return <div>
+    
+
+    
+  </div>
 }
 
 export default CategoryManager
