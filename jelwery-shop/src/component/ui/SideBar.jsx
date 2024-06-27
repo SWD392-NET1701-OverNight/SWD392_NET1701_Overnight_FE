@@ -1,7 +1,6 @@
 import { Card, List, ListItem, ListItemPrefix } from '@material-tailwind/react'
-import { Link } from 'react-router-dom'
 
-function SideBar({ onCurrentTab, currentTab, sidebarItems }) {
+function SideBar({ onSetTab, currentTab, sidebarItems }) {
   return (
     <>
       <Card className="rounded-none shadow-none">
@@ -12,13 +11,11 @@ function SideBar({ onCurrentTab, currentTab, sidebarItems }) {
                 className={`rounded-none ${currentTab === item.title ? 'bg-blue-gray-50 bg-opacity-80 text-blue-gray-900' : ''}`}
                 key={index}
                 onClick={() => {
-                  onCurrentTab(item.title)
+                  onSetTab(item.title, item.link)
                 }}
               >
                 <ListItemPrefix>{item.icon}</ListItemPrefix>
-                <div className="text-base font-medium">
-                  {item.link ? <Link to={`${item.link}`}>{item.title}</Link> : item.title}
-                </div>
+                <div className="text-base font-medium">{item.title}</div>
               </ListItem>
             )
           })}

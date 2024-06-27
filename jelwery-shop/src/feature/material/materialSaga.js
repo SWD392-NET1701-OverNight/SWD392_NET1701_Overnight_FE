@@ -3,9 +3,9 @@ import { call, put, takeEvery } from 'redux-saga/effects'
 import materialApi from './materialApi'
 import { materialAction } from './materialSlice'
 
-function* getMaterial() {
+function* getAllMaterial() {
   try {
-    const resData = yield call(materialApi.getMateiral)
+    const resData = yield call(materialApi.getAllMateiral)
     if (resData.data) {
       yield put(materialAction.setMaterial(resData.data))
       return
@@ -16,5 +16,5 @@ function* getMaterial() {
   }
 }
 export default function* materialSaga() {
-  yield takeEvery('GET_LIST_MATERIAL_SAGA', getMaterial)
+  yield takeEvery('GET_LIST_MATERIAL_SAGA', getAllMaterial)
 }

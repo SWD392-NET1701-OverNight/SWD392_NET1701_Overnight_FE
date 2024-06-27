@@ -16,6 +16,9 @@ function MyAccount() {
   const dispatch = useDispatch()
   const { handleLogOut } = useLogout()
   const [currentTab, setCurrentTab] = useState('My Orders')
+  function handleClickTab(tab, link = null) {
+    setCurrentTab(tab)
+  }
   useEffect(() => {
     if (!currentUser.email && isAuth) {
       dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser.userID })
@@ -33,11 +36,7 @@ function MyAccount() {
         <HeadingSection title={`Hello ${currentUser?.fullName}`} />
         <p className="mt-2 text-third">Welcome to your Account</p>
         <aside className="mt-[30px]">
-          <SideBar
-            onCurrentTab={setCurrentTab}
-            currentTab={currentTab}
-            sidebarItems={sidebarItems}
-          />
+          <SideBar onSetTab={handleClickTab} currentTab={currentTab} sidebarItems={sidebarItems} />
         </aside>
       </div>
       <div className="w-2/3">

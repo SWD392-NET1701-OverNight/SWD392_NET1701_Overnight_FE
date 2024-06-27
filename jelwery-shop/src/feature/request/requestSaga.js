@@ -6,7 +6,7 @@ import { requestAction } from './requestSlice'
 function* getAllRequest() {
   try {
     const resData = yield call(requestApi.getAllRequest)
-    yield put(requestAction.setListRequest(resData))
+    yield put(requestAction.setListRequest(resData.$values))
   } catch (error) {
     console.error('Failed to get all orders')
   }
