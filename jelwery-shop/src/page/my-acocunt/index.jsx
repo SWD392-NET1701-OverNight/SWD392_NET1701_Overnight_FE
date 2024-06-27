@@ -6,9 +6,11 @@ import MyOrder from './my-order'
 import MyProfile from './my-profile'
 import { LogOut, ShoppingBag, UserRound } from 'lucide-react'
 import { useLogout } from '../../hooks/useLogout'
+import MyTransaction from './my-transaction'
 const sidebarItems = [
   { title: 'My Orders', icon: <ShoppingBag /> },
   { title: 'My Profile', icon: <UserRound /> },
+  { title: 'My Transaction', icon: <ShoppingBag /> },
   { title: 'Sign Out', icon: <LogOut /> },
 ]
 function MyAccount() {
@@ -44,6 +46,7 @@ function MyAccount() {
         <div className="mt-[64px]">
           {currentTab === 'My Orders' && <MyOrder />}
           {currentTab === 'My Profile' && <MyProfile />}
+          {currentTab === 'My Transactions' && <MyTransaction />}
         </div>
       </div>
     </div>

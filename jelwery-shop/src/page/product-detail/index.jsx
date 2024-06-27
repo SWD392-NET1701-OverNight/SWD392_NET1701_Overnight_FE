@@ -9,6 +9,7 @@ import { sendHttp } from '../../utils/send-http'
 import requestApi from '../../feature/request/requestApi'
 import productApi from '../../feature/product/productApi'
 import { Tooltip } from '@material-tailwind/react'
+import { jwtDecode } from 'jwt-decode'
 
 function ProductDetail() {
   const { productId } = useParams()
@@ -24,6 +25,7 @@ function ProductDetail() {
       return
     }
     const checkoutData = {
+      UserID: "US00005",
       fullName: currentUser.fullName,
       description: 'Buy product',
       createdDate: new Date().toISOString(),
