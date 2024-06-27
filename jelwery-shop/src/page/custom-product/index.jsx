@@ -1,21 +1,22 @@
 import { useForm } from 'react-hook-form'
 import Button from '../../component/ui/Button'
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { Tooltip } from '@material-tailwind/react'
 
 import { sendHttp } from '../../utils/send-http'
 import productMaterailApi from '../../feature/product-material/productMaterialApi'
-import requestApi from '../../feature/request/requestApi'
-import { getToken } from '../../utils/auth'
+import { useCheckout } from '../../hooks'
 
 function CustomProduct() {
   const { state } = useLocation()
+  const dispatch = useDispatch()
   const { productDetail } = useSelector((state) => state.product)
-  const { currentUser } = useSelector((state) => state.auth)
+  const { listMaterial } = useSelector((state) => state.material)
   const [productMaterials, setProductMaterials] = useState([...productDetail.materials.$values])
   const { register, handleSubmit } = useForm()
+  const { handeCheckout } = useCheckout()
   function handleChangeQuantity(e) {
     const { name, value } = e.target
     const id = Number(name)
@@ -28,10 +29,10 @@ function CustomProduct() {
       }),
     )
   }
-  const totalPriceMaterials = productMaterials.reduce(
-    (acc, { quantity, price }) => acc + quantity * price,
-    0,
-  )
+  const totalPriceMaterials = productMaterials?.reduce((acc, { quantity, materialID }) => {
+    const material = listMaterial?.find((material) => material.materialID === materialID)
+    return acc + quantity * material?.price
+  }, 0)
   const onSubmit = async (data) => {
     const { status } = await sendHttp(
       productMaterailApi.updateProductMaterial,
@@ -41,30 +42,12 @@ function CustomProduct() {
       false,
     )
     if (status === 'success') {
-      if (!getToken()) {
-        toast.error('Please login to buy this product')
-        return
-      }
-      const checkoutData = {
-        fullName: currentUser.fullName,
-        description: 'Buy product',
-        createdDate: new Date().toISOString(),
-        amount: totalPriceMaterials,
-        productID: state.customProductId,
-      }
-
-      const { status, resData } = await sendHttp(
-        requestApi.checkout,
-        checkoutData,
-        currentUser.userId,
-        { success: 'Go to checkout page', error: '' },
-      )
-      if (status === 'success') {
-        window.location.href = resData
-      }
+      handeCheckout(state.customProductId, totalPriceMaterials)
     }
   }
-
+  useEffect(() => {
+    dispatch({ type: 'GET_LIST_MATERIAL_SAGA' })
+  }, [])
   return (
     <div className="flex w-full px-[14%] pt-[50px]">
       <img
@@ -83,24 +66,26 @@ function CustomProduct() {
         </Tooltip>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-4 flex flex-wrap items-center gap-4">
-            {productDetail?.materials.$values?.map(
-              ({ materialName, materialID, quantity, price }, index) => (
+            {productMaterials?.map(({ materialName, materialID, quantity }, index) => {
+              const material = listMaterial?.find((material) => material.materialID === materialID)
+              return (
                 <div key={index} className="center gap-4">
                   <label htmlFor={index} className="text-lg text-secondary">
                     {materialName}
                   </label>
                   <input
                     type="number"
-                    className="ml-4 rounded-md border border-gray-300 px-2 py-2 text-center outline-none"
+                    className="ml-4 flex-1 rounded-md border border-gray-300 px-2 py-2 text-center outline-none"
                     {...register(`${materialID}`)}
                     onChange={handleChangeQuantity}
                     defaultValue={quantity}
-                    min={4}
+                    min={1}
+                    required
                   />
-                  <p className="text-lg text-third">{price} VND</p>
+                  <p className="text-nowrap text-lg text-third">1g / {material?.prices} VND</p>
                 </div>
-              ),
-            )}
+              )
+            })}
           </div>
           <div className="flex gap-4">
             <Button type="primary" className="mt-4">
