@@ -15,7 +15,7 @@ function* getRequestByStatus(action) {
   try {
     const { status, role } = action.payload
     const resData = yield call(requestApi.getRequestByStatus, status, role)
-    yield put(requestAction.setListRequest(resData))
+    yield put(requestAction.setListRequest(resData.$values))
   } catch (error) {
     console.error('Failed to get orders by status')
   }

@@ -2,13 +2,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Button from '../../component/ui/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getToken } from '../../utils/auth'
-import { toast } from 'sonner'
 import PriceItem from './PriceItem'
 import { sendHttp } from '../../utils/send-http'
-import requestApi from '../../feature/request/requestApi'
 import productApi from '../../feature/product/productApi'
 import { Tooltip } from '@material-tailwind/react'
+import { useCheckout } from '../../hooks'
 
 function ProductDetail() {
   const { productId } = useParams()
@@ -16,33 +14,20 @@ function ProductDetail() {
   const { productDetail } = useSelector((state) => state.product)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { handeCheckout } = useCheckout()
   const totalPrice =
     productDetail.materialPrice + productDetail.processPrice + productDetail.designPrice
   async function handleBuyNow() {
-    if (!getToken()) {
-      toast.error('Please login to buy this product')
-      return
-    }
-    const checkoutData = {
-      fullName: currentUser.fullName,
-      description: 'Buy product',
-      createdDate: new Date().toISOString(),
-      amount: totalPrice * 100,
-      productID: productId,
-    }
-
-    const { status, resData } = await sendHttp(
-      requestApi.checkout,
-      checkoutData,
-      currentUser.userId,
-      { success: 'Go to checkout page', error: '' },
-    )
-    if (status === 'success') {
-      window.location.href = resData
-    }
+    handeCheckout(productId, totalPrice * 100)
   }
   async function handleCustomProduct() {
-    const { status, resData } = await sendHttp(productApi.customProduct, productId)
+    const { status, resData } = await sendHttp(
+      productApi.customProduct,
+      productId,
+      null,
+      null,
+      false,
+    )
     if (status === 'success') {
       navigate('/custom-product', { state: { customProductId: resData.data } })
     }

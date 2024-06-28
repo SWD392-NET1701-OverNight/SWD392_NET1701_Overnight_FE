@@ -6,8 +6,9 @@ import { materialAction } from './materialSlice'
 function* getAllMaterial() {
   try {
     const resData = yield call(materialApi.getAllMateiral)
+    console.log('a')
     if (resData.data) {
-      yield put(materialAction.setMaterial(resData.data))
+      yield put(materialAction.setMaterial(resData.data.$values))
       return
     }
     toast.error(resData.message || 'Get material failed')
