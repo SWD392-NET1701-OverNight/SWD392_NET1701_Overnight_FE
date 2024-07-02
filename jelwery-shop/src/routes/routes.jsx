@@ -17,6 +17,7 @@ const ProductDetail = lazy(() => import('../page/product-detail'))
 const Blog = lazy(() => import('../page/blog-page'))
 const Payment = lazy(() => import('../page/payment'))
 const CustomProduct = lazy(() => import('../page/custom-product'))
+const RequestDesign = lazy(() => import('../page/request-design'))
 
 const OrderManager = lazy(() => import('../page/dashboard/order'))
 const OrderDetail = lazy(() => import('../page/dashboard/order-detail'))
@@ -92,6 +93,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense>
             <Payment />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'request-design',
+        element: (
+          <Suspense>
+            <RequestDesign />
           </Suspense>
         ),
       },

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MyOrder from './my-order'
 import MyProfile from './my-profile'
 import { LogOut, ShoppingBag, UserRound } from 'lucide-react'
-import { useLogout } from '../../hooks/useLogout'
+import { useLogout } from '../../hooks'
 import MyTransaction from './my-transaction'
 const sidebarItems = [
   { title: 'My Orders', icon: <ShoppingBag /> },
@@ -46,7 +46,7 @@ function MyAccount() {
         <div className="mt-[64px]">
           {currentTab === 'My Orders' && <MyOrder />}
           {currentTab === 'My Profile' && <MyProfile />}
-          {currentTab === 'My Transactions' && <MyTransaction />}
+          {currentTab === 'My Transaction' && <MyTransaction />}
         </div>
       </div>
     </div>

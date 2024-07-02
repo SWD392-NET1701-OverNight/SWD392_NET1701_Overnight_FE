@@ -2,7 +2,7 @@ import { LogOut, Package, ShoppingBag, ShoppingCart, UserRound,PieChart,Anvil,Br
 import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import SideBar from '../../component/ui/SideBar'
-import { useLogout } from '../../hooks/useLogout'
+import { useLogout } from '../../hooks'
 const sidebarItems = [
   { title: 'Orders', icon: <ShoppingCart />, link: '/dashboard' },
   { title: 'Categories', icon: <Package />, link: '/dashboard/category' },

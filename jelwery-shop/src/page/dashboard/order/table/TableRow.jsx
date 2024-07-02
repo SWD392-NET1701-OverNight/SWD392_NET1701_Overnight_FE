@@ -1,6 +1,6 @@
-import TableAction from './TableAction'
+import ModalOrder from '../modal'
 
-function TableRow({ TABLE_BODY, actions }) {
+function TableRow({ TABLE_BODY }) {
   return (
     <tbody className="h-full text-center">
       {TABLE_BODY.map((row, index) => {
@@ -14,7 +14,7 @@ function TableRow({ TABLE_BODY, actions }) {
               </td>
             ))}
             <td className={styleName}>
-              <TableAction actions={actions} rowId={row.id} />
+              <ModalOrder orderId={row.requestId} />
             </td>
           </tr>
         )
