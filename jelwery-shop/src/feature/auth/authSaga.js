@@ -22,7 +22,7 @@ function* authRequest(action) {
 }
 function* getUserById(action) {
   try {
-    const resData = yield call(authAPI.getUerById, action.payload)
+    const resData = yield call(authAPI.getUserById, action.payload)
 
     if (resData) {
       yield put(authAction.login(resData))

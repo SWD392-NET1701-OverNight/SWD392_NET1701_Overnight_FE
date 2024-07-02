@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MyOrder from './my-order'
 import MyProfile from './my-profile'
 import { LogOut, ShoppingBag, UserRound } from 'lucide-react'
-import { useLogout } from '../../hooks/useLogout'
+import { useLogout } from '../../hooks'
 const sidebarItems = [
   { title: 'My Orders', icon: <ShoppingBag /> },
   { title: 'My Profile', icon: <UserRound /> },

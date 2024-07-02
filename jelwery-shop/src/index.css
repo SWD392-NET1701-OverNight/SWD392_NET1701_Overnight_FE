@@ -16,6 +16,9 @@
   .center {
     @apply flex items-center justify-center;
   }
+  .center-space {
+    @apply flex items-center justify-between;
+  }
   .title {
     @apply text-2xl font-bold text-heading;
   }
