@@ -1,4 +1,4 @@
-import { LogOut, Package, ShoppingBag, ShoppingCart, UserRound,PieChart,Anvil,Brush  } from 'lucide-react'
+import { LogOut, Package, ShoppingBag, ShoppingCart, UserRound,PieChart,Anvil,Brush,PackageCheck  } from 'lucide-react'
 import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import SideBar from '../../component/ui/SideBar'
@@ -11,6 +11,8 @@ const sidebarItems = [
   { title: 'Statistics', icon:  <PieChart />, link: '/dashboard/statictis' },
   { title: 'Quotations', icon:  <Anvil />, link: '/dashboard/statictis' },
   { title: 'Design', icon:  <Brush  />, link: '/dashboard/design' },
+  { title: 'Materials', icon:  <PackageCheck   />, link: '/dashboard/materials' },
+
 ]
 function DashBoardLayout() {
   const { handleLogOut } = useLogout()

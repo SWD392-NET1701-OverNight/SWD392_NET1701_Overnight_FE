@@ -25,6 +25,8 @@ const ProductManager = lazy(() => import('../page/dashboard/product'))
 const CustomerManager = lazy(() => import('../page/dashboard/customer'))
 const StatisticManager = lazy(() => import('../page/dashboard/statistic'))
 const DesignManager = lazy(() => import('../page/dashboard/design'))
+const MaterialManager = lazy(() => import('../page/dashboard/materials'))
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -183,6 +185,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense>
             <DesignManager />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'materials',
+        element: (
+          <Suspense>
+            <MaterialManager />
           </Suspense>
         ),
       },
