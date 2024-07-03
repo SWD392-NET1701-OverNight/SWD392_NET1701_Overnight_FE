@@ -49,7 +49,7 @@ function OrderManager() {
   }, [])
   useEffect(() => {
     setTableData(listData)
-  }, [listData.length])
+  }, [listData])
   return (
     <>
       <div className="flex items-center justify-between px-8 py-3">
