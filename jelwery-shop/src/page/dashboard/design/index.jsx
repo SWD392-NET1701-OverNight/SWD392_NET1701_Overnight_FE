@@ -14,9 +14,10 @@ function DesignManager() {
     createDate: ''
   });
   const [editDesign, setEditDesign] = useState({
-    designID: '',
+    designID: 0,
     createBy: '',
     picture: '',
+    old_Picture: '', // Added for managing old picture URL
     description: '',
     createDate: ''
   });
@@ -113,28 +114,73 @@ function DesignManager() {
 
   function handleEditDesign(design) {
     setEditDesign({
-      designID: design.id, // Make sure to set the designID from the design object
+      ...editDesign,
+      designID: design.designID, // Make sure this matches your design object property name
       createBy: design.createBy,
       picture: design.picture,
+      old_Picture: design.old_Picture, // Ensure old picture URL is correctly set
       description: design.description,
       createDate: design.createDate
     });
     setShowEditDialog(true);
     setFileSelected(true); // Assuming the picture already exists
   }
+  
 
+  // function handleEditSubmit(event) {
+  //   event.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append('designID', editDesign.designID);
+  //   formData.append('createBy', editDesign.createBy);
+  //   formData.append('description', editDesign.description);
+  //   formData.append('createDate', editDesign.createDate);
+
+  //   // Check if picture has changed
+  //   if (editDesign.picture !== editDesign.old_Picture) {
+  //     formData.append('picture', editDesign.picture);
+  //     formData.append('old_Picture', editDesign.old_Picture);
+  //   } else {
+  //     formData.append('old_Picture', ''); // Ensure server handles empty string correctly
+  //   }
+
+  //   console.log("???",formData);
+  //   axios.put(`https://localhost:7147/api/Design/Update-design`, formData)
+  //     .then(response => {
+  //       console.log("Design updated successfully:", response.data);
+  //       setShowEditDialog(false);
+  //       fetchData();
+  //     })
+  //     .catch(error => {
+  //       console.error("Error updating design:", error);
+  //     });
+  // }
   function handleEditSubmit(event) {
     event.preventDefault();
-    axios.put(`https://localhost:7147/api/Design/update-design`, editDesign)
-      .then(response => {
-        console.log("Design updated successfully:", response.data);
-        setShowEditDialog(false);
-        fetchData();
-      })
-      .catch(error => {
-        console.error("Error updating design:", error);
-      });
+
+    const requestData = {
+      designID: editDesign.designID,
+      createBy: editDesign.createBy,
+      description: editDesign.description,
+      createDate: editDesign.createDate,
+      picture: editDesign.picture,
+      old_Picture: editDesign.old_Picture
+    };
+
+    axios.put(`https://localhost:7147/api/Design/Update-design`, requestData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      console.log("Design updated successfully:", response.data);
+      setShowEditDialog(false);
+      fetchData();
+    })
+    .catch(error => {
+      console.error("Error updating design:", error);
+    });
   }
+  
 
   if (loading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
