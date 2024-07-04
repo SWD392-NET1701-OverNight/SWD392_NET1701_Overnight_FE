@@ -30,7 +30,7 @@ function MyAccount() {
     if (currentTab === 'Sign Out' && isAuth) {
       handleLogOut()
     }
-  }, [currentTab, handleLogOut])
+  }, [currentTab])
 
   return (
     <div className="flex gap-8 px-[14%] pt-[50px]">

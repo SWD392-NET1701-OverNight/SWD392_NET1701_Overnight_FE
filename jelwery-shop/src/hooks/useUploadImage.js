@@ -18,5 +18,5 @@ export function useUploadImage() {
       },
     )
   }, [])
-  return { hanldeUpload: () => widgetRef.current.open(), imageUrl }
+  return { hanldeUpload: () => widgetRef.current.open(), imageUrl, onSetImageUrl: setImageUrl }
 }

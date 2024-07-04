@@ -4,6 +4,8 @@ import Table from './table'
 import { caculatePagination } from '../../../utils/calculatePagination'
 import { useDispatch, useSelector } from 'react-redux'
 import { convertStatus } from '../../../utils/convertStatus'
+import { getToken } from '../../../utils/auth'
+import { jwtDecode } from 'jwt-decode'
 const TABLE_HEAD = ['Id', 'Order', 'Date', 'Total', 'Status', 'Action']
 
 function OrderManager() {
@@ -15,10 +17,10 @@ function OrderManager() {
   const [tableData, setTableData] = useState([])
   const listData = listRequest?.map(({ id, createDate, description, status, productID }) => {
     const date = new Date(createDate)
-    const { priceDesign, priceMaterial, processPrice } = listProduct?.find(
-      (item) => item.productID === productID,
-    )
-    const total = priceDesign + priceMaterial + processPrice
+    const product = listProduct?.find((item) => {
+      return item.productID === productID
+    })
+    const total = product?.priceDesign + product?.priceMaterial + product?.processPrice
     return { requestId: id, order: description, date: date.toLocaleDateString(), total, status }
   })
 
@@ -26,9 +28,15 @@ function OrderManager() {
   const dataSlice = caculatePagination(perPage, currentPage, tableData)
   function handleSearch(e) {
     const searchVale = e.target.value
-    const currentData = listData.filter(
-      ({ requestId, status }) => requestId === Number(searchVale) || status === searchVale,
-    )
+    let currentData = listData.filter(({ requestId }) => requestId === Number(searchVale))
+
+    if (currentData.length === 0 && searchVale !== '') {
+      currentData = listData.filter(({ status }) => {
+        if (status) {
+          return status.includes(searchVale)
+        }
+      })
+    }
     if (searchVale === '') {
       setTableData(listData)
       return
@@ -46,10 +54,16 @@ function OrderManager() {
         payload: { status, role: currentUser?.roleID },
       })
     }
+  }, [currentUser?.roleID])
+  useEffect(() => {
+    if (getToken()) {
+      const { userId } = jwtDecode(getToken())
+      dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: userId })
+    }
   }, [])
   useEffect(() => {
     setTableData(listData)
-  }, [listData])
+  }, [JSON.stringify(listData)])
   return (
     <>
       <div className="flex items-center justify-between px-8 py-3">

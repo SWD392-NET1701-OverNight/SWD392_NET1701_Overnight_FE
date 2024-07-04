@@ -20,7 +20,6 @@ const CustomProduct = lazy(() => import('../page/custom-product'))
 const RequestDesign = lazy(() => import('../page/request-design'))
 
 const OrderManager = lazy(() => import('../page/dashboard/order'))
-const OrderDetail = lazy(() => import('../page/dashboard/order-detail'))
 const CategoryManager = lazy(() => import('../page/dashboard/category'))
 const ProductManager = lazy(() => import('../page/dashboard/product'))
 const CustomerManager = lazy(() => import('../page/dashboard/customer'))
@@ -144,14 +143,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense>
             <OrderManager />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'order-detail/:orderId',
-        element: (
-          <Suspense>
-            <OrderDetail />
           </Suspense>
         ),
       },

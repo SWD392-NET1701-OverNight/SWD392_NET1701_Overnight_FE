@@ -52,7 +52,14 @@ function ModalOrder({ orderId }) {
   }, [isOpen])
   return (
     <>
-      <Modal triggerButton={<Eye />} open={isOpen} handler={handleClickModal}>
+      <button
+        onClick={() => {
+          handleClickModal()
+        }}
+      >
+        <Eye />
+      </button>
+      <Modal open={isOpen} handler={handleClickModal}>
         <div className=" px-4 py-2">
           <div className="center-space">
             <div className="space-y-2">

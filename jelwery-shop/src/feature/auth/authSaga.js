@@ -33,8 +33,20 @@ function* getUserById(action) {
     toast.error(e.response.data.message || 'Get user failed')
   }
 }
-
+function* getAllUser() {
+  try {
+    const resData = yield call(authAPI.getAllUser)
+    if (resData) {
+      yield put(authAction.setAllUser(resData.$values))
+      return
+    }
+    toast.error(resData.message || 'Get all user failed')
+  } catch (e) {
+    toast.error(e.response.data.message || 'Get all user failed')
+  }
+}
 export default function* authSaga() {
   yield takeEvery('LOGIN_SAGA', authRequest)
   yield takeEvery('GET_USER_BY_ID_SAGA', getUserById)
+  yield takeEvery('GET_ALL_USER_SAGA', getAllUser)
 }
