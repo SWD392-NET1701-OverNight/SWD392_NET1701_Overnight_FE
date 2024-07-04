@@ -20,6 +20,7 @@ const sidebarItems = [
   { title: 'Statistics', icon: <PieChart />, link: '/dashboard/statictis' },
   { title: 'Quotations', icon: <Anvil />, link: '/dashboard/statictis' },
   { title: 'Design', icon: <Brush />, link: '/dashboard/design' },
+  { title: 'Materials', icon: <PackageCheck />, link: '/dashboard/materials' },
 ]
 function DashBoardLayout() {
   const { handleLogOut } = useLogout()
