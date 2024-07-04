@@ -1,7 +1,7 @@
 import React from 'react'
 
-function AboutPage() {
+function QuotationPage() {
   return <div>AboutPage</div>
 }
 
-export default AboutPage
+export default QuotationPage

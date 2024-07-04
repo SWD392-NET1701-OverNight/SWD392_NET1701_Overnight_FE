@@ -7,7 +7,7 @@ import Button from '../../component/ui/Button'
 const navItems = [
   { name: 'Home', url: '/' },
   { name: 'Shop', url: 'product-list' },
-  { name: 'About', url: 'about' },
+  { name: 'Quotation', url: 'quotation' },
 ]
 
 function Header() {

@@ -10,7 +10,7 @@ const Register = lazy(() => import('../auth/Register'))
 const ForgetPassword = lazy(() => import('../auth/ForgetPassword'))
 
 const HomePage = lazy(() => import('../page/home-page'))
-const AboutPage = lazy(() => import('../page/about-page'))
+const QuotationPage = lazy(() => import('../page/quotation'))
 const ProductList = lazy(() => import('../page/product-list'))
 const MyAccount = lazy(() => import('../page/my-acocunt'))
 const ProductDetail = lazy(() => import('../page/product-detail'))
@@ -41,10 +41,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'about',
+        path: 'quotation',
         element: (
           <Suspense>
-            <AboutPage />
+            <QuotationPage />
           </Suspense>
         ),
       },
