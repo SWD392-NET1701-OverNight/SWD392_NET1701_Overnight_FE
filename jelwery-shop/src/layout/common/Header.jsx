@@ -39,10 +39,6 @@ function Header() {
               </Button>
             </>
           ) : (
-            <>
-            <Button type="primary">
-                <Link to="/request-design">Request New Design</Link>
-              </Button>
             <NavLink
               to="my-account"
               className={({ isActive }) => {
@@ -57,7 +53,6 @@ function Header() {
             >
               <User className="text-sm" />
             </NavLink>
-            </>
           )}
         </div>
       </nav>
