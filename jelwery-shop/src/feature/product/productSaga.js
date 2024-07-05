@@ -25,7 +25,7 @@ function* getProductDetail(action) {
     const resData = yield call(productApi.getProductDetail, action.payload)
     yield put(productAction.setProductDetail(resData))
   } catch (e) {
-    toast.error('Get product detail failed!')
+    console.error('Get product detail failed!')
   }
 }
 export default function* productSaga() {

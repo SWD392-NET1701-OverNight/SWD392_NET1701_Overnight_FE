@@ -76,14 +76,19 @@ function CustomerManager() {
       </div>
       <div className="mt-4">
         <Table TABLE_HEAD={TABLE_HEAD} TABLE_BODY={dataSlice} />
+        {tableData.length === 0 && (
+          <p className="mt-20 text-center text-xl font-medium text-third">Not Found</p>
+        )}
       </div>
 
       <div className="absolute bottom-0 right-[50%] translate-x-1/2  pb-4">
-        <Pagination
-          itemLength={tableData.length}
-          perPage={perPage}
-          setCurrentPage={setCurrentPage}
-        />
+        {tableData.length > 0 && (
+          <Pagination
+            itemLength={tableData.length}
+            perPage={perPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
       </div>
       <ModalCreateUser handler={handleOpenModal} open={openModal} />
     </>

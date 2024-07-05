@@ -16,10 +16,15 @@ export const requestSlice = createSlice({
       const requestItem = state.listRequest.find((item) => item.id === id)
       requestItem.status = status
     },
+    updateDesign: (state, action) => {
+      const { id, designID } = action.payload
+      const requestItem = state.listRequest.find((item) => item.id === id)
+      requestItem.designID = designID
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const requestAction = requestSlice.actions
+export const requestActions = requestSlice.actions
 
 export default requestSlice.reducer

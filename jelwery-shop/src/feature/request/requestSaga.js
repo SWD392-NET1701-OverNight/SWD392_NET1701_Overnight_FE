@@ -1,12 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { toast } from 'sonner'
 import requestApi from './requestApi'
-import { requestAction } from './requestSlice'
+import { requestActions } from './requestSlice'
 
 function* getAllRequest() {
   try {
     const resData = yield call(requestApi.getAllRequest)
-    yield put(requestAction.setListRequest(resData.$values))
+    yield put(requestActions.setListRequest(resData.$values))
   } catch (error) {
     console.error('Failed to get all orders')
   }
@@ -15,7 +15,7 @@ function* getRequestByStatus(action) {
   try {
     const { status, role } = action.payload
     const resData = yield call(requestApi.getRequestByStatus, status, role)
-    yield put(requestAction.setListRequest(resData.$values))
+    yield put(requestActions.setListRequest(resData.$values))
   } catch (error) {
     console.error('Failed to get orders by status')
   }

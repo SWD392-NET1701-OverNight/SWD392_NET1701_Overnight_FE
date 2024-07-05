@@ -11,7 +11,7 @@ function RequestDesign() {
   const { currentUser } = useSelector((state) => state.auth)
   const [error, setError] = useState({ image: false, description: false })
   const { hanldeUpload, onSetImageUrl, imageUrl } = useUploadImage()
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!getToken()) {
       toast.error('Please login to create a request')
@@ -37,7 +37,7 @@ function RequestDesign() {
       type: 3,
       status: 'Processing',
     }
-    const { status } = sendHttp(requestApi.createRequest, requestData, currentUser.userId, {
+    const { status } = await sendHttp(requestApi.createRequest, requestData, currentUser.userId, {
       success: 'Request created successfully',
       error: 'Request creation failed',
     })

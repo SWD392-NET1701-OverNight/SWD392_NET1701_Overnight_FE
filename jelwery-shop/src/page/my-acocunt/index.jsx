@@ -43,7 +43,7 @@ function MyAccount() {
           <SideBar onSetTab={handleClickTab} currentTab={currentTab} sidebarItems={sidebarItems} />
         </aside>
       </div>
-      <div className="w-2/3">
+      <div className="relative w-2/3">
         <h2 className="title">{currentTab}</h2>
         <div className="mt-[64px]">
           {currentTab === 'My Orders' && <MyOrder />}

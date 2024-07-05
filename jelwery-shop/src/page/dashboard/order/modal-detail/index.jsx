@@ -7,17 +7,30 @@ import authAPI from '../../../../feature/auth/authApi'
 import OrderDisplay from '../OrderDisplay'
 import { convertUpdateStatus } from '../../../../utils/convertStatus'
 import requestApi from '../../../../feature/request/requestApi'
-import { requestAction } from '../../../../feature/request/requestSlice'
+import { requestActions } from '../../../../feature/request/requestSlice'
+import { productAction } from '../../../../feature/product/productSlice'
+import ModalCreateDesign from '../modal-create-design'
+import ModalCreateProduct from '../modal-create-product'
 
 function ModalOrder({ orderId }) {
   const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.auth)
-  const [customer, setCustomer] = useState({})
+  const { listDesign } = useSelector((state) => state.design)
   const { productDetail } = useSelector((state) => state.product)
-  const [isOpen, setIsOpen] = useState(false)
   const { listRequest } = useSelector((state) => state.request)
+  const [customer, setCustomer] = useState({})
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenCreateDesign, setIsOpenCreateDesign] = useState(false)
+  const [isOpenCreateProduct, setIsOpenCreateProduct] = useState(false)
+
   function handleClickModal() {
     setIsOpen((prev) => !prev)
+  }
+  function handleClickCreateDesign() {
+    setIsOpenCreateDesign((prev) => !prev)
+  }
+  function handleClickCreateProduct() {
+    setIsOpenCreateProduct((prev) => !prev)
   }
   async function getUserProduct(userID) {
     const { status, resData } = await sendGetHttp(authAPI.getUserById, userID, null, false)
@@ -27,6 +40,10 @@ function ModalOrder({ orderId }) {
   }
 
   const orderInfo = listRequest?.find((item) => item.id === orderId)
+  let designItem = listDesign?.find(({ designID }) => designID === productDetail?.designID)
+  if (!designItem) {
+    designItem = listDesign?.find(({ designID }) => designID === orderInfo?.designID)
+  }
   const materialItems = productDetail?.materials?.$values?.map(({ materialName, quantity }) => ({
     materialName,
     quantity,
@@ -40,7 +57,7 @@ function ModalOrder({ orderId }) {
       error: 'Update fail',
     })
     if (status === 'success') {
-      dispatch(requestAction.updateStatus({ id: orderId, status: updatingStatus }))
+      dispatch(requestActions.updateStatus({ id: orderId, status: updatingStatus }))
       handleClickModal()
     }
   }
@@ -48,6 +65,9 @@ function ModalOrder({ orderId }) {
     if (orderInfo?.id && isOpen) {
       getUserProduct(orderInfo?.userID)
       dispatch({ type: 'PRODUCT_DETAIL_SAGA', payload: orderInfo?.productID })
+    }
+    return () => {
+      dispatch(productAction.resetProductDetail())
     }
   }, [isOpen])
   return (
@@ -114,7 +134,12 @@ function ModalOrder({ orderId }) {
           <div className="space-y-4">
             <h2 className="mt-[20px] text-xl font-medium text-black">Product</h2>
             {orderInfo?.type === 3 && !productDetail?.productName && (
-              <button className="btn bg-fourth text-lg font-medium text-third">
+              <button
+                className="btn bg-fourth text-lg font-medium text-third"
+                onClick={() => {
+                  handleClickCreateProduct()
+                }}
+              >
                 Create Product
               </button>
             )}
@@ -136,13 +161,26 @@ function ModalOrder({ orderId }) {
           <div className="flex items-start">
             <div className="w-1/3 space-y-2">
               <h2 className="mt-[20px] text-xl font-medium text-black">Design</h2>
-              <img
-                src={
-                  'https://media.istockphoto.com/id/812998192/fr/photo/goldsmith-de-travail.webp?b=1&s=170667a&w=0&k=20&c=pzhpNZvt1pkDlv8Z3wlWojaSzTub5O3fOEtEHz50sKI='
-                }
-                alt=""
-                className="w-24"
-              />
+              {designItem && (
+                <img
+                  src={
+                    designItem?.picture ||
+                    'https://res.cloudinary.com/dlrpmjdzz/image/upload/v1719537703/Swd391/e16f9ed909f8fe3a9c31ec2bd1d30416.jpg'
+                  }
+                  alt=""
+                  className="w-24"
+                />
+              )}
+              {!designItem?.picture && (
+                <button
+                  className="btn bg-fourth text-lg font-medium text-third"
+                  onClick={() => {
+                    handleClickCreateDesign()
+                  }}
+                >
+                  Create Design
+                </button>
+              )}
             </div>
             {productDetail?.productName && (
               <>
@@ -172,6 +210,12 @@ function ModalOrder({ orderId }) {
           </div>
         </div>
       </Modal>
+      <ModalCreateDesign
+        open={isOpenCreateDesign}
+        handler={handleClickCreateDesign}
+        orderInfo={orderInfo}
+      />
+      <ModalCreateProduct open={isOpenCreateProduct} handler={handleClickCreateProduct} />
     </>
   )
 }

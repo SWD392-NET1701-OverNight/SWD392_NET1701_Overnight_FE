@@ -6,7 +6,7 @@ import { sendHttp } from '../utils/send-http'
 
 export function useCheckout() {
   const { currentUser } = useSelector((state) => state.auth)
-  async function handeCheckout(productId, totalPrice) {
+  async function handeCheckout(productId, totalPrice, type) {
     if (!getToken()) {
       toast.error('Please login to buy this product')
       return
@@ -15,12 +15,12 @@ export function useCheckout() {
 
     const checkoutData = {
       UserID: userId,
-      description: 'Buy product',
+      description: type,
       createdDate: new Date().toISOString(),
       amount: totalPrice,
       productID: productId,
     }
-    console.log(checkoutData)
+
     const { status, resData } = await sendHttp(requestApi.checkout, checkoutData, userId, {
       success: 'Go to checkout page',
       error: '',

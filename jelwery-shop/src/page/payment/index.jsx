@@ -1,31 +1,26 @@
 import { Check, CircleAlert } from 'lucide-react'
-import { useSelector } from 'react-redux'
 import { Link, useSearchParams } from 'react-router-dom'
-import requestApi from '../../feature/request/requestApi'
-import { sendHttp } from '../../utils/send-http'
-import { useEffect } from 'react'
 
 function Payment() {
-  const { currentUser } = useSelector((state) => state.auth)
   const [searchParam] = useSearchParams()
   const search = searchParam.get('mode')
   const productId = searchParam.get('productID')
-  const requestData = {
-    description: 'Buy Product',
-    status: 'Processing',
-    productID: productId,
-    type: 1,
-  }
+  // const requestData = {
+  //   description: 'Buy Product',
+  //   status: 'Processing',
+  //   productID: productId,
+  //   type: 1,
+  // }
 
-  async function createRequest() {
-    await sendHttp(requestApi.createRequest, requestData, currentUser.userId, {
-      success: 'Payment Successful',
-      error: 'Payment Failed',
-    })
-  }
-  useEffect(() => {
-    if (search === 'success') createRequest()
-  }, [])
+  // async function createRequest() {
+  //   await sendHttp(requestApi.createRequest, requestData, currentUser.userId, {
+  //     success: 'Payment Successful',
+  //     error: 'Payment Failed',
+  //   })
+  // }
+  // useEffect(() => {
+  //   if (search === 'success') createRequest()
+  // }, [])
   return (
     <div className="center h-[100vh] px-[14%] ">
       <div className="space-y-4">

@@ -15,6 +15,9 @@ export const productSlice = createSlice({
     setProductDetail: (state, action) => {
       state.productDetail = action.payload
     },
+    resetProductDetail: (state) => {
+      state.productDetail = {}
+    },
   },
 })
 

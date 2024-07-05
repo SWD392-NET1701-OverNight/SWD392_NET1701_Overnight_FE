@@ -1,5 +1,3 @@
-import ModalOrder from '../modal-detail'
-
 function TableRow({ TABLE_BODY }) {
   return (
     <tbody className="h-full text-center">
@@ -10,12 +8,9 @@ function TableRow({ TABLE_BODY }) {
           <tr key={index}>
             {col.map((value, index) => (
               <td key={index} className={styleName}>
-                {value || ''}
+                {value}
               </td>
             ))}
-            <td className={styleName}>
-              <ModalOrder orderId={row.requestId} />
-            </td>
           </tr>
         )
       })}

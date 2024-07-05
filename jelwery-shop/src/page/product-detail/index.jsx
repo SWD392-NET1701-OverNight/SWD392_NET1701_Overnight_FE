@@ -18,7 +18,7 @@ function ProductDetail() {
   const totalPrice =
     productDetail.materialPrice + productDetail.processPrice + productDetail.designPrice
   async function handleBuyNow() {
-    handeCheckout(productId, totalPrice * 100)
+    handeCheckout(productId, totalPrice * 100, '1')
   }
   async function handleCustomProduct() {
     const { status, resData } = await sendHttp(

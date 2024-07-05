@@ -42,7 +42,7 @@ function CustomProduct() {
       false,
     )
     if (status === 'success') {
-      handeCheckout(state.customProductId, totalPriceMaterials)
+      handeCheckout(state.customProductId, totalPriceMaterials, '2')
     }
   }
   useEffect(() => {
