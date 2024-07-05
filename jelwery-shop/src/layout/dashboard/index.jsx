@@ -19,7 +19,7 @@ const sidebarItems = [
   { title: 'Products', icon: <ShoppingBag />, link: '/dashboard/product' },
   { title: 'Customers', icon: <UserRound />, link: '/dashboard/customer' },
   { title: 'Statistics', icon: <PieChart />, link: '/dashboard/statictis' },
-  { title: 'Quotations', icon: <Anvil />, link: '/dashboard/statictis' },
+  { title: 'Feedback', icon: <Anvil />, link: '/dashboard/feedback' },
   { title: 'Design', icon: <Brush />, link: '/dashboard/design' },
   { title: 'Materials', icon: <PackageCheck />, link: '/dashboard/materials' },
 ]

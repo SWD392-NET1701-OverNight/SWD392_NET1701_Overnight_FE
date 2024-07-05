@@ -4,13 +4,15 @@ import SideBar from '../../component/ui/SideBar'
 import { useDispatch, useSelector } from 'react-redux'
 import MyOrder from './my-order'
 import MyProfile from './my-profile'
-import { LogOut, ShoppingBag, UserRound } from 'lucide-react'
+import { LogOut, MessageCircle, ShoppingBag, UserRound } from 'lucide-react'
 import { useLogout } from '../../hooks'
 import MyTransaction from './my-transaction'
+import MyFeedback from './my-feeback'
 const sidebarItems = [
   { title: 'My Orders', icon: <ShoppingBag /> },
   { title: 'My Profile', icon: <UserRound /> },
   { title: 'My Transaction', icon: <ShoppingBag /> },
+  { title: 'FeedBack', icon: <MessageCircle /> },
   { title: 'Sign Out', icon: <LogOut /> },
 ]
 function MyAccount() {
@@ -47,6 +49,7 @@ function MyAccount() {
           {currentTab === 'My Orders' && <MyOrder />}
           {currentTab === 'My Profile' && <MyProfile />}
           {currentTab === 'My Transaction' && <MyTransaction />}
+          {currentTab === 'FeedBack' && <MyFeedback />}
         </div>
       </div>
     </div>

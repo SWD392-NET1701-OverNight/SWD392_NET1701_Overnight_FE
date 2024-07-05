@@ -11,7 +11,9 @@ export function useCheckout() {
       toast.error('Please login to buy this product')
       return
     }
+    const userID = currentUser.userID
     const checkoutData = {
+      UserID: userID,
       fullName: currentUser.fullName,
       description: 'Buy product',
       createdDate: new Date().toISOString(),
@@ -19,12 +21,10 @@ export function useCheckout() {
       productID: productId,
     }
 
-    const { status, resData } = await sendHttp(
-      requestApi.checkout,
-      checkoutData,
-      currentUser.userId,
-      { success: 'Go to checkout page', error: '' },
-    )
+    const { status, resData } = await sendHttp(requestApi.checkout, checkoutData, userID, {
+      success: 'Go to checkout page',
+      error: '',
+    })
     if (status === 'success') {
       window.location.href = resData
     }

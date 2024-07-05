@@ -26,10 +26,9 @@ function MyOrder() {
       {listRequestById?.map(({ id, createDate, status, productID }, index) => {
         const date = new Date(createDate)
 
-        const { priceDesign, priceMaterial, processPrice, productName } = listProduct?.find(
-          (item) => item.productID === productID,
-        )
-        const total = priceDesign + priceMaterial + processPrice
+        const product = listProduct?.find((item) => item.productID === productID)
+
+        const total = product?.priceDesign + product?.priceMaterial + product?.processPrice
         return (
           <div key={index} className="w-full">
             <div className="space-y-2 bg-fourth px-[8%] py-4">
@@ -46,9 +45,9 @@ function MyOrder() {
                 className="image w-[140px] rounded-lg"
               />
               <div className="flex h-full w-full flex-col justify-between">
-                <Tooltip content={<p className="tooltip">{productName}</p>}>
+                <Tooltip content={<p className="tooltip">{product?.productName}</p>}>
                   <h3 className="w-[300px] truncate text-2xl font-semibold text-secondary">
-                    {productName}
+                    {product?.productName}
                   </h3>
                 </Tooltip>
                 <ParagraphOrderCard title="Catogory" value="Necklace" />

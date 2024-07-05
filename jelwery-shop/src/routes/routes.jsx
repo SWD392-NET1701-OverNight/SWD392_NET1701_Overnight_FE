@@ -26,6 +26,7 @@ const CustomerManager = lazy(() => import('../page/dashboard/customer'))
 const StatisticManager = lazy(() => import('../page/dashboard/statistic'))
 const DesignManager = lazy(() => import('../page/dashboard/design'))
 const MaterialManager = lazy(() => import('../page/dashboard/materials'))
+const FeedbackManager = lazy(() => import('../page/dashboard/feedback'))
 
 const router = createBrowserRouter([
   {
@@ -193,6 +194,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense>
             <MaterialManager />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'feedback',
+        element: (
+          <Suspense>
+            <FeedbackManager />
           </Suspense>
         ),
       },

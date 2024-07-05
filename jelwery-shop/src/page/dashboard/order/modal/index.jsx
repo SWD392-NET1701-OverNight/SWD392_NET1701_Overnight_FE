@@ -113,40 +113,62 @@ function ModalOrder({ orderId }) {
           </div>
           <div className="space-y-4">
             <h2 className="mt-[20px] text-xl font-medium text-black">Product</h2>
-            <div className="flex  gap-4">
-              <img
-                src="https://plus.unsplash.com/premium_photo-1674255466849-b23fc5f5d3eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8amV3ZWxyeXxlbnwwfHwwfHx8MA%3D%3D"
-                alt=""
-                className="w-24 rounded-lg"
-              />
-              <div className="flex w-[80vh] flex-col justify-between">
-                <h2 className="truncate text-xl text-black">{productDetail?.productName}</h2>
-                <OrderDisplay title="Category:" value={productDetail?.categoryName} />
-                <OrderDisplay title="" value={productDetail?.description} />
+            {orderInfo?.type === 3 && !productDetail?.productName && (
+              <button className="btn bg-fourth text-lg font-medium text-third">
+                Create Product
+              </button>
+            )}
+            {productDetail?.productName && (
+              <div className="flex  gap-4">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1674255466849-b23fc5f5d3eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8amV3ZWxyeXxlbnwwfHwwfHx8MA%3D%3D"
+                  alt=""
+                  className="w-24 rounded-lg"
+                />
+                <div className="flex w-[80vh] flex-col justify-between">
+                  <h2 className="truncate text-xl text-black">{productDetail?.productName}</h2>
+                  <OrderDisplay title="Category:" value={productDetail?.categoryName} />
+                  <OrderDisplay title="" value={productDetail?.description} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="flex items-start">
             <div className="w-1/3 space-y-2">
               <h2 className="mt-[20px] text-xl font-medium text-black">Design</h2>
               <img
-                src="https://media.istockphoto.com/id/812998192/fr/photo/goldsmith-de-travail.webp?b=1&s=170667a&w=0&k=20&c=pzhpNZvt1pkDlv8Z3wlWojaSzTub5O3fOEtEHz50sKI="
+                src={
+                  'https://media.istockphoto.com/id/812998192/fr/photo/goldsmith-de-travail.webp?b=1&s=170667a&w=0&k=20&c=pzhpNZvt1pkDlv8Z3wlWojaSzTub5O3fOEtEHz50sKI='
+                }
                 alt=""
                 className="w-24"
               />
             </div>
-            <div className="w-1/3">
-              <h2 className="mt-[20px] text-xl font-medium text-black">Material</h2>
-              {materialItems?.map(({ materialName, quantity }) => (
-                <OrderDisplay title={materialName + ':'} value={quantity} />
-              ))}
-            </div>
-            <div>
-              <h2 className="mt-[20px] text-xl font-medium text-black">Price</h2>
-              <OrderDisplay title="Material Price:" value={productDetail?.materialPrice + ' VND'} />
-              <OrderDisplay title="Proccess Price:" value={productDetail?.processPrice + ' VND'} />
-              <OrderDisplay title="Proccess Price:" value={productDetail?.designPrice + ' VND'} />
-            </div>
+            {productDetail?.productName && (
+              <>
+                <div className="w-1/3">
+                  <h2 className="mt-[20px] text-xl font-medium text-black">Material</h2>
+                  {materialItems?.map(({ materialName, quantity }) => (
+                    <OrderDisplay title={materialName + ':'} value={quantity} />
+                  ))}
+                </div>
+                <div>
+                  <h2 className="mt-[20px] text-xl font-medium text-black">Price</h2>
+                  <OrderDisplay
+                    title="Material Price:"
+                    value={productDetail?.materialPrice + ' VND'}
+                  />
+                  <OrderDisplay
+                    title="Proccess Price:"
+                    value={productDetail?.processPrice + ' VND'}
+                  />
+                  <OrderDisplay
+                    title="Proccess Price:"
+                    value={productDetail?.designPrice + ' VND'}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </Modal>
