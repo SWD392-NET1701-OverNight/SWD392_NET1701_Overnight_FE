@@ -11,18 +11,21 @@ export function useCheckout() {
       toast.error('Please login to buy this product')
       return
     }
+    const userId = currentUser.userID;
+
+
     const checkoutData = {
-      fullName: currentUser.fullName,
+      UserID: userId,
       description: 'Buy product',
       createdDate: new Date().toISOString(),
       amount: totalPrice,
       productID: productId,
     }
-
+    console.log(checkoutData);
     const { status, resData } = await sendHttp(
       requestApi.checkout,
       checkoutData,
-      currentUser.userId,
+      userId,
       { success: 'Go to checkout page', error: '' },
     )
     if (status === 'success') {
