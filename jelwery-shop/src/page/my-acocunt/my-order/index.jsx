@@ -2,12 +2,13 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import HeadingOrderCard from '../HeadingOrderCard'
 import ParagraphOrderCard from '../ParagraphOrderCard'
-import { Link } from 'react-router-dom'
+import { Link, useNavigation } from 'react-router-dom'
 import { Tooltip } from '@material-tailwind/react'
 function MyOrder() {
   const { currentUser } = useSelector((state) => state.auth)
   const { listRequest } = useSelector((state) => state.request)
   const { listProduct } = useSelector((state) => state.product)
+  const navigation = useNavigation()
   const dispatch = useDispatch()
   const listRequestById = listRequest?.filter((item) => item.userID === currentUser?.userID)
   const isEmptyOrder = listRequestById?.length === 0
@@ -50,8 +51,8 @@ function MyOrder() {
                     {product?.productName}
                   </h3>
                 </Tooltip>
-                <ParagraphOrderCard title="Catogory" value="Necklace" />
-                <ParagraphOrderCard title="Total" value={`${total * 100}`} />
+                <ParagraphOrderCard title="Catogory" value="Test" />
+                <ParagraphOrderCard title="Total" value={`${total * 100 || 0}`} />
               </div>
             </div>
             <div className="h-2 w-full rounded-lg bg-fourth"></div>

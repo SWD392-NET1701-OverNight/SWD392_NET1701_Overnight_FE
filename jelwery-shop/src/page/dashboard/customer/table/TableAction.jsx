@@ -19,6 +19,7 @@ function TableAction({ customer }) {
             onClick={() => {
               handler()
             }}
+            className="text-center text-black"
           >
             Update
           </MenuItem>

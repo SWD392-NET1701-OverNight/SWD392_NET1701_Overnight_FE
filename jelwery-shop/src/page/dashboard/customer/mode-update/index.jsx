@@ -34,6 +34,7 @@ function ModalUpdateUser({ handler, open, customer }) {
     handler()
   }
   const onSubmit = async (data) => {
+    toast.message(JSON.stringify(data))
     const { status } = await sendHttp(authAPI.updateUser, data, customer?.userID, {
       success: 'Create success',
       error: 'Create failed',
@@ -54,10 +55,10 @@ function ModalUpdateUser({ handler, open, customer }) {
         email: customer.email,
       })
     }
-  }, [customer, reset])
+  }, [open])
   return (
     <Modal handler={handler} open={open}>
-      <div className="px-2 py-2">
+      <div className="px-2 py-2 text-black">
         <ContainerAuth title="Sign Up">
           <form className="mt-2 flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             <Input label="Full Name" id="fullName" {...register('fullName')} />

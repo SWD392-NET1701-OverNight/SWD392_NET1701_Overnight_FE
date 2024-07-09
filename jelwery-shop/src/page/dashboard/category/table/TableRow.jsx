@@ -5,7 +5,8 @@ function TableRow({ TABLE_BODY }) {
     <tbody className="h-full text-center">
       {TABLE_BODY.map((row, index) => {
         const col = Object.values(row)
-        const styleName = 'py-3 px-4 text-base text-third '
+        const styleName = 'py-3 px-8 text-base text-third '
+
         return (
           <tr key={index}>
             {col.map((value, index) => (
@@ -14,7 +15,7 @@ function TableRow({ TABLE_BODY }) {
               </td>
             ))}
             <td className={styleName + 'flex justify-center'}>
-              <TableAction customer={row} />
+              <TableAction category={row} />
             </td>
           </tr>
         )

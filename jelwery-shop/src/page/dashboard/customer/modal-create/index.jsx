@@ -32,7 +32,7 @@ function ModalCreateUser({ handler, open }) {
   }
   return (
     <Modal handler={handler} open={open}>
-      <div className="px-2 py-2">
+      <div className="px-2 py-2 text-black">
         <ContainerAuth title="Sign Up">
           <form className="mt-2 flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             <Input label="Username" id="username" {...register('username')} />
