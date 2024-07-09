@@ -18,11 +18,21 @@ export const authSlice = createSlice({
       state.isAuth = false
       localStorage.removeItem('auth-token')
     },
-    updateUser: (state, action) => {
+    updateCurrentUser: (state, action) => {
       state.currentUser = { ...state.currentUser, ...action.payload }
     },
     setAllUser: (state, action) => {
       state.listUser = action.payload
+    },
+    updateUser: (state, action) => {
+      const { userID, dataUpdate } = action.payload
+      const updateUser = state.listUser.map((user) => {
+        if (user.userID === userID) {
+          return { ...user, ...dataUpdate }
+        }
+        return user
+      })
+      state.listUser = updateUser
     },
   },
 })

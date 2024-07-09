@@ -1,4 +1,3 @@
-import { chip } from '@material-tailwind/react'
 import React from 'react'
 
 function Label({ children, id, className }) {

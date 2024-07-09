@@ -26,7 +26,7 @@
     @apply bg-no-repeat object-cover object-center;
   }
   .input {
-    @apply rounded-lg border-2 border-secondary px-4 py-2 outline-none;
+    @apply rounded-lg border-2 border-secondary px-4 py-1 outline-none;
   }
 }
 @tailwind utilities;

@@ -14,7 +14,7 @@ function TableRow({ TABLE_BODY }) {
               </td>
             ))}
             <td className={styleName}>
-              <TableAction />
+              <TableAction customer={row} />
             </td>
           </tr>
         )

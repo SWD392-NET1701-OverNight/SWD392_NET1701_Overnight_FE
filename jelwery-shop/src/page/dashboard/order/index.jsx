@@ -61,7 +61,8 @@ function OrderManager() {
       dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: userId })
     }
     dispatch({ type: 'GET_LIST_DESIGN_SAGA' })
-    dispatch({type:'GET_ALL_CATEGORY_SAGA'})
+    dispatch({ type: 'GET_LIST_MATERIAL_SAGA' })
+    dispatch({ type: 'GET_ALL_CATEGORY_SAGA' })
   }, [])
   useEffect(() => {
     setTableData(listData)
