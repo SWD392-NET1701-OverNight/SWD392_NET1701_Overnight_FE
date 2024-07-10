@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import {
   Card,
   CardHeader,
@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
-} from "@material-tailwind/react";
+} from '@material-tailwind/react'
 
 const ProductManager = () => {
   const [products, setProducts] = useState([]);
@@ -30,20 +30,21 @@ const ProductManager = () => {
   const [searchTerm, setSearchTerm] = useState(""); // State to hold search term
 
   useEffect(() => {
-    axios.get('https://localhost:7147/api/Product/get-all-Products')
-      .then(response => {
-        const data = response.data.$values; // Access the nested $values property
+    axios
+      .get('https://localhost:7147/api/Product/get-all-Products')
+      .then((response) => {
+        const data = response.data.$values // Access the nested $values property
         if (Array.isArray(data)) {
-          setProducts(data);
-          setFilteredProducts(data); // Initialize filteredProducts with all products
+          setProducts(data)
+          setFilteredProducts(data) // Initialize filteredProducts with all products
         } else {
-          console.error('API response is not an array');
+          console.error('API response is not an array')
         }
       })
-      .catch(error => {
-        console.error('There was an error fetching the products!', error);
-      });
-  }, []);
+      .catch((error) => {
+        console.error('There was an error fetching the products!', error)
+      })
+  }, [])
 
   useEffect(() => {
     // Apply filter based on status selection and search term
@@ -57,24 +58,24 @@ const ProductManager = () => {
       );
     }
     setFilteredProducts(filtered);
-  }, [statusFilter, products, searchTerm]);
+  }, [statusFilter, products, searchTerm])
 
   const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case 'available':
-        return 'bg-blue-500';
+        return 'bg-blue-500'
       case 'in-processing':
-        return 'bg-yellow-500';
+        return 'bg-yellow-500'
       case 'done':
-        return 'bg-green-500';
+        return 'bg-green-500'
       default:
-        return 'bg-gray-500';
+        return 'bg-gray-500'
     }
-  };
+  }
 
   const handleReadMoreClick = (product) => {
-    setSelectedProduct(product); // Set selected product for dialog display
-  };
+    setSelectedProduct(product) // Set selected product for dialog display
+  }
 
   const handleCloseDialog = () => {
     setSelectedProduct(null); // Reset selected product when dialog is closed
@@ -176,7 +177,9 @@ const ProductManager = () => {
                 alt={product.productName}
                 className="h-full w-full object-cover object-center"
               />
-              <div className={`absolute bottom-0 left-0 right-0 ${getStatusColor(product.status)} bg-opacity-75 p-2`}>
+              <div
+                className={`absolute bottom-0 left-0 right-0 ${getStatusColor(product.status)} bg-opacity-75 p-2`}
+              >
                 <Typography variant="body2" color="white">
                   {product.status}
                 </Typography>
@@ -187,7 +190,8 @@ const ProductManager = () => {
                 Product Name: {product.productName}
               </Typography>
               <Typography>
-                Created Date: {new Date(product.createDate).toLocaleDateString()} {/* Format createDate */}
+                Created Date: {new Date(product.createDate).toLocaleDateString()}{' '}
+                {/* Format createDate */}
               </Typography>
             </CardBody>
             <CardFooter className="pt-0">
@@ -203,17 +207,12 @@ const ProductManager = () => {
           <>
             <DialogHeader>{selectedProduct.productName}</DialogHeader>
             <DialogBody>
+              <Typography>Product ID: {selectedProduct.productID}</Typography>
+              <Typography>Status: {selectedProduct.status}</Typography>
+              <Typography>Description: {selectedProduct.description}</Typography>
               <Typography>
-                Product ID: {selectedProduct.productID}
-              </Typography>
-              <Typography>
-                Status: {selectedProduct.status}
-              </Typography>
-              <Typography>
-                Description: {selectedProduct.description}
-              </Typography>
-              <Typography>
-                Created Date: {new Date(selectedProduct.createDate).toLocaleString()} {/* Format createDate */}
+                Created Date: {new Date(selectedProduct.createDate).toLocaleString()}{' '}
+                {/* Format createDate */}
               </Typography>
               {/* Add more fields as needed */}
             </DialogBody>
@@ -335,7 +334,7 @@ const ProductManager = () => {
         </DialogFooter>
       </Dialog>
     </div>
-  );
-};
+  )
+}
 
-export default ProductManager;
+export default ProductManager

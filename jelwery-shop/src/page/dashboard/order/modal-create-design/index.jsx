@@ -34,8 +34,9 @@ function ModalCreateDesign({ handler, open, orderInfo }) {
         type: orderInfo?.type,
       }
 
-      const resUpdateReq = await sendHttp(requestApi.updateRequest, requestData, orderInfo?.id)
-      if (resUpdateReq) {
+      const { resData } = await sendHttp(requestApi.updateRequest, requestData, orderInfo?.id)
+
+      if (resData) {
         dispatch(requestActions.updateDesign({ id: orderInfo?.id, designID: designData.designID }))
         handler()
       }

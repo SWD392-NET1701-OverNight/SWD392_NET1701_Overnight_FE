@@ -6,6 +6,7 @@ import requestApi from '../../feature/request/requestApi'
 import { useSelector } from 'react-redux'
 import { getToken } from '../../utils/auth'
 import { useState } from 'react'
+import { set } from 'react-hook-form'
 
 function RequestDesign() {
   const { currentUser } = useSelector((state) => state.auth)
@@ -22,9 +23,13 @@ function RequestDesign() {
     let error = {}
     if (!imageUrl) {
       error.image = true
+    } else {
+      error.image = false
     }
     if (!descriptionObject.description) {
       error.description = true
+    } else {
+      error.description = false
     }
 
     if (error.description || error.image) {
@@ -37,13 +42,15 @@ function RequestDesign() {
       type: 3,
       status: 'Processing',
     }
-    const { status } = await sendHttp(requestApi.createRequest, requestData, currentUser.userId, {
+    const userID = currentUser?.userID
+    const { status } = await sendHttp(requestApi.createRequest, requestData, userID, {
       success: 'Request created successfully',
       error: 'Request creation failed',
     })
     if (status === 'success') {
       e.target.reset()
-      onSetImageUrl(null)
+      onSetImageUrl('')
+      setError({ image: false, description: false })
     }
   }
   return (

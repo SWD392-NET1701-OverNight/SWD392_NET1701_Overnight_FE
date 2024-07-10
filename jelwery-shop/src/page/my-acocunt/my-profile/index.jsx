@@ -26,7 +26,7 @@ function MyProfile() {
       error: 'Update user failed',
     })
     if (status === 'success') {
-      dispatch(authAction.updateUser(data))
+      dispatch(authAction.updateCurrentUser(data))
     }
   }
   return (

@@ -10,7 +10,7 @@ const requestApi = {
   acceptRequest: (status, id) =>
     axiosClient.put(`/api/Request/approve-request/${id}?status=${status}`),
   getRequestStatistic: () => axiosClient.get('/api/Request/get-request-by-Date'),
-  updateRequest: (data, id) => axiosClient.put(`/api/Request/update-request/${id}}`, data),
+  updateRequest: (data, id) => axiosClient.put(`/api/Request/update-request/${id}`, data),
 }
 
 export default requestApi

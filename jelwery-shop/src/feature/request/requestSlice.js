@@ -21,6 +21,11 @@ export const requestSlice = createSlice({
       const requestItem = state.listRequest.find((item) => item.id === id)
       requestItem.designID = designID
     },
+    updateProduct: (state, action) => {
+      const { id, productID } = action.payload
+      const requestItem = state.listRequest.find((item) => item.id === id)
+      requestItem.productID = productID
+    },
   },
 })
 

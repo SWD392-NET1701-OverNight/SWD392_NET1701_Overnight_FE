@@ -1,133 +1,149 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Card, Typography, Input, Button, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import {
+  Card,
+  Typography,
+  Input,
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from '@material-tailwind/react'
 
-const TABLE_HEAD = ["Material ID", "Name", "Price", "Quantity", "Total Price", "Status"];
+const TABLE_HEAD = ['Material ID', 'Name', 'Price', 'Quantity', 'Total Price', 'Status']
 
 export function MaterialManager() {
-  const [materials, setMaterials] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
-  const [searchTerm, setSearchTerm] = useState('');
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editMode, setEditMode] = useState(false);
+  const [materials, setMaterials] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' })
+  const [searchTerm, setSearchTerm] = useState('')
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [editMode, setEditMode] = useState(false)
   const [currentMaterial, setCurrentMaterial] = useState({
     matID: 0,
     name: '',
     price: 0,
     quantity: 0,
     totalPrice: 0,
-    status: ''
-  });
+    status: '',
+  })
 
   useEffect(() => {
-    axios.get('https://localhost:7147/api/Material/get-all-Material')
-      .then(response => {
+    axios
+      .get('https://localhost:7147/api/Material/get-all-Material')
+      .then((response) => {
         if (response.data && response.data.data && response.data.data.$values) {
-          setMaterials(response.data.data.$values);
+          setMaterials(response.data.data.$values)
         } else {
-          setMaterials([]);
+          setMaterials([])
         }
-        setLoading(false);
+        setLoading(false)
       })
-      .catch(error => {
-        console.error("There was an error fetching the materials data!", error);
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+      .catch((error) => {
+        console.error('There was an error fetching the materials data!', error)
+        setError(error)
+        setLoading(false)
+      })
+  }, [])
 
   const sortedMaterials = React.useMemo(() => {
-    let sortableMaterials = [...materials];
+    let sortableMaterials = [...materials]
     if (sortConfig !== null && sortConfig.key !== null) {
       sortableMaterials.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
+          return sortConfig.direction === 'ascending' ? -1 : 1
         }
         if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
+          return sortConfig.direction === 'ascending' ? 1 : -1
         }
-        return 0;
-      });
+        return 0
+      })
     }
-    return sortableMaterials;
-  }, [materials, sortConfig]);
+    return sortableMaterials
+  }, [materials, sortConfig])
 
-  const filteredMaterials = sortedMaterials.filter(material =>
-    material.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredMaterials = sortedMaterials.filter((material) =>
+    material.name?.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
   const requestSort = (key) => {
-    let direction = 'ascending';
+    let direction = 'ascending'
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+      direction = 'descending'
     }
-    setSortConfig({ key, direction });
-  };
+    setSortConfig({ key, direction })
+  }
 
   const getSortIcon = (key) => {
     if (sortConfig.key !== key) {
-      return <span>↕</span>; // Both arrows if not sorted
+      return <span>↕</span> // Both arrows if not sorted
     }
-    return sortConfig.direction === 'ascending' ? <span>↑</span> : <span>↓</span>;
-  };
+    return sortConfig.direction === 'ascending' ? <span>↑</span> : <span>↓</span>
+  }
 
   const handleOpenDialog = (material = null) => {
     if (material) {
-      setEditMode(true);
+      setEditMode(true)
       setCurrentMaterial({
         ...material,
-        matID: material.materialID // Set matID from materialID for edit mode
-      });
+        matID: material.materialID, // Set matID from materialID for edit mode
+      })
     } else {
-      setEditMode(false);
+      setEditMode(false)
       setCurrentMaterial({
         matID: 0,
         name: '',
         price: 0,
         quantity: 0,
         totalPrice: 0,
-        status: ''
-      });
+        status: '',
+      })
     }
-    setDialogOpen(true);
-  };
+    setDialogOpen(true)
+  }
 
   const handleSubmit = () => {
     if (editMode) {
       console.log(currentMaterial)
-      axios.put(`https://localhost:7147/api/Material/update-Material`, currentMaterial)
-        .then(response => {
-          setMaterials(materials.map(material => material.matID === currentMaterial.matID ? currentMaterial : material));
-          handleOpenDialog();
+      axios
+        .put(`https://localhost:7147/api/Material/update-Material`, currentMaterial)
+        .then((response) => {
+          setMaterials(
+            materials.map((material) =>
+              material.matID === currentMaterial.matID ? currentMaterial : material,
+            ),
+          )
+          handleOpenDialog()
         })
-        .catch(error => {
-          console.error("There was an error updating the material!", error);
-        });
+        .catch((error) => {
+          console.error('There was an error updating the material!', error)
+        })
     } else {
-      axios.post('https://localhost:7147/api/Material/create-Material', currentMaterial)
-        .then(response => {
-          setMaterials([...materials, response.data]);
-          handleOpenDialog();
+      axios
+        .post('https://localhost:7147/api/Material/create-Material', currentMaterial)
+        .then((response) => {
+          setMaterials([...materials, response.data])
+          handleOpenDialog()
         })
-        .catch(error => {
-          console.error("There was an error creating the new material!", error);
-        });
+        .catch((error) => {
+          console.error('There was an error creating the new material!', error)
+        })
     }
-  };
+  }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (error) {
-    return <div>Error fetching data</div>;
+    return <div>Error fetching data</div>
   }
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="w-72">
           <Input
             color="blue"
@@ -135,12 +151,14 @@ export function MaterialManager() {
             type="text"
             placeholder="Search by name"
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            className="px-2 py-1 border"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border px-2 py-1"
           />
         </div>
         <div className="flex w-max gap-4">
-          <Button onClick={() => handleOpenDialog()} variant="outlined">Create new Material</Button>
+          <Button onClick={() => handleOpenDialog()} variant="outlined">
+            Create new Material
+          </Button>
         </div>
       </div>
 
@@ -151,15 +169,18 @@ export function MaterialManager() {
               {TABLE_HEAD.map((head, index) => (
                 <th
                   key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 cursor-pointer"
-                  onClick={() => requestSort(index === 0 ? 'materialID' : head.toLowerCase().replace(' ', ''))}
+                  className="cursor-pointer border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                  onClick={() =>
+                    requestSort(index === 0 ? 'materialID' : head.toLowerCase().replace(' ', ''))
+                  }
                 >
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal leading-none opacity-70 flex items-center"
+                    className="flex items-center font-normal leading-none opacity-70"
                   >
-                    {head} {getSortIcon(index === 0 ? 'materialID' : head.toLowerCase().replace(' ', ''))}
+                    {head}{' '}
+                    {getSortIcon(index === 0 ? 'materialID' : head.toLowerCase().replace(' ', ''))}
                   </Typography>
                 </th>
               ))}
@@ -167,40 +188,42 @@ export function MaterialManager() {
             </tr>
           </thead>
           <tbody>
-            {filteredMaterials.map(material => (
+            {filteredMaterials.map((material) => (
               <tr key={material.materialID}>
-                <td className="p-4 border-b border-blue-gray-50">
+                <td className="border-b border-blue-gray-50 p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {material.materialID}
                   </Typography>
                 </td>
-                <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
+                <td className="border-b border-blue-gray-50 bg-blue-gray-50/50 p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {material.name}
                   </Typography>
                 </td>
-                <td className="p-4 border-b border-blue-gray-50">
+                <td className="border-b border-blue-gray-50 p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {material.price}
                   </Typography>
                 </td>
-                <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
+                <td className="border-b border-blue-gray-50 bg-blue-gray-50/50 p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {material.quantity}
                   </Typography>
                 </td>
-                <td className="p-4 border-b border-blue-gray-50">
+                <td className="border-b border-blue-gray-50 p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {material.totalPrice}
                   </Typography>
                 </td>
-                <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
+                <td className="border-b border-blue-gray-50 bg-blue-gray-50/50 p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {material.status}
                   </Typography>
                 </td>
-                <td className="p-4 border-b border-blue-gray-50">
-                  <Button onClick={() => handleOpenDialog(material)} variant="outlined">Edit</Button>
+                <td className="border-b border-blue-gray-50 p-4">
+                  <Button onClick={() => handleOpenDialog(material)} variant="outlined">
+                    Edit
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -219,27 +242,29 @@ export function MaterialManager() {
             <Input
               label="Name"
               value={currentMaterial.name}
-              onChange={e => setCurrentMaterial({ ...currentMaterial, name: e.target.value })}
+              onChange={(e) => setCurrentMaterial({ ...currentMaterial, name: e.target.value })}
             />
             <Input
               label="Price"
               value={currentMaterial.price}
-              onChange={e => setCurrentMaterial({ ...currentMaterial, price: e.target.value })}
+              onChange={(e) => setCurrentMaterial({ ...currentMaterial, price: e.target.value })}
             />
             <Input
               label="Quantity"
               value={currentMaterial.quantity}
-              onChange={e => setCurrentMaterial({ ...currentMaterial, quantity: e.target.value })}
+              onChange={(e) => setCurrentMaterial({ ...currentMaterial, quantity: e.target.value })}
             />
             <Input
               label="Total Price"
               value={currentMaterial.totalPrice}
-              onChange={e => setCurrentMaterial({ ...currentMaterial, totalPrice: e.target.value })}
+              onChange={(e) =>
+                setCurrentMaterial({ ...currentMaterial, totalPrice: e.target.value })
+              }
             />
             <Input
               label="Status"
               value={currentMaterial.status}
-              onChange={e => setCurrentMaterial({ ...currentMaterial, status: e.target.value })}
+              onChange={(e) => setCurrentMaterial({ ...currentMaterial, status: e.target.value })}
             />
           </div>
         </DialogBody>
@@ -253,7 +278,7 @@ export function MaterialManager() {
         </DialogFooter>
       </Dialog>
     </div>
-  );
+  )
 }
 
-export default MaterialManager;
+export default MaterialManager

@@ -64,12 +64,14 @@ function ModalOrder({ orderId }) {
   useEffect(() => {
     if (orderInfo?.id && isOpen) {
       getUserProduct(orderInfo?.userID)
+    }
+    if (orderInfo?.productID) {
       dispatch({ type: 'PRODUCT_DETAIL_SAGA', payload: orderInfo?.productID })
     }
     return () => {
       dispatch(productAction.resetProductDetail())
     }
-  }, [isOpen])
+  }, [isOpen, orderInfo?.productID])
   return (
     <>
       <button
@@ -93,7 +95,8 @@ function ModalOrder({ orderId }) {
               </p>
             </div>
             <div className="flex h-[30%] items-center gap-4">
-              {orderInfo?.status !== 'Done' && (
+              {((orderInfo?.status !== 'Done' && currentUser.roleID === 3) ||
+                orderInfo.status === 'Pending') && (
                 <>
                   <button
                     className="btn bg-green-400 text-white"
@@ -186,8 +189,8 @@ function ModalOrder({ orderId }) {
               <>
                 <div className="w-1/3">
                   <h2 className="mt-[20px] text-xl font-medium text-black">Material</h2>
-                  {materialItems?.map(({ materialName, quantity }) => (
-                    <OrderDisplay title={materialName + ':'} value={quantity} />
+                  {materialItems?.map(({ materialName, quantity }, index) => (
+                    <OrderDisplay key={index} title={materialName + ':'} value={quantity} />
                   ))}
                 </div>
                 <div>
@@ -215,7 +218,11 @@ function ModalOrder({ orderId }) {
         handler={handleClickCreateDesign}
         orderInfo={orderInfo}
       />
-      <ModalCreateProduct open={isOpenCreateProduct} handler={handleClickCreateProduct} />
+      <ModalCreateProduct
+        open={isOpenCreateProduct}
+        handler={handleClickCreateProduct}
+        orderInfo={orderInfo}
+      />
     </>
   )
 }
