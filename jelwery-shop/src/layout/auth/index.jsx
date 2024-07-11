@@ -1,6 +1,14 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import AuthImg from '/assets/image/background.jpg'
+import { getToken } from '../../utils/auth'
+import { useEffect } from 'react'
 function AuthLayout() {
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (getToken()) {
+      navigate('/')
+    }
+  }, [])
   return (
     <main className=" flex h-screen w-full">
       <div className="flex-1">

@@ -167,7 +167,7 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
                     handleChangeQuantity(e, index)
                   }}
                 />
-                <p className="text-third"> {item?.price} VND</p>
+                <p className="text-third"> {item?.price || 0} VND</p>
               </div>
             ))}
           </div>

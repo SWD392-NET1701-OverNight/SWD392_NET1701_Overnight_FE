@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { loginSchema } from '../schema/index'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
+import ErrorInput from '../component/ui/ErrorInput'
 function Login() {
   const { isAuth, currentUser } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
@@ -36,9 +37,9 @@ function Login() {
       <ContainerAuth title="Sign In Page">
         <form className="mt-10 flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
           <Input label="Username" id="username" {...register('username')} />
-          {errors.username?.message && <span>{errors.username?.message}</span>}
+          {errors.username?.message && <ErrorInput>{errors.username?.message}</ErrorInput>}
           <Input label="Password" id="password" {...register('password')} type="password" />
-          {errors.password?.message && <span>{errors.password?.message}</span>}
+          {errors.password?.message && <ErrorInput>{errors.password?.message}</ErrorInput>}
           <div className="text-right">
             <Link to="forget-password" className="p-link underline">
               Forget Password

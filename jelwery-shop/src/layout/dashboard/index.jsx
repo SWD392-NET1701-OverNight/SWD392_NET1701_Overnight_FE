@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import SideBar from '../../component/ui/SideBar'
 import { useLogout } from '../../hooks'
+import { useSelector } from 'react-redux'
 const sidebarItems = [
   { title: 'Orders', icon: <ShoppingCart />, link: '/dashboard' },
   { title: 'Categories', icon: <Package />, link: '/dashboard/category' },
@@ -24,6 +25,7 @@ const sidebarItems = [
   { title: 'Materials', icon: <PackageCheck />, link: '/dashboard/materials' },
 ]
 function DashBoardLayout() {
+  const { currentUser } = useSelector((state) => state.auth)
   const { handleLogOut } = useLogout()
   const location = useLocation()
   const navigate = useNavigate()
@@ -31,6 +33,9 @@ function DashBoardLayout() {
   function handleSetTab(tab, link) {
     navigate(link)
     setCurrentTab(tab)
+  }
+  if (!currentUser || currentUser.role == '6') {
+    navigate('/')
   }
   useEffect(() => {
     const item = sidebarItems?.find((item) => item.link == location.pathname)

@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '../schema'
 import ErrorInput from '../component/ui/ErrorInput'
-import { toast } from 'sonner'
+
 function Register() {
   const {
     register,

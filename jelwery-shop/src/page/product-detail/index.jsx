@@ -16,10 +16,11 @@ function ProductDetail() {
   const navigate = useNavigate()
   const { handeCheckout } = useCheckout()
   const totalPrice =
-    productDetail.materialPrice + productDetail.processPrice + productDetail.designPrice
+    productDetail?.materialPrice + productDetail?.processPrice + productDetail?.designPrice
   async function handleBuyNow() {
     handeCheckout(productId, totalPrice * 100, '1')
   }
+
   async function handleCustomProduct() {
     const { status, resData } = await sendHttp(
       productApi.customProduct,
@@ -29,15 +30,15 @@ function ProductDetail() {
       false,
     )
     if (status === 'success') {
-      navigate('/custom-product', { state: { customProductId: resData.data } })
+      navigate('/custom-product', { state: { customProductId: resData?.data } })
     }
   }
   useEffect(() => {
     dispatch({ type: 'PRODUCT_DETAIL_SAGA', payload: productId })
   }, [productId])
   useEffect(() => {
-    if (!currentUser.email && isAuth) {
-      dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser.userID })
+    if (!currentUser?.email && isAuth) {
+      dispatch({ type: 'GET_USER_BY_ID_SAGA', payload: currentUser?.userID })
     }
   }, [currentUser?.email, isAuth])
   return (
@@ -48,21 +49,21 @@ function ProductDetail() {
         className="image h-[100vh] w-1/2 rounded-lg"
       />
       <div className="w-1/2 px-[7%] py-[2%]">
-        <h1 className="title">{productDetail.productName}</h1>
+        <h1 className="title">{productDetail?.productName}</h1>
         <div className="mt-2 flex items-center">
           <h3 className="text-lg text-secondary">Category</h3>
-          <p className="ml-8 text-base text-third">{productDetail.categoryName}</p>
+          <p className="ml-8 text-base text-third">{productDetail?.categoryName}</p>
         </div>
-        <Tooltip content={<p className="tooltip">{productDetail.description}</p>}>
-          <p className="mt-4 w-full truncate text-lg text-third">{productDetail.description}</p>
+        <Tooltip content={<p className="tooltip">{productDetail?.description}</p>}>
+          <p className="mt-4 w-full truncate text-lg text-third">{productDetail?.description}</p>
         </Tooltip>
 
         <div className="mt-4 flex justify-between">
-          <PriceItem title="Material Price" price={productDetail.materialPrice} />
-          <PriceItem title="Proccessing Price" price={productDetail.processPrice} />
+          <PriceItem title="Material Price" price={productDetail?.materialPrice} />
+          <PriceItem title="Proccessing Price" price={productDetail?.processPrice} />
         </div>
         <div className="mt-8">
-          <PriceItem title="Design Price" price={productDetail.designPrice} />
+          <PriceItem title="Design Price" price={productDetail?.designPrice} />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <p className="mt-4 text-lg text-secondary">Material</p>
