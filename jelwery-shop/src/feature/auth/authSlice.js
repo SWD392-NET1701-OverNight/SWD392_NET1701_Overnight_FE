@@ -34,6 +34,9 @@ export const authSlice = createSlice({
       })
       state.listUser = updateUser
     },
+    addNewUser: (state, action) => {
+      state.listUser.push(action.payload)
+    },
   },
 })
 

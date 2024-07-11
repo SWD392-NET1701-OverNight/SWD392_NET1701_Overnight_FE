@@ -95,27 +95,29 @@ function ModalOrder({ orderId }) {
               </p>
             </div>
             <div className="flex h-[30%] items-center gap-4">
-              {((orderInfo?.status !== 'Done' && currentUser.roleID === 3) ||
-                orderInfo.status === 'Pending') && (
-                <>
-                  <button
-                    className="btn bg-green-400 text-white"
-                    onClick={() => {
-                      handleClickRequest(true)
-                    }}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    className="btn text-red-400"
-                    onClick={() => {
-                      handleClickRequest()
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </>
-              )}
+              {(orderInfo?.status !== 'Done' && currentUser?.roleID === 3) ||
+                (orderInfo?.status === 'Pending' && currentUser?.roleID === 2) ||
+                (orderInfo?.status === 'In-Production' && currentUser?.roleID === 4) ||
+                (orderInfo?.status === 'Completed' && currentUser?.roleID === 5 && (
+                  <>
+                    <button
+                      className="btn bg-green-400 text-white"
+                      onClick={() => {
+                        handleClickRequest(true)
+                      }}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="btn text-red-400"
+                      onClick={() => {
+                        handleClickRequest()
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ))}
             </div>
           </div>
           <div className="mt-[20px] flex gap-4 text-secondary">

@@ -7,8 +7,11 @@ import { registerSchema } from '../../../../schema'
 import ErrorInput from '../../../../component/ui/ErrorInput'
 import { sendHttp } from '../../../../utils/send-http'
 import authAPI from '../../../../feature/auth/authApi'
+import { useDispatch } from 'react-redux'
+import { authAction } from '../../../../feature/auth/authSlice'
 
 function ModalCreateUser({ handler, open }) {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -18,11 +21,14 @@ function ModalCreateUser({ handler, open }) {
     resolver: zodResolver(registerSchema),
   })
   const onSubmit = async (data) => {
-    const { status } = await sendHttp(authAPI.signIn, data, null, {
+    const { resData, status } = await sendHttp(authAPI.createCustomer, data, null, {
       success: 'Create success',
       error: 'Create failed',
     })
+    const userID = resData?.data
     if (status === 'success') {
+      const { resData } = await sendHttp(authAPI.getUserById, userID)
+      dispatch(authAction.addNewUser(resData))
       reset()
       handler()
     }

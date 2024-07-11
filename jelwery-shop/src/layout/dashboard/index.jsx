@@ -14,6 +14,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import SideBar from '../../component/ui/SideBar'
 import { useLogout } from '../../hooks'
 import { useSelector } from 'react-redux'
+import { getToken } from '../../utils/auth'
 const sidebarItems = [
   { title: 'Orders', icon: <ShoppingCart />, link: '/dashboard' },
   { title: 'Categories', icon: <Package />, link: '/dashboard/category' },
@@ -34,7 +35,7 @@ function DashBoardLayout() {
     navigate(link)
     setCurrentTab(tab)
   }
-  if (!currentUser || currentUser.role == '6') {
+  if (!getToken() || currentUser?.role === '6' || currentUser?.roleID === 6) {
     navigate('/')
   }
   useEffect(() => {

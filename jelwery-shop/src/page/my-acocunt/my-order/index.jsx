@@ -8,7 +8,7 @@ function MyOrder() {
   const { currentUser } = useSelector((state) => state.auth)
   const { listRequest } = useSelector((state) => state.request)
   const { listProduct } = useSelector((state) => state.product)
-  const navigation = useNavigation()
+  const { listCategory } = useSelector((state) => state.category)
   const dispatch = useDispatch()
   const listRequestById = listRequest?.filter((item) => item.userID === currentUser?.userID)
   const isEmptyOrder = listRequestById?.length === 0
@@ -28,6 +28,7 @@ function MyOrder() {
         const date = new Date(createDate)
 
         const product = listProduct?.find((item) => item.productID === productID)
+        const category = listCategory?.find((item) => item.catID === product?.categoryID)
 
         const total = product?.priceDesign + product?.priceMaterial + product?.processPrice
         return (
@@ -51,7 +52,7 @@ function MyOrder() {
                     {product?.productName}
                   </h3>
                 </Tooltip>
-                <ParagraphOrderCard title="Catogory" value="Test" />
+                <ParagraphOrderCard title="Catogory" value={category?.catName || ''} />
                 <ParagraphOrderCard title="Total" value={`${total * 100 || 0}`} />
               </div>
             </div>

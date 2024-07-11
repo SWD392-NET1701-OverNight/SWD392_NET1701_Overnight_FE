@@ -1,95 +1,97 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Rating } from '@material-tailwind/react'
-import axios from 'axios'
 import { useSelector } from 'react-redux'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { sendHttp } from '../../../utils/send-http'
+import requestApi from '../../../feature/request/requestApi'
+import { toast } from 'sonner'
+import { feedbackSchema } from '../../../schema/feedbackSchema'
+import ErrorInput from '../../../component/ui/ErrorInput'
+import feedbackAPI from '../../../feature/feedback/feedbackApi'
 
 function MyFeedback() {
-  const [productID, setProductID] = useState('')
-  const [products, setProducts] = useState([])
-  const [rating, setRating] = useState(0)
-  const [content, setContent] = useState('')
   const { currentUser } = useSelector((state) => state.auth)
+  const [listRequest, setListRequest] = useState([])
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(feedbackSchema),
+  })
   const userid = currentUser.userID
-
+  const allRequests = listRequest?.filter((request) => request?.status === 'Done')
+  async function getAllReqByUserID() {
+    const { resData } = await sendHttp(requestApi.getAllRequestByUserID, userid, null, null, false)
+    if (resData) {
+      setListRequest(resData.data.$values)
+    }
+  }
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(
-          'https://localhost:7147/api/Request/get-request-by-userID/US00005',
-        )
-        if (response.data && response.data.data.$values) {
-          setProducts(response.data.data.$values)
-        }
-      } catch (error) {
-        console.error('Error fetching products:', error)
-      }
-    }
-
-    fetchProducts()
+    getAllReqByUserID()
   }, [])
-
-  const handleProductChange = (event) => {
-    setProductID(event.target.value)
-  }
-
-  const handleRatingChange = (value) => {
-    setRating(value)
-  }
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value)
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    const feedbackData = {
-      content: content,
-      rate: rating,
-      userID: userid,
-      productID: parseInt(productID),
-    }
-
-    try {
-      const response = await axios.post('https://localhost:7147/create-feedback', feedbackData)
-      console.log('Feedback submitted:', response.data)
-    } catch (error) {
-      console.error('Error submitting feedback:', error)
+  const onSubmit = async (data) => {
+    const feedbackData = { ...data, userID: userid }
+    const { resData } = await sendHttp(feedbackAPI.createFeedback, feedbackData)
+    if (resData) {
+      reset()
     }
   }
 
   return (
     <>
       <h2 className="title text-lg">We appreciate your feedback.</h2>
-      <form onSubmit={handleSubmit} className="w-80 max-w-screen-lg sm:w-96">
-        <div className="mb-1 flex flex-col gap-6">
-          <label htmlFor="product">Select a Product</label>
+      <form onSubmit={handleSubmit(onSubmit)} className=" max-w-screen-lg sm:w-96">
+        <div className="mt-2 space-y-4">
+          <label htmlFor="product" className="text-lg font-normal text-secondary">
+            Select a Product
+          </label>
           <select
             id="product"
-            value={productID}
-            onChange={handleProductChange}
-            className="w-full rounded-md border border-gray-300 p-2"
+            {...register('productID')}
+            className="w-full rounded-md border border-gray-300 p-2 outline-none"
           >
-            {products.map((product) => (
-              <option key={product?.productID} value={product?.productID}>
+            {allRequests?.map((product, index) => (
+              <option key={index} value={product?.productID}>
                 {product?.productName}
               </option>
             ))}
           </select>
-          <h2 variant="h6" color="blue-gray" className="-mb-3">
+          {errors.productID?.message && <ErrorInput>{errors.productID?.message}</ErrorInput>}
+          <label htmlFor="rating" className="block text-lg font-normal text-secondary">
             Rating
-          </h2>
-          {/* Star rating component, replace with your implementation */}
-          <Rating value={rating} onChange={handleRatingChange} />
-          <h2 variant="h6" color="blue-gray" className="-mb-3">
+          </label>
+
+          <Controller
+            name="rate"
+            control={control}
+            render={({ field }) => (
+              <Rating
+                value={field.value}
+                className="w-full"
+                onChange={(e) => {
+                  field.onChange(e) // Update the value in the form state
+                  trigger('rate') // Manually trigger validation for 'rate'
+                }}
+              />
+            )}
+          />
+          {errors.rate?.message && <ErrorInput>{errors.rate?.message}</ErrorInput>}
+
+          <label htmlFor="content" className="block text-lg font-normal text-secondary">
             Content
-          </h2>
+          </label>
           <textarea
-            value={content}
-            onChange={handleContentChange}
+            id="content"
+            {...register('content')}
             placeholder="Enter your feedback here"
             className="h-32 w-full resize-none rounded-md border border-gray-300 p-2"
           />
+          {errors.content?.message && <ErrorInput>{errors.content?.message}</ErrorInput>}
         </div>
         <Button className="mt-6" fullWidth type="submit">
           Send

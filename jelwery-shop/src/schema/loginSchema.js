@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-  username: z.string().min(4),
+  username: z.string().min(3),
   password: z.string().min(3),
   // .min(6, { message: 'Password must be at least 6 characters' })
   // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{6,}$/, {

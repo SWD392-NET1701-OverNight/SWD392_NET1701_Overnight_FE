@@ -11,6 +11,7 @@ const requestApi = {
     axiosClient.put(`/api/Request/approve-request/${id}?status=${status}`),
   getRequestStatistic: () => axiosClient.get('/api/Request/get-request-by-Date'),
   updateRequest: (data, id) => axiosClient.put(`/api/Request/update-request/${id}`, data),
+  getAllRequestByUserID: (id) => axiosClient.get(`/api/Request/get-request-by-userID/${id}`),
 }
 
 export default requestApi
