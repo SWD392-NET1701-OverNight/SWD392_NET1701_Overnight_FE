@@ -12,8 +12,9 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  DialogFooter,
+  DialogFooter, List, ListItem
 } from '@material-tailwind/react'
+import { array, object } from 'zod';
 
 const ProductManager = () => {
   const [products, setProducts] = useState([]);
@@ -28,7 +29,7 @@ const ProductManager = () => {
   const [materials, setMaterials] = useState([]);
   const [ListMaterials, setListMaterials] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // State to hold search term
-
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
   useEffect(() => {
     axios
       .get('https://localhost:7147/api/Product/get-all-Products')
@@ -72,7 +73,6 @@ const ProductManager = () => {
         return 'bg-gray-500'
     }
   }
-
   const handleReadMoreClick = (product) => {
     setSelectedProduct(product) // Set selected product for dialog display
   }
@@ -91,7 +91,7 @@ const ProductManager = () => {
         } else {
           console.error('API response is not an array');
         }
-      })  
+      })
       .catch(error => {
         console.error('There was an error fetching the designs!', error);
       });
@@ -109,8 +109,9 @@ const ProductManager = () => {
       });
     axios.get('https://localhost:7147/api/Material/get-all-Material')
       .then(response => {
-        const data = response.data.$values; // Access the nested $values property
+        const data = response.data.data.$values; // Access the nested $values property
         if (Array.isArray(data)) {
+          console.log(data);
           setMaterials(data);
         } else {
           console.error('API response is not an array');
@@ -141,6 +142,19 @@ const ProductManager = () => {
     setSearchTerm(event.target.value);
   };
 
+  const handleAddMaterialClick = () => {
+
+    setListMaterials(get => { const newMaterial = [...get.map(item => ({ ...item }))] 
+    newMaterial.push(selectedMaterial)
+    return newMaterial
+  }  
+    )
+
+  };
+  function getmate(event) {
+    setSelectedMaterial(event)
+
+  }
   return (
     <div className="space-y-4">
       <div className="w-72" style={{ margin: '0 15px', display: 'flex' }}>
@@ -258,7 +272,7 @@ const ProductManager = () => {
               </svg>
               Upload Image
             </Button>
-          
+
             {selectedFile && (
               <div>
                 <Typography>{selectedFile.name}</Typography>
@@ -266,36 +280,53 @@ const ProductManager = () => {
               </div>
             )}
             <div>
-            <Select variant="outlined" label="Select Material">
-              {materials.length > 0 ? (
-                materials.map((mate) => (
-                  <Option key={mate.MaterialID} value={mate.MaterialID}>
-                    {mate.Name} price :  {mate.Price}
-                  </Option>
-                ))
-              ) : (
-                <Option disabled>No materials available</Option>
-              )}
-            </Select>
-            <Button className="flex items-center gap-3">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
-          stroke="currentColor"
-          className="h-5 w-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-          />
-        </svg>
-        Add
-      </Button>
+
+              <Select variant="outlined" label="Select Material" onChange={getmate}>
+                {materials.length > 0 ? (
+                  materials.map((mate) => (
+                    <Option key={mate.materialID} value={mate}>
+                      {mate.name} - price :  {mate.price}
+                    </Option>
+                  ))
+                ) : (
+                  <Option disabled>No materials available</Option>
+                )}
+              </Select>
+              <Button className="flex items-center gap-3" onClick={handleAddMaterialClick}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="h-5 w-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                  />
+                </svg>
+                Add
+              </Button>
             </div>
-              
+            {/* <Card className="w-96">
+              <List>
+              {materials.length > 0 ? (
+                  materials.map((mate) => (
+                    <ListItem key={mate.materialID} value={mate}>
+                      {mate.name} - price :  {mate.price}
+                    </ListItem>
+                    
+                  ))
+                ) : (
+                  <ListItem disabled>No materials available</ListItem>
+                )}
+               
+
+              </List>
+            </Card> */}
+
           </div>
 
           {/* Right side with dropdown */}
