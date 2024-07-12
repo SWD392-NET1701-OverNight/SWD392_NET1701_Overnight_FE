@@ -43,11 +43,7 @@ function MyOrder() {
               </div>
             </div>
             <div className="flex h-[175px] items-center gap-2">
-              <img
-                src="https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG5lY2tsYWNlfGVufDB8fDB8fHww"
-                alt="jewelry"
-                className="image w-[140px] rounded-lg"
-              />
+              <img src={product?.image} alt="jewelry" className="image w-[140px] rounded-lg" />
               <div className="flex h-full w-full flex-col justify-between">
                 <Tooltip content={<p className="tooltip">{product?.productName}</p>}>
                   <h3 className="w-[300px] truncate text-2xl font-semibold text-secondary">

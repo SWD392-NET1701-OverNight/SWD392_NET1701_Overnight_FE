@@ -21,11 +21,20 @@ function JewelrySection() {
         ?.slice(0, 4)
         .map(
           (
-            { productID, priceMaterial, description, priceDesign, processPrice, productName },
+            {
+              productID,
+              priceMaterial,
+              description,
+              priceDesign,
+              processPrice,
+              productName,
+              image,
+            },
             index,
           ) => (
             <CardSection
               key={index}
+              image={image}
               className="flex-1"
               name={productName}
               description={description}
