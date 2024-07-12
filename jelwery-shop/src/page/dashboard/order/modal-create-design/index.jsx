@@ -9,15 +9,26 @@ import { designActions } from '../../../../feature/design/designSlice'
 import { toast } from 'sonner'
 import requestApi from '../../../../feature/request/requestApi'
 import { requestActions } from '../../../../feature/request/requestSlice'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import ErrorInput from '../../../../component/ui/ErrorInput'
 
 function ModalCreateDesign({ handler, open, orderInfo }) {
   const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.auth)
-  async function handleSubmit(e) {
-    e.preventDefault()
-    const description = e.target.description.value
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(
+      z.object({ description: z.string().min(10, { message: 'Description is too short' }) }),
+    ),
+  })
+  async function onSubmit(data) {
     const designData = {
-      description,
+      data,
       createBy: convertRole(currentUser?.roleID),
       createDate: new Date(),
       picture: orderInfo?.image,
@@ -37,7 +48,7 @@ function ModalCreateDesign({ handler, open, orderInfo }) {
       const { resData } = await sendHttp(requestApi.updateRequest, requestData, orderInfo?.id)
 
       if (resData) {
-        dispatch(requestActions.updateDesign({ id: orderInfo?.id, designID: designData.designID }))
+        dispatch(requestActions.updateDesign({ id: orderInfo?.id, designID: designData?.designID }))
         handler()
       }
     }
@@ -48,16 +59,17 @@ function ModalCreateDesign({ handler, open, orderInfo }) {
         <h2 className="title">Create Design</h2>
         <div className="mt-4 flex gap-8">
           <img src={orderInfo?.image} className="image  w-[200px] rounded-xl" />
-          <form className="w-full" onSubmit={handleSubmit}>
+          <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="description" className="block text-xl font-medium text-black">
               Description
             </label>
             <textarea
-              name="description"
+              {...register('description')}
               id="description"
               className="mt-2 h-[70%] w-full rounded-lg border border-secondary px-4 py-2 text-black outline-none"
               required
             ></textarea>
+            {errors.description?.message && <ErrorInput>{errors.description?.message}</ErrorInput>}
             <Button type="primary" className="float-right mt-4 font-medium">
               Create
             </Button>

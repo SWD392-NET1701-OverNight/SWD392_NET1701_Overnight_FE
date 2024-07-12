@@ -4,7 +4,9 @@ import HeadingOrderCard from '../HeadingOrderCard'
 import ParagraphOrderCard from '../ParagraphOrderCard'
 import { Link, useNavigation } from 'react-router-dom'
 import { Tooltip } from '@material-tailwind/react'
+import { useCheckout } from '../../../hooks/useCheckout'
 function MyOrder() {
+  const { handeCheckout } = useCheckout()
   const { currentUser } = useSelector((state) => state.auth)
   const { listRequest } = useSelector((state) => state.request)
   const { listProduct } = useSelector((state) => state.product)
@@ -24,7 +26,7 @@ function MyOrder() {
     <div
       className={`scrollbar h-[80vh] space-y-10 ${isEmptyOrder ? '' : 'overflow-y-scroll'} pr-6`}
     >
-      {listRequestById?.map(({ id, createDate, status, productID }, index) => {
+      {listRequestById?.map(({ id, createDate, status, productID, type }, index) => {
         const date = new Date(createDate)
 
         const product = listProduct?.find((item) => item.productID === productID)
@@ -40,7 +42,7 @@ function MyOrder() {
                 <ParagraphOrderCard title="Status" value={status} />
               </div>
             </div>
-            <div className="flex h-[175px] items-center gap-6">
+            <div className="flex h-[175px] items-center gap-2">
               <img
                 src="https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG5lY2tsYWNlfGVufDB8fDB8fHww"
                 alt="jewelry"
@@ -55,8 +57,17 @@ function MyOrder() {
                 <ParagraphOrderCard title="Catogory" value={category?.catName || ''} />
                 <ParagraphOrderCard title="Total" value={`${total * 100 || 0}`} />
               </div>
+              {type === 3 && status === 'In-Design' && (
+                <button
+                  className="btn bg-third text-white"
+                  onClick={() => {
+                    handeCheckout(productID, 1000000, '3')
+                  }}
+                >
+                  Checkout
+                </button>
+              )}
             </div>
-            <div className="h-2 w-full rounded-lg bg-fourth"></div>
           </div>
         )
       })}

@@ -3,13 +3,17 @@ import Modal from '../../../../component/ui/Modal'
 import { Option, Select } from '@material-tailwind/react'
 import { useUploadImage } from '../../../../hooks/useUploadImage'
 import { useState } from 'react'
-import { CirclePlus } from 'lucide-react'
+import { CirclePlus, Trash2 } from 'lucide-react'
 import Button from '../../../../component/ui/Button'
 import { toast } from 'sonner'
 import { sendHttp } from '../../../../utils/send-http'
 import productApi from '../../../../feature/product/productApi'
 import requestApi from '../../../../feature/request/requestApi'
 import { requestActions } from '../../../../feature/request/requestSlice'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createProductSchema } from '../../../../schema/createProductSchema'
+import ErrorInput from '../../../../component/ui/ErrorInput'
 
 function ModalCreateProduct({ open, handler, orderInfo }) {
   const dispatch = useDispatch()
@@ -17,10 +21,23 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
   const { listMaterial } = useSelector((state) => state.material)
   const [materials, setMaterials] = useState([])
   const { hanldeUpload, imageUrl } = useUploadImage()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(createProductSchema),
+  })
   const handleAddMaterial = () => {
     setMaterials((prev) => {
       const newMaterial = [...prev.map((item) => ({ ...item }))]
       newMaterial.push({ materialID: '', materialName: '', quantity: 1, price: 0 })
+      return newMaterial
+    })
+  }
+  const handleDeleteMaterial = (materialID) => {
+    setMaterials((prev) => {
+      const newMaterial = prev.filter((item) => item.materialID !== materialID)
       return newMaterial
     })
   }
@@ -45,21 +62,20 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
       return newMaterial
     })
   }
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const formData = new FormData(e.target)
-    const data = Object.fromEntries(formData.entries())
-    data.image = imageUrl
-    data.designID = orderInfo.designID
-    data.status = 'System'
+  const onSubmit = async (data) => {
+    const allData = { ...data }
+    allData.image = imageUrl
+    allData.designID = orderInfo.designID
+    allData.status = 'System'
     const productData = {
       product: {
-        ...data,
+        ...allData,
       },
       materials,
     }
 
     const { resData } = await sendHttp(productApi.createProduct, productData)
+
     if (resData) {
       const requestData = {
         description: orderInfo?.description,
@@ -84,7 +100,7 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
   return (
     <Modal open={open} handler={handler}>
       <div className="px-4 py-6">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-center justify-between">
             <h1 className="title mb-4">Create Product</h1>
             <Button type="primary" className="font-medium">
@@ -96,13 +112,29 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
               <label htmlFor="productName" className="block text-lg font-medium text-black">
                 Product Name
               </label>
-              <input type="text" name="productName" id="productName" className="input w-full" />
+              <input
+                type="text"
+                {...register('productName')}
+                id="productName"
+                className="input w-full"
+              />
+              {errors.productName?.message && (
+                <ErrorInput>{errors.productName?.message}</ErrorInput>
+              )}
             </div>
             <div className="w-full">
               <label htmlFor="description" className="block text-lg font-medium text-black">
                 Description
               </label>
-              <input type="text" name="description" id="description" className="input w-full" />
+              <input
+                type="text"
+                {...register('description')}
+                id="description"
+                className="input w-full"
+              />
+              {errors.description?.message && (
+                <ErrorInput>{errors.description?.message}</ErrorInput>
+              )}
             </div>
           </div>
           <label htmlFor="category" className="block text-lg font-medium text-black">
@@ -113,6 +145,7 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
               <select
                 id="category"
                 name="categoryID"
+                {...register('categoryID')}
                 className="w-full rounded-md border-2 border-secondary px-2 py-3 text-black outline-none"
               >
                 {listCategory.map(({ catID, catName }) => (
@@ -121,6 +154,7 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
                   </option>
                 ))}
               </select>
+              {errors.categoryID?.message && <ErrorInput>{errors.categoryID?.message}</ErrorInput>}
             </div>
             <div className="flex w-1/2 items-center gap-4">
               {imageUrl && (
@@ -168,6 +202,12 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
                   }}
                 />
                 <p className="text-third"> {item?.price || 0} VND</p>
+                <Trash2
+                  className="cursor-pointer text-red-400"
+                  onClick={() => {
+                    handleDeleteMaterial(item?.materialID)
+                  }}
+                />
               </div>
             ))}
           </div>
