@@ -12,7 +12,7 @@ const authAPI = {
   getUserById: (id) => axiosClient.get(`/api/Users/get-user/${id}`),
   updateUser: (data, id) => axiosClient.put(`/api/Users/update-profile/${id}`, data),
   getAllUser: () => axiosClient.get('/api/Users/get-all-user'),
-  createCustomer: (data) => axiosClient.post('/api/Users/register-return-string', data),
+  createUser: (data) => axiosClient.post('/api/Users/create-user', data),
 }
 
 export default authAPI

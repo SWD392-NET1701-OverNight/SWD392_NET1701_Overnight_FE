@@ -18,7 +18,7 @@ function Register() {
     resolver: zodResolver(registerSchema),
   })
   const onSubmit = async (data) => {
-    const { status } = await sendHttp(authAPI.signIn, data, null, {
+    const { status } = await sendHttp(authAPI.signIn, { ...data, roleID: 6 }, null, {
       success: 'Register success',
       error: 'Register failed',
     })

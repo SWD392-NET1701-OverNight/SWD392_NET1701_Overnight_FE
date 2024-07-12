@@ -21,14 +21,13 @@ function ModalCreateUser({ handler, open }) {
     resolver: zodResolver(registerSchema),
   })
   const onSubmit = async (data) => {
-    const { resData, status } = await sendHttp(authAPI.createCustomer, data, null, {
+    const { resData, status } = await sendHttp(authAPI.createUser, { ...data, roleID: 6 }, null, {
       success: 'Create success',
       error: 'Create failed',
     })
-    const userID = resData?.data
+
     if (status === 'success') {
-      const { resData } = await sendHttp(authAPI.getUserById, userID)
-      dispatch(authAction.addNewUser(resData))
+      dispatch(authAction.addNewUser(resData?.data))
       reset()
       handler()
     }
