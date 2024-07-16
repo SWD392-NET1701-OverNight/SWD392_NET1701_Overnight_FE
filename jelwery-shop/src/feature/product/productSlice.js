@@ -18,6 +18,14 @@ export const productSlice = createSlice({
     resetProductDetail: (state) => {
       state.productDetail = {}
     },
+    addProduct: (state, action) => {
+      state.listProduct.push(action.payload)
+    },
+    updateProduct: (state, action) => {
+      const { productID, data } = action.payload
+      const index = state.listProduct.findIndex((product) => product.productID === productID)
+      state.listProduct[index] = data
+    },
   },
 })
 

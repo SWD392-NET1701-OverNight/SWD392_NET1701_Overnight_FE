@@ -60,13 +60,13 @@ function ModalCreateDesign({ handler, open, orderInfo }) {
         <div className="mt-4 flex gap-8">
           <img src={orderInfo?.image} className="image  w-[200px] rounded-xl" />
           <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="description" className="block text-xl font-medium text-black">
+            <label htmlFor="description" className="block text-xl font-medium text-third">
               Description
             </label>
             <textarea
               {...register('description')}
               id="description"
-              className="mt-2 h-[70%] w-full rounded-lg border border-secondary px-4 py-2 text-black outline-none"
+              className="mt-2 h-[70%] w-full rounded-lg border border-secondary px-4 py-2 text-third outline-none"
               required
             ></textarea>
             {errors.description?.message && <ErrorInput>{errors.description?.message}</ErrorInput>}

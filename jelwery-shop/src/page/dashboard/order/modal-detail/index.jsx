@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { sendGetHttp, sendHttp } from '../../../../utils/send-http'
 import authAPI from '../../../../feature/auth/authApi'
 import OrderDisplay from '../OrderDisplay'
-import { convertUpdateStatus } from '../../../../utils/convertStatus'
+import { convertOrderType, convertUpdateStatus } from '../../../../utils/convertStatus'
 import requestApi from '../../../../feature/request/requestApi'
 import { requestActions } from '../../../../feature/request/requestSlice'
 import { productAction } from '../../../../feature/product/productSlice'
@@ -86,16 +86,20 @@ function ModalOrder({ orderId }) {
           <div className="center-space">
             <div className="space-y-2">
               <h1 className="title">Order ID:#{orderInfo?.id}</h1>
-              <OrderDisplay
-                title="Create At:"
-                value={new Date(orderInfo?.createDate).toLocaleDateString()}
-              />
+              <div className="flex gap-4">
+                <OrderDisplay
+                  title="Create At:"
+                  value={new Date(orderInfo?.createDate).toLocaleDateString()}
+                />
+                <OrderDisplay title="Order Type:" value={convertOrderType(orderInfo?.type)} />
+              </div>
               <p className=" rounded-2xl border border-secondary text-center font-normal text-primary">
                 {orderInfo?.status}
               </p>
             </div>
             <div className="flex h-[30%] items-center gap-4">
               {((orderInfo?.status !== 'Done' && currentUser?.roleID === 3) ||
+                (orderInfo?.status !== 'Processing' && currentUser?.roleID === 3) ||
                 (orderInfo?.status === 'Pending' && currentUser?.roleID === 2) ||
                 (orderInfo?.status === 'In-Production' && currentUser?.roleID === 4) ||
                 (orderInfo?.status === 'Completed' && currentUser?.roleID === 5)) && (
@@ -138,7 +142,7 @@ function ModalOrder({ orderId }) {
           </div>
           <div className="space-y-4">
             <h2 className="mt-[20px] text-xl font-medium text-black">Product</h2>
-            {orderInfo?.type === 3 && !productDetail?.productName && (
+            {orderInfo?.type === 3 && !productDetail?.productName && currentUser?.roleID === 4 && (
               <button
                 className="btn bg-fourth text-lg font-medium text-third"
                 onClick={() => {
@@ -176,7 +180,7 @@ function ModalOrder({ orderId }) {
                   className="w-24"
                 />
               )}
-              {!designItem?.picture && (
+              {!designItem?.picture && currentUser?.roleID === 5 && orderInfo?.type === 3 && (
                 <button
                   className="btn bg-fourth text-lg font-medium text-third"
                   onClick={() => {

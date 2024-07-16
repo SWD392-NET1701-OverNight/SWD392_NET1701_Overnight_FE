@@ -5,6 +5,7 @@ const productApi = {
   getProductById: (id) => axiosClient.get(`/api/Product/get-Products-by-id?id=${id}`),
   getProductDetail: (id) => axiosClient.get(`/api/Product/Productdetail/${id}`),
   customProduct: (id) => axiosClient.post(`api/Product/Duplicate-Products?PID=${id}`),
+  updateProduct: (data) => axiosClient.put('/api/Product/Update-Products', data),
   createProduct: (data) => axiosClient.post('/api/Product/Create-Products', data),
 }
 export default productApi

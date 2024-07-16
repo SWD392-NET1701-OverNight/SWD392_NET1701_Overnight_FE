@@ -18,3 +18,11 @@ export function convertUpdateStatus(roleID, typeProduct, status) {
       return 'In-Production'
   }
 }
+export function convertOrderType(orderType) {
+  const type = {
+    1: 'Normal',
+    2: 'Custom',
+    3: 'Design',
+  }
+  return type[orderType]
+}

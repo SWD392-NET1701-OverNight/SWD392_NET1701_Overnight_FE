@@ -1,22 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux'
-import Modal from '../../../../component/ui/Modal'
-import { Option, Select } from '@material-tailwind/react'
+import { Avatar, Option, Select } from '@material-tailwind/react'
 import { useUploadImage } from '../../../../hooks/useUploadImage'
 import { useState } from 'react'
 import { CirclePlus, Trash2 } from 'lucide-react'
-import Button from '../../../../component/ui/Button'
-import { toast } from 'sonner'
 import { sendHttp } from '../../../../utils/send-http'
 import productApi from '../../../../feature/product/productApi'
-import requestApi from '../../../../feature/request/requestApi'
-import { requestActions } from '../../../../feature/request/requestSlice'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createProductSchema } from '../../../../schema/createProductSchema'
 import ErrorInput from '../../../../component/ui/ErrorInput'
+import { toast } from 'sonner'
+import { productAction } from '../../../../feature/product/productSlice'
+import Modal from '../../../../component/ui/Modal'
+import Button from '../../../../component/ui/Button'
+import { createProductSchemaBySystem } from '../../../../schema/createProductSchema'
 
-function ModalCreateProduct({ open, handler, orderInfo }) {
+function ModalCreateProduct({ open, handler }) {
   const dispatch = useDispatch()
+  const { listDesign } = useSelector((state) => state.design)
   const { listCategory } = useSelector((state) => state.category)
   const { listMaterial } = useSelector((state) => state.material)
   const [materials, setMaterials] = useState([])
@@ -26,7 +26,7 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(createProductSchema),
+    resolver: zodResolver(createProductSchemaBySystem),
   })
   const handleAddMaterial = () => {
     setMaterials((prev) => {
@@ -65,7 +65,6 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
   const onSubmit = async (data) => {
     const allData = { ...data }
     allData.image = imageUrl
-    allData.designID = orderInfo.designID
     allData.status = 'System'
     const productData = {
       product: {
@@ -77,23 +76,8 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
     const { resData } = await sendHttp(productApi.createProduct, productData)
 
     if (resData) {
-      const requestData = {
-        description: orderInfo?.description,
-        status: orderInfo?.status,
-        designID: orderInfo?.designID,
-        productID: resData?.productID,
-        image: orderInfo?.image,
-        type: orderInfo?.type,
-      }
-
-      const { status } = await sendHttp(requestApi.updateRequest, requestData, orderInfo?.id)
-
-      if (status) {
-        dispatch(
-          requestActions.updateProduct({ id: orderInfo?.id, productID: requestData?.productID }),
-        )
-        handler()
-      }
+      dispatch(productAction.addProduct(resData))
+      handler()
     }
   }
 
@@ -137,6 +121,22 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
               )}
             </div>
           </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="design" className="font-medium text-third">
+              Design
+            </label>
+            <select className="input" id="design" {...register('designID')}>
+              {listDesign?.map(({ designID, description, picture }, index) => (
+                <option key={index} value={designID}>
+                  {
+                    <>
+                      <Avatar src={picture} /> <p>{description}</p>
+                    </>
+                  }
+                </option>
+              ))}
+            </select>
+          </div>
           <label htmlFor="category" className="block text-lg font-medium text-third">
             Category
           </label>
@@ -163,7 +163,7 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
 
               <button
                 type="button"
-                className="btn bg-fourth text-lg font-medium text-third"
+                className="btn bg-fourth text-lg font-medium text-black"
                 onClick={() => {
                   hanldeUpload()
                 }}
