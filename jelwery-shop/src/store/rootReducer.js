@@ -7,6 +7,7 @@ import productMaterialReducer from '../feature/product-material/productMaterialS
 import transactionReducer from '../feature/transaction/transactionSlice'
 import designReducer from '../feature/design/designSlice'
 import categoryReducer from '../feature/category/categorySlice'
+import feedbackReducer from '../feature/feedback/feedbackSlice'
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -17,5 +18,6 @@ const rootReducer = combineReducers({
   transaction: transactionReducer,
   design: designReducer,
   category: categoryReducer,
+  feedback: feedbackReducer,
 })
 export default rootReducer

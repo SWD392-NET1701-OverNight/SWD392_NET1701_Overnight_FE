@@ -142,7 +142,7 @@ function ModalOrder({ orderId }) {
           </div>
           <div className="space-y-4">
             <h2 className="mt-[20px] text-xl font-medium text-black">Product</h2>
-            {orderInfo?.type === 3 && !productDetail?.productName && currentUser?.roleID === 4 && (
+            {orderInfo?.type === 3 && !productDetail?.productName && currentUser?.roleID === 3 && (
               <button
                 className="btn bg-fourth text-lg font-medium text-third"
                 onClick={() => {
@@ -154,11 +154,7 @@ function ModalOrder({ orderId }) {
             )}
             {productDetail?.productName && (
               <div className="flex  gap-4">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1674255466849-b23fc5f5d3eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8amV3ZWxyeXxlbnwwfHwwfHx8MA%3D%3D"
-                  alt=""
-                  className="w-24 rounded-lg"
-                />
+                <img src={productDetail?.image} alt="" className="w-24 rounded-lg" />
                 <div className="flex w-[80vh] flex-col justify-between">
                   <h2 className="truncate text-xl text-black">{productDetail?.productName}</h2>
                   <OrderDisplay title="Category:" value={productDetail?.categoryName} />
@@ -180,7 +176,7 @@ function ModalOrder({ orderId }) {
                   className="w-24"
                 />
               )}
-              {!designItem?.picture && currentUser?.roleID === 5 && orderInfo?.type === 3 && (
+              {!designItem?.picture && currentUser?.roleID === 3 && orderInfo?.type === 3 && (
                 <button
                   className="btn bg-fourth text-lg font-medium text-third"
                   onClick={() => {

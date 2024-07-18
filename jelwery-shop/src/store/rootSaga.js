@@ -7,6 +7,7 @@ import materialSaga from '../feature/material/materialSaga'
 import transactionSaga from '../feature/transaction/transactionSaga'
 import designSaga from '../feature/design/designSaga'
 import categorySaga from '../feature/category/categorySaga'
+import feedbackSaga from '../feature/feedback/feedbackSage'
 function* rootSaga() {
   yield all([
     authSaga(),
@@ -17,6 +18,7 @@ function* rootSaga() {
     transactionSaga(),
     designSaga(),
     categorySaga(),
+    feedbackSaga(),
   ])
 }
 export default rootSaga

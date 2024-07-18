@@ -8,6 +8,7 @@ import { Tooltip } from '@material-tailwind/react'
 import { sendHttp } from '../../utils/send-http'
 import productMaterailApi from '../../feature/product-material/productMaterialApi'
 import { useCheckout } from '../../hooks'
+import { toast } from 'sonner'
 
 function CustomProduct() {
   const { state } = useLocation()
@@ -42,7 +43,7 @@ function CustomProduct() {
       false,
     )
     if (status === 'success') {
-      handeCheckout(state.customProductId, totalPriceMaterials, '2')
+      handeCheckout(state.customProductId, totalPriceMaterials * 100, '2')
     }
   }
   useEffect(() => {
@@ -50,11 +51,7 @@ function CustomProduct() {
   }, [])
   return (
     <div className="flex w-full px-[14%] pt-[50px]">
-      <img
-        src="https://images.unsplash.com/photo-1611085582956-da557acbc3a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fG5lY2tsYWNlfGVufDB8fDB8fHww"
-        alt="necklace"
-        className="image h-[100vh] w-1/2 rounded-lg"
-      />
+      <img src={productDetail?.image} alt="necklace" className="image h-[100vh] w-1/2 rounded-lg" />
       <div className="w-1/2 px-[7%] py-[2%]">
         <h1 className="title">{productDetail.productName}</h1>
         <div className="mt-2 flex items-center">

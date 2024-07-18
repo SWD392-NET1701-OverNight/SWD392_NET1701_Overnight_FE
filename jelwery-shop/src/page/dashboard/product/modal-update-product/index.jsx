@@ -10,6 +10,9 @@ import { useEffect, useState } from 'react'
 import Button from '../../../../component/ui/Button'
 import { toast } from 'sonner'
 import { productAction } from '../../../../feature/product/productSlice'
+import { createProductSchemaBySystem } from '../../../../schema/createProductSchema'
+import ErrorInput from '../../../../component/ui/ErrorInput'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 function ModalUpdateProduct({ open, handler, productId }) {
   const dispatch = useDispatch()
@@ -21,12 +24,11 @@ function ModalUpdateProduct({ open, handler, productId }) {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({})
+  } = useForm({ resolver: zodResolver(createProductSchemaBySystem) })
 
   const onSubmit = async (data) => {
     const updateData = { ...productDetail, ...data }
-    toast.message(JSON.stringify(data))
-
+    const { resData } = await sendHttp(productApi.updateProduct, updateData, null, null, false)
     if (resData) {
       dispatch(productAction.updateProduct({ productID: productId, data: updateData }))
       handler()
@@ -56,11 +58,16 @@ function ModalUpdateProduct({ open, handler, productId }) {
         <ContainerAuth title="Update Product">
           <form className="mt-2 flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             <Input label="Product Name" id="name" {...register('productName')} />
+            {errors.productName?.message && <ErrorInput>{errors.productName?.message}</ErrorInput>}
+
             <div className="flex flex-col gap-1">
               <label htmlFor="description" className="font-medium text-third">
                 Description
               </label>
               <textarea id="description" {...register('description')} className="input"></textarea>
+              {errors.description?.message && (
+                <ErrorInput>{errors.description?.message}</ErrorInput>
+              )}
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="category" className="font-medium text-third">
@@ -73,6 +80,7 @@ function ModalUpdateProduct({ open, handler, productId }) {
                   </option>
                 ))}
               </select>
+              {errors.categoryID?.message && <ErrorInput>{errors.categoryID?.message}</ErrorInput>}
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="design" className="font-medium text-third">
@@ -89,6 +97,7 @@ function ModalUpdateProduct({ open, handler, productId }) {
                   </option>
                 ))}
               </select>
+              {errors.designID?.message && <ErrorInput>{errors.designID?.message}</ErrorInput>}
             </div>
             <div className="mt-2 flex gap-2">
               <Button type="primary">Submit</Button>

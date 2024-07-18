@@ -53,16 +53,6 @@ function MyOrder() {
                 <ParagraphOrderCard title="Catogory" value={category?.catName || ''} />
                 <ParagraphOrderCard title="Total" value={`${total * 100 || 0}`} />
               </div>
-              {type === 3 && status === 'In-Design' && (
-                <button
-                  className="btn bg-third text-white"
-                  onClick={() => {
-                    handeCheckout(productID, 1000000, '3')
-                  }}
-                >
-                  Checkout
-                </button>
-              )}
             </div>
           </div>
         )
