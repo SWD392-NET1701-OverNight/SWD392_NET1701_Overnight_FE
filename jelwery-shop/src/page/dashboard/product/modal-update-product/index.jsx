@@ -28,7 +28,8 @@ function ModalUpdateProduct({ open, handler, productId }) {
 
   const onSubmit = async (data) => {
     const updateData = { ...productDetail, ...data }
-    const { resData } = await sendHttp(productApi.updateProduct, updateData, null, null, false)
+
+    const { resData } = await sendHttp(productApi.updateProduct, updateData, null, null)
     if (resData) {
       dispatch(productAction.updateProduct({ productID: productId, data: updateData }))
       handler()
@@ -50,6 +51,8 @@ function ModalUpdateProduct({ open, handler, productId }) {
       description: productDetail?.description,
       categoryID: productDetail?.categoryID,
       designID: productDetail?.designID,
+      priceDesign: productDetail?.priceDesign,
+      processPrice: productDetail?.processPrice,
     })
   }, [open, JSON.stringify(productDetail)])
   return (
@@ -69,11 +72,51 @@ function ModalUpdateProduct({ open, handler, productId }) {
                 <ErrorInput>{errors.description?.message}</ErrorInput>
               )}
             </div>
+            <div className="mb-2 flex gap-4">
+              <div className="w-full">
+                <label htmlFor="priceDesign" className="block text-lg font-medium text-third">
+                  Price Design
+                </label>
+                <input
+                  type="number"
+                  {...register('priceDesign', {
+                    setValueAs: (value) => (value === '' ? null : Number(value)),
+                  })}
+                  id="priceDesign"
+                  className="input w-full"
+                />
+                {errors.priceDesign?.message && (
+                  <ErrorInput>{errors.priceDesign?.message}</ErrorInput>
+                )}
+              </div>
+              <div className="w-full">
+                <label htmlFor="processPrice" className="block text-lg font-medium text-third">
+                  Process Price
+                </label>
+                <input
+                  type="number"
+                  {...register('processPrice', {
+                    setValueAs: (value) => (value === '' ? null : Number(value)),
+                  })}
+                  id="processPrice"
+                  className="input w-full"
+                />
+                {errors.processPrice?.message && (
+                  <ErrorInput>{errors.processPrice?.message}</ErrorInput>
+                )}
+              </div>
+            </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="category" className="font-medium text-third">
                 Category
               </label>
-              <select className="input" id="category" {...register('categoryID')}>
+              <select
+                className="input"
+                id="category"
+                {...register('categoryID', {
+                  setValueAs: (value) => (value === '' ? null : Number(value)),
+                })}
+              >
                 {listCategory.map(({ catID, catName }, index) => (
                   <option key={index} value={catID}>
                     {catName}
@@ -86,14 +129,16 @@ function ModalUpdateProduct({ open, handler, productId }) {
               <label htmlFor="design" className="font-medium text-third">
                 Design
               </label>
-              <select className="input" id="design" {...register('designID')}>
-                {listDesign?.map(({ designID, description, picture }, index) => (
+              <select
+                className="input"
+                id="design"
+                {...register('designID', {
+                  setValueAs: (value) => (value === '' ? null : Number(value)),
+                })}
+              >
+                {listDesign?.map(({ designID, description }, index) => (
                   <option key={index} value={designID}>
-                    {
-                      <>
-                        <Avatar src={picture} /> <p>{description}</p>
-                      </>
-                    }
+                    {<p>{description}</p>}
                   </option>
                 ))}
               </select>

@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import HeadingOrderCard from '../HeadingOrderCard'
 import ParagraphOrderCard from '../ParagraphOrderCard'
-import { Link, useNavigation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Tooltip } from '@material-tailwind/react'
+import Button from '../../../component/ui/Button'
 import { useCheckout } from '../../../hooks/useCheckout'
 function MyOrder() {
   const { handeCheckout } = useCheckout()
@@ -12,8 +13,10 @@ function MyOrder() {
   const { listProduct } = useSelector((state) => state.product)
   const { listCategory } = useSelector((state) => state.category)
   const dispatch = useDispatch()
+
   const listRequestById = listRequest?.filter((item) => item.userID === currentUser?.userID)
   const isEmptyOrder = listRequestById?.length === 0
+
   useEffect(() => {
     if (listProduct.length === 0) {
       dispatch({ type: 'PRODUCT_LIST_SAGA' })
@@ -53,6 +56,16 @@ function MyOrder() {
                 <ParagraphOrderCard title="Catogory" value={category?.catName || ''} />
                 <ParagraphOrderCard title="Total" value={`${total * 100 || 0}`} />
               </div>
+              {type === 3 && status === 'Payment' && (
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    handeCheckout(productID, total, '3', id)
+                  }}
+                >
+                  Checkout
+                </Button>
+              )}
             </div>
           </div>
         )

@@ -9,7 +9,7 @@ export function convertStatus(roleID) {
 export function convertUpdateStatus(roleID, typeProduct, status) {
   switch (roleID) {
     case 2:
-      return typeProduct === 3 ? 'In-Design' : 'In-Production'
+      return typeProduct === 3 ? 'Payment' : 'In-Production'
     case 3:
       return status === 'Completed' ? 'Done' : 'Pending'
     case 4:

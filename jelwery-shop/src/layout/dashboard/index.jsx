@@ -15,6 +15,7 @@ import SideBar from '../../component/ui/SideBar'
 import { useLogout } from '../../hooks'
 import { useSelector } from 'react-redux'
 import { getToken } from '../../utils/auth'
+import { convertRole } from '../../utils/convertRole'
 const sidebarItems = [
   { title: 'Orders', icon: <ShoppingCart />, link: '/dashboard' },
   { title: 'Categories', icon: <Package />, link: '/dashboard/category' },
@@ -49,7 +50,8 @@ function DashBoardLayout() {
         <SideBar sidebarItems={sidebarItems} currentTab={currentTab} onSetTab={handleSetTab} />
       </div>
       <div className="w-full bg-fourth px-8">
-        <div className="flex justify-end py-[6vh] ">
+        <div className="flex justify-between py-[6vh] ">
+          <h2 className="title">Welcome, {convertRole(currentUser?.roleID)}</h2>
           <button
             onClick={() => {
               handleLogOut()

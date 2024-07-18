@@ -23,7 +23,11 @@ function ModalCreateDesign({ handler, open, orderInfo }) {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(
-      z.object({ description: z.string().min(10, { message: 'Description is too short' }) }),
+      z.object({
+        description: z
+          .string()
+          .min(10, { message: 'Description must be at least 10 characters. ' }),
+      }),
     ),
   })
   async function onSubmit(data) {
@@ -45,7 +49,13 @@ function ModalCreateDesign({ handler, open, orderInfo }) {
         type: orderInfo?.type,
       }
 
-      const { resData } = await sendHttp(requestApi.updateRequest, requestData, orderInfo?.id)
+      const { resData } = await sendHttp(
+        requestApi.updateRequest,
+        requestData,
+        orderInfo?.id,
+        null,
+        false,
+      )
 
       if (resData) {
         dispatch(requestActions.updateDesign({ id: orderInfo?.id, designID: designData?.designID }))

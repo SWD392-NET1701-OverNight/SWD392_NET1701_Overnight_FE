@@ -12,6 +12,7 @@ const requestApi = {
   getRequestStatistic: () => axiosClient.get('/api/Request/get-request-by-Date'),
   updateRequest: (data, id) => axiosClient.put(`/api/Request/update-request/${id}`, data),
   getAllRequestByUserID: (id) => axiosClient.get(`/api/Request/get-request-by-userID/${id}`),
+  getRequestByID: (id) => axiosClient.get(`/api/Request/get-request/${id}`),
 }
 
 export default requestApi

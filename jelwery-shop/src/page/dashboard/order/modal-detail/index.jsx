@@ -99,10 +99,10 @@ function ModalOrder({ orderId }) {
             </div>
             <div className="flex h-[30%] items-center gap-4">
               {((orderInfo?.status !== 'Done' && currentUser?.roleID === 3) ||
-                (orderInfo?.status !== 'Processing' && currentUser?.roleID === 3) ||
+                (orderInfo?.status === 'Processing' && currentUser?.roleID === 3) ||
                 (orderInfo?.status === 'Pending' && currentUser?.roleID === 2) ||
                 (orderInfo?.status === 'In-Production' && currentUser?.roleID === 4) ||
-                (orderInfo?.status === 'Completed' && currentUser?.roleID === 5)) && (
+                (orderInfo?.status === 'In-Design' && currentUser?.roleID === 5)) && (
                 <>
                   <button
                     className="btn bg-green-400 text-white"

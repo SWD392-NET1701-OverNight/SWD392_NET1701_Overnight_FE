@@ -56,7 +56,7 @@ function ProductManager() {
   return (
     <>
       <div className="flex items-center justify-between px-8 py-3">
-        <h2 className="p-link font-semibold">Customer</h2>
+        <h2 className="p-link font-semibold">Product</h2>
         <div className="flex gap-4">
           <input
             type="text"

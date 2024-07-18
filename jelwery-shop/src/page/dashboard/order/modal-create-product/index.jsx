@@ -67,6 +67,7 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
     allData.image = imageUrl
     allData.designID = orderInfo.designID
     allData.status = 'System'
+    allData.priceMaterial = materials.reduce((acc, item) => acc + item.price, 0)
     const productData = {
       product: {
         ...allData,
@@ -86,7 +87,13 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
         type: orderInfo?.type,
       }
 
-      const { status } = await sendHttp(requestApi.updateRequest, requestData, orderInfo?.id)
+      const { status } = await sendHttp(
+        requestApi.updateRequest,
+        requestData,
+        orderInfo?.id,
+        null,
+        false,
+      )
 
       if (status) {
         dispatch(
@@ -134,6 +141,40 @@ function ModalCreateProduct({ open, handler, orderInfo }) {
               />
               {errors.description?.message && (
                 <ErrorInput>{errors.description?.message}</ErrorInput>
+              )}
+            </div>
+          </div>
+          <div className="mb-2 flex gap-4">
+            <div className="w-full">
+              <label htmlFor="priceDesign" className="block text-lg font-medium text-third">
+                Price Design
+              </label>
+              <input
+                type="number"
+                {...register('priceDesign', {
+                  setValueAs: (value) => (value === '' ? null : Number(value)),
+                })}
+                id="priceDesign"
+                className="input w-full"
+              />
+              {errors.priceDesign?.message && (
+                <ErrorInput>{errors.priceDesign?.message}</ErrorInput>
+              )}
+            </div>
+            <div className="w-full">
+              <label htmlFor="processPrice" className="block text-lg font-medium text-third">
+                Process Price
+              </label>
+              <input
+                type="number"
+                {...register('processPrice', {
+                  setValueAs: (value) => (value === '' ? null : Number(value)),
+                })}
+                id="processPrice"
+                className="input w-full"
+              />
+              {errors.processPrice?.message && (
+                <ErrorInput>{errors.processPrice?.message}</ErrorInput>
               )}
             </div>
           </div>

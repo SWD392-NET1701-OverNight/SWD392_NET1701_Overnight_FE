@@ -9,6 +9,8 @@ export const createProductSchema = z.object({
   categoryID: z
     .string()
     .min(1, { message: 'Category ID is required to categorize the product properly.' }),
+  processPrice: z.number().min(1, { message: 'Proccess Price must be at least 1.' }),
+  priceDesign: z.number().min(1, { message: 'Price Design must be at least 1.' }),
 })
 
 export const createProductSchemaBySystem = z.object({
@@ -18,10 +20,12 @@ export const createProductSchemaBySystem = z.object({
   description: z.string().min(4, {
     message: 'Description must be at least 4 characters long to provide enough detail.',
   }),
+  processPrice: z.number().min(1, { message: 'Proccess Price must be at least 1.' }),
+  priceDesign: z.number().min(1, { message: 'Price Design must be at least 1.' }),
   categoryID: z
-    .string()
+    .number()
     .min(1, { message: 'Category ID is required to categorize the product properly.' }),
   designID: z
-    .string()
+    .number()
     .min(1, { message: 'Design ID is required to associate the product with a specific design.' }),
 })

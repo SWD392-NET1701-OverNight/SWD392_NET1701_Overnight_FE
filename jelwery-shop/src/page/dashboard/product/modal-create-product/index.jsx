@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Option, Select } from '@material-tailwind/react'
+import { Option, Select } from '@material-tailwind/react'
 import { useUploadImage } from '../../../../hooks/useUploadImage'
 import { useState } from 'react'
 import { CirclePlus, Trash2 } from 'lucide-react'
@@ -8,11 +8,11 @@ import productApi from '../../../../feature/product/productApi'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import ErrorInput from '../../../../component/ui/ErrorInput'
-import { toast } from 'sonner'
 import { productAction } from '../../../../feature/product/productSlice'
 import Modal from '../../../../component/ui/Modal'
 import Button from '../../../../component/ui/Button'
 import { createProductSchemaBySystem } from '../../../../schema/createProductSchema'
+import { toast } from 'sonner'
 
 function ModalCreateProduct({ open, handler }) {
   const dispatch = useDispatch()
@@ -66,13 +66,13 @@ function ModalCreateProduct({ open, handler }) {
     const allData = { ...data }
     allData.image = imageUrl
     allData.status = 'System'
+    allData.priceMaterial = materials.reduce((acc, item) => acc + item.price, 0)
     const productData = {
       product: {
         ...allData,
       },
       materials,
     }
-
     const { resData } = await sendHttp(productApi.createProduct, productData)
 
     if (resData) {
@@ -121,21 +121,58 @@ function ModalCreateProduct({ open, handler }) {
               )}
             </div>
           </div>
+          <div className="mb-2 flex gap-4">
+            <div className="w-full">
+              <label htmlFor="priceDesign" className="block text-lg font-medium text-third">
+                Price Design
+              </label>
+              <input
+                type="number"
+                {...register('priceDesign', {
+                  setValueAs: (value) => (value === '' ? null : Number(value)),
+                })}
+                id="priceDesign"
+                className="input w-full"
+              />
+              {errors.priceDesign?.message && (
+                <ErrorInput>{errors.priceDesign?.message}</ErrorInput>
+              )}
+            </div>
+            <div className="w-full">
+              <label htmlFor="processPrice" className="block text-lg font-medium text-third">
+                Process Price
+              </label>
+              <input
+                type="number"
+                {...register('processPrice', {
+                  setValueAs: (value) => (value === '' ? null : Number(value)),
+                })}
+                id="processPrice"
+                className="input w-full"
+              />
+              {errors.processPrice?.message && (
+                <ErrorInput>{errors.processPrice?.message}</ErrorInput>
+              )}
+            </div>
+          </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="design" className="font-medium text-third">
+            <label htmlFor="design" className="text-lg font-medium text-third">
               Design
             </label>
-            <select className="input" id="design" {...register('designID')}>
-              {listDesign?.map(({ designID, description, picture }, index) => (
+            <select
+              className="input"
+              id="design"
+              {...register('designID', {
+                setValueAs: (value) => (value === '' ? null : Number(value)),
+              })}
+            >
+              {listDesign?.map(({ designID, description }, index) => (
                 <option key={index} value={designID}>
-                  {
-                    <>
-                      <Avatar src={picture} /> <p>{description}</p>
-                    </>
-                  }
+                  <p>{description}</p>
                 </option>
               ))}
             </select>
+            {errors.designID?.message && <ErrorInput>{errors.designID?.message}</ErrorInput>}
           </div>
           <label htmlFor="category" className="block text-lg font-medium text-third">
             Category
@@ -145,7 +182,9 @@ function ModalCreateProduct({ open, handler }) {
               <select
                 id="category"
                 name="categoryID"
-                {...register('categoryID')}
+                {...register('categoryID', {
+                  setValueAs: (value) => (value === '' ? null : Number(value)),
+                })}
                 className="w-full rounded-md border-2 border-secondary px-2 py-3 text-third outline-none"
               >
                 {listCategory.map(({ catID, catName }) => (
