@@ -54,7 +54,7 @@ function MyOrder() {
                   </h3>
                 </Tooltip>
                 <ParagraphOrderCard title="Catogory" value={category?.catName || ''} />
-                <ParagraphOrderCard title="Total" value={`${total * 100 || 0}`} />
+                <ParagraphOrderCard title="Total" value={`${total || 0}`} />
               </div>
               {type === 3 && status === 'Payment' && (
                 <Button
