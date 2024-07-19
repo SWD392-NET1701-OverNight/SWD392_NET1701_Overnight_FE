@@ -41,7 +41,7 @@ function JewelrySection() {
               onClick={() => handleClickProductDetail(productID)}
             >
               <p className="bg-fourth px-2 py-2 text-third">
-                ${priceDesign + priceMaterial + processPrice}
+                {(priceDesign + priceMaterial + processPrice) * 100} VND
               </p>
             </CardSection>
           ),

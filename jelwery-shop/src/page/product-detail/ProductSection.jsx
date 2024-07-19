@@ -81,7 +81,7 @@ function ProductSection({ productId }) {
           >
             Custom
           </Button>
-          <p className="text-xl font-medium text-secondary">${totalPrice}</p>
+          <p className="text-xl font-medium text-secondary">{totalPrice * 100} VND</p>
         </div>
       </div>
     </div>
