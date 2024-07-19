@@ -90,7 +90,7 @@ function CustomProduct() {
             </Button>
             <div className="mt-4 flex items-center">
               <h3 className="text-lg font-medium text-secondary">Total price</h3>
-              <p className="ml-8 text-lg text-third">{totalPriceMaterials} VND</p>
+              <p className="ml-8 text-lg text-third">{totalPriceMaterials * 100} VND</p>
             </div>
           </div>
         </form>
